@@ -1,8 +1,8 @@
 package com.lukastack.projectmatrix.matrices;
 
-public class MatJv<E extends Number> {
+public class MatJv {
 
-    private Object[][] data;
+    private final double[][] data;
 
 //    private E[] dim;
 //    private E[] rows;
@@ -10,24 +10,22 @@ public class MatJv<E extends Number> {
 
     public MatJv(int rows, int cols) {
 
-        this.data = new Object[rows][cols];
-//        this.data (E[][]) Array.newInstance(of, rows, cols);
+        this.data = new double[rows][cols];
     }
 
-    public void set(int row, int col, E value) {
+    public void set(int row, int col, double value) {
         this.data[row][col] = value;
     }
 
-    @SuppressWarnings("unchecked")
-    public E get(int row, int col) {
-        return (E) this.data[row][col];
+    public double get(int row, int col) {
+        return this.data[row][col];
     }
 
     public int[] shape() {
         return new int[] { this.data.length, this.data[0].length };
     }
 
-    public MatJv<E> reshape(int rows, int cols) {
+    public MatJv reshape(int rows, int cols) {
 
         if (rows*cols != this.data.length * this.data[0].length) {
             throw new IllegalArgumentException(
@@ -35,7 +33,7 @@ public class MatJv<E extends Number> {
                             this.data[0].length*this.data.length, rows, cols));
         }
 
-        var result = new MatJv<E>(rows, cols);
+        var result = new MatJv(rows, cols);
         int oldCols = this.data[0].length;
 
         int i = 0;
@@ -54,7 +52,7 @@ public class MatJv<E extends Number> {
     public String toString() {
 
         StringBuilder builder = new StringBuilder("MatJv([");
-        for (Object[] datum : data) {
+        for (double[] datum : data) {
 
             builder.append('[');
             String prefix = "";

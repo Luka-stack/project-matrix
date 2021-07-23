@@ -2,15 +2,13 @@ package com.lukastack.projectmatrix.matrices;
 
 import com.lukastack.projectmatrix.utils.UniformDistribution;
 
-import java.lang.reflect.InvocationTargetException;
-
 public class NumJv {
 
     private NumJv() { }
 
-    public static MatJv<Double> uniformMatrix(int rows, int cols) {
+    public static MatJv uniformMatrix(int rows, int cols) {
 
-        MatJv<Double> result = new MatJv<>(rows, cols);
+        MatJv result = new MatJv(rows, cols);
 
         for (int i = 0; i < rows; ++i) {
             for (int j = 0; j < cols; ++j) {
@@ -19,14 +17,6 @@ public class NumJv {
         }
 
         return result;
-    }
-
-    public static <T extends Number> MatJv<T> reshape(final MatJv<T> matJv, int rows, int cols) {
-
-        // before and after reshape number of elements has to be equal
-
-
-        return null;
     }
 
 //    public static MatJv<Double> zeros(int rows, int cols) {
