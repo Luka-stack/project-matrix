@@ -1,5 +1,6 @@
-package com.lukastack.projectmatrix.matrices;
+package com.lukastack.projectmatrix.wrapper;
 
+import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.utils.UniformDistribution;
 
 public class NumJv {

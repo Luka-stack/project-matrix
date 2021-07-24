@@ -1,8 +1,8 @@
 package com.lukastack.projectmatrix.core.operations;
 
-import com.lukastack.projectmatrix.matrices.MatJv;
+import com.lukastack.projectmatrix.core.matrices.Matrix;
 
 public interface IMatrixProduct {
 
-    MatJv matMul(MatJv matLeft, MatJv matRight);
+    Matrix matMul(Matrix matLeft, Matrix matRight);
 }

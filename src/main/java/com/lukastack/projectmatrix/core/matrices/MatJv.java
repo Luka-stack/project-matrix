@@ -1,15 +1,10 @@
-package com.lukastack.projectmatrix.matrices;
+package com.lukastack.projectmatrix.core.matrices;
 
-public class MatJv {
+public class MatJv extends Matrix {
 
     private final double[][] data;
 
-//    private E[] dim;
-//    private E[] rows;
-//    private E[] cols;
-
     public MatJv(int rows, int cols) {
-
         this.data = new double[rows][cols];
     }
 
@@ -25,7 +20,7 @@ public class MatJv {
         return new int[] { this.data.length, this.data[0].length };
     }
 
-    public MatJv reshape(int rows, int cols) {
+    public IMatrix reshape(int rows, int cols) {
 
         if (rows*cols != this.data.length * this.data[0].length) {
             throw new IllegalArgumentException(
@@ -38,8 +33,8 @@ public class MatJv {
 
         int i = 0;
         for (int r = 0; r < rows; ++r) {
-            for (int c = 0; c < cols; ++c) {
 
+            for (int c = 0; c < cols; ++c) {
                 result.set(r, c, get(i/oldCols, i%oldCols));
                 ++i;
             }
@@ -52,14 +47,15 @@ public class MatJv {
     public String toString() {
 
         StringBuilder builder = new StringBuilder("MatJv([");
-        for (double[] datum : data) {
 
+        for (double[] datum : data) {
             builder.append('[');
             String prefix = "";
-            for (int col = 0; col < data[0].length; ++col) {
+
+            for (double value : datum) {
                 builder.append(prefix);
                 prefix = ",";
-                builder.append(datum[col]);
+                builder.append(value);
             }
             builder.append("],\n");
         }

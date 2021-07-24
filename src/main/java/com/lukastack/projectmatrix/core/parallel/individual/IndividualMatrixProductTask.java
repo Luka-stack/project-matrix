@@ -1,17 +1,17 @@
 package com.lukastack.projectmatrix.core.parallel.individual;
 
-import com.lukastack.projectmatrix.matrices.MatJv;
+import com.lukastack.projectmatrix.core.matrices.Matrix;
 
 public class IndividualMatrixProductTask implements Runnable {
 
-    private final MatJv result;
-    private final MatJv matLeft;
-    private final MatJv matRight;
+    private final Matrix result;
+    private final Matrix matLeft;
+    private final Matrix matRight;
 
     private final int row;
     private final int column;
 
-    public IndividualMatrixProductTask(final MatJv result, final MatJv matLeft, final MatJv matRight,
+    public IndividualMatrixProductTask(final Matrix result, final Matrix matLeft, final Matrix matRight,
                                        int row, int column) {
 
         this.row = row;
