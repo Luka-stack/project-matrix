@@ -1,5 +1,8 @@
 package com.lukastack.projectmatrix.api;
 
-import com.lukastack.projectmatrix.core.operations.IMatrixProduct;
+import com.lukastack.projectmatrix.core.matrices.Matrix;
 
-public interface IOperationsBundle extends IMatrixProduct { }
+public interface IOperationsBundle {
+
+    Matrix matMul(Matrix matOne, Matrix matTwo);
+}

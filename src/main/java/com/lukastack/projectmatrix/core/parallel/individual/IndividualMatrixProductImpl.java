@@ -4,22 +4,20 @@ import com.lukastack.projectmatrix.core.matrices.Matrix;
 import com.lukastack.projectmatrix.core.operations.IMatrixProduct;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 public final class IndividualMatrixProductImpl<E extends Matrix> implements IMatrixProduct {
 
-    private final ExecutorService taskPool;
     private final Class<E> clazz;
 
     public IndividualMatrixProductImpl(Class<E> clazz) {
 
         this.clazz = clazz;
-        this.taskPool = Executors.newFixedThreadPool(20);
     }
 
+    // TODO needs throw error if rows/cols not correct
     @Override
-    public Matrix matMul(Matrix matLeft, Matrix matRight) {
+    public Matrix matMul(Matrix matLeft, Matrix matRight, ThreadPoolExecutor taskPool) {
 
         int rowsLeft = matLeft.shape()[0];
         int columnsRight = matRight.shape()[1];
@@ -32,12 +30,9 @@ public final class IndividualMatrixProductImpl<E extends Matrix> implements IMat
                         result, matLeft, matRight, rowId, colId
                 );
 
-                taskPool.execute(task);
+                taskPool.submit(task);
             }
         }
-
-        taskPool.shutdown();
-
         return result;
     }
 

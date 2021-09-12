@@ -53,7 +53,7 @@ public class LiMatJv extends Matrix {
             }
         }
 
-        return null;
+        return result;
     }
 
     @Override

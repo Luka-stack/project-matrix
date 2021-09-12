@@ -3,15 +3,21 @@ package com.lukastack.projectmatrix.api.concrete;
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
 import com.lukastack.projectmatrix.core.parallel.individual.IndividualMatrixProductImpl;
+import com.lukastack.projectmatrix.parameters.IThreadPoolProvider;
+import com.lukastack.projectmatrix.parameters.SingletonThreadPoolProvider;
 
 public class IndividualBundle extends OperationsBundle {
 
+    /**
+     * Default Constructor
+     * Create Bundle with Individual implementation, and fixed SingletonThreadPool
+     */
     public IndividualBundle() {
-        super(new IndividualMatrixProductImpl<>(MatJv.class));
+        super(new IndividualMatrixProductImpl<>(MatJv.class), new SingletonThreadPoolProvider());
     }
 
-    public IndividualBundle(Class<? extends Matrix> clazz) {
-        super(new IndividualMatrixProductImpl<>(clazz));
+    public IndividualBundle(Class<? extends Matrix> clazz, IThreadPoolProvider poolProvider) {
+        super(new IndividualMatrixProductImpl<>(clazz), poolProvider);
     }
 
     @Override
@@ -24,7 +30,11 @@ public class IndividualBundle extends OperationsBundle {
                             matOne.shape()[0], matTwo.shape()[1]));
         }
 
-        return this.matrixProductImpl.matMul(matOne, matTwo);
+        var result = this.matrixProductImpl.matMul(matOne, matTwo, this.threadPoolProvider.provideThreadPool());
+
+        threadPoolProvider.close();
+
+        return result;
     }
 
 }

@@ -8,18 +8,22 @@ public class MatJv extends Matrix {
         this.data = new double[rows][cols];
     }
 
+    @Override
     public void set(int row, int col, double value) {
         this.data[row][col] = value;
     }
 
+    @Override
     public double get(int row, int col) {
         return this.data[row][col];
     }
 
+    @Override
     public int[] shape() {
         return new int[] { this.data.length, this.data[0].length };
     }
 
+    @Override
     public IMatrix reshape(int rows, int cols) {
 
         if (rows*cols != this.data.length * this.data[0].length) {
