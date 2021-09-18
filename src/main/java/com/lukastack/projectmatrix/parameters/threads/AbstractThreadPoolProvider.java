@@ -1,9 +1,9 @@
-package com.lukastack.projectmatrix.parameters;
+package com.lukastack.projectmatrix.parameters.threads;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.*;
 
-public abstract class AbstractThreadPoolProvider implements IThreadPoolProvider, IThreadPoolSettings {
+public abstract class AbstractThreadPoolProvider implements IThreadPoolProvider, IThreadPoolParameters {
 
     protected long keepAlive;
     protected TimeUnit keepAliveUnit;

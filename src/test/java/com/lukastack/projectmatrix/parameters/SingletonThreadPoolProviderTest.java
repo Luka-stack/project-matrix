@@ -1,5 +1,7 @@
 package com.lukastack.projectmatrix.parameters;
 
+import com.lukastack.projectmatrix.parameters.threads.SingletonThreadPoolProvider;
+import com.lukastack.projectmatrix.parameters.threads.ThreadPoolType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

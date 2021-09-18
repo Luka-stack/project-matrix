@@ -3,8 +3,8 @@ package com.lukastack.projectmatrix.api.concrete;
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
 import com.lukastack.projectmatrix.core.parallel.individual.IndividualMatrixProductImpl;
-import com.lukastack.projectmatrix.parameters.IThreadPoolProvider;
-import com.lukastack.projectmatrix.parameters.SingletonThreadPoolProvider;
+import com.lukastack.projectmatrix.parameters.threads.AbstractThreadPoolProvider;
+import com.lukastack.projectmatrix.parameters.threads.SingletonThreadPoolProvider;
 
 public class IndividualBundle extends OperationsBundle {
 
@@ -16,7 +16,7 @@ public class IndividualBundle extends OperationsBundle {
         super(new IndividualMatrixProductImpl<>(MatJv.class), new SingletonThreadPoolProvider());
     }
 
-    public IndividualBundle(Class<? extends Matrix> clazz, IThreadPoolProvider poolProvider) {
+    public IndividualBundle(Class<? extends Matrix> clazz, AbstractThreadPoolProvider poolProvider) {
         super(new IndividualMatrixProductImpl<>(clazz), poolProvider);
     }
 

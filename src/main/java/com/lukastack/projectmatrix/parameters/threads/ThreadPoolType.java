@@ -1,4 +1,4 @@
-package com.lukastack.projectmatrix.parameters;
+package com.lukastack.projectmatrix.parameters.threads;
 
 public enum ThreadPoolType {
     FIXED,

@@ -1,4 +1,4 @@
-package com.lukastack.projectmatrix.parameters;
+package com.lukastack.projectmatrix.parameters.threads;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
