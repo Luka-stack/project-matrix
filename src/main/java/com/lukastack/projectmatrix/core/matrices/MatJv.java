@@ -1,11 +1,19 @@
 package com.lukastack.projectmatrix.core.matrices;
 
+import java.util.Arrays;
+
 public class MatJv extends Matrix {
 
     private final double[][] data;
 
     public MatJv(int rows, int cols) {
         this.data = new double[rows][cols];
+    }
+
+    public MatJv(int rows, int cols, double initialValue) {
+        this.data = new double[rows][cols];
+        for (double[] row: data)
+            Arrays.fill(row, initialValue);
     }
 
     @Override

@@ -48,12 +48,6 @@ class SerialMatrixProductTest {
 
         var result = productImpl.matMul(matrixFirst, matrixSecond);
 
-        System.out.println(matrixFirst);
-        System.out.println();
-        System.out.println(matrixSecond);
-        System.out.println();
-        System.out.println(result);
-
         Assertions.assertEquals(2.156, Double.parseDouble(toThreeDecimal.format(result.get(0, 0))));
         Assertions.assertEquals(1.782, Double.parseDouble(toThreeDecimal.format(result.get(0, 1))));
         Assertions.assertEquals(1.408, Double.parseDouble(toThreeDecimal.format(result.get(0, 2))));
