@@ -1,39 +1,39 @@
 package com.lukastack.projectmatrix.core.serial;
 
 import com.lukastack.projectmatrix.core.matrices.Matrix;
-import com.lukastack.projectmatrix.core.operations.ISerialMatrixAddition;
+import com.lukastack.projectmatrix.core.operations.ISerialMatrixDivision;
 
 import java.lang.reflect.InvocationTargetException;
 
-public class SerialMatrixAddition<E extends Matrix> implements ISerialMatrixAddition, MatrixEquation {
+public class SerialMatrixDivision<E extends Matrix> implements ISerialMatrixDivision, MatrixEquation {
 
     private final Class<E> clazz;
 
-    public SerialMatrixAddition(Class<E> clazz) {
+    public SerialMatrixDivision(Class<E> clazz) {
 
         this.clazz = clazz;
     }
 
     @Override
-    public Matrix add(Matrix leftMatrix, Matrix rightMatrix) {
+    public Matrix divide(Matrix leftMatrix, Matrix rightMatrix) {
 
         int[] shape = leftMatrix.shape();
 
         Matrix result = createMatrix(shape[0], shape[1]);
 
-        this.operate(leftMatrix, rightMatrix, result, Double::sum);
+        this.operate(leftMatrix, rightMatrix, result, (a, b) -> a / b);
 
         return result;
     }
 
     @Override
-    public Matrix add(Matrix matrix, double scalar) {
+    public Matrix divide(Matrix matrix, double scalar) {
 
         int[] shape = matrix.shape();
 
         Matrix result = createMatrix(shape[0], shape[1]);
 
-        this.operate(matrix, scalar, result, (a, b) -> a - b);
+        this.operate(matrix, scalar, result, (a, b) -> a / b);
 
         return result;
     }

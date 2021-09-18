@@ -5,7 +5,7 @@ import com.lukastack.projectmatrix.core.operations.ISerialMatrixMultiplication;
 
 import java.lang.reflect.InvocationTargetException;
 
-public class SerialMatrixMultiplication<E extends Matrix> implements ISerialMatrixMultiplication {
+public class SerialMatrixMultiplication<E extends Matrix> implements ISerialMatrixMultiplication, MatrixEquation {
 
     private final Class<E> clazz;
 
@@ -21,12 +21,7 @@ public class SerialMatrixMultiplication<E extends Matrix> implements ISerialMatr
 
         Matrix result = createMatrix(shape[0], shape[1]);
 
-        for (int row = 0; row < shape[0]; ++row) {
-            for (int col = 0; col < shape[1]; ++col) {
-                result.set(row, col,
-                        leftMatrix.get(row, col) * rightMatrix.get(row, col));
-            }
-        }
+        this.operate(leftMatrix, rightMatrix, result, (a, b) -> a * b);
 
         return result;
     }
@@ -38,12 +33,7 @@ public class SerialMatrixMultiplication<E extends Matrix> implements ISerialMatr
 
         Matrix result = createMatrix(shape[0], shape[1]);
 
-        for (int row = 0; row < shape[0]; ++row) {
-            for (int col = 0; col < shape[1]; ++col) {
-                result.set(row, col,
-                        matrix.get(row, col) * scalar);
-            }
-        }
+        this.operate(matrix, scalar, result, (a, b) -> a * b);
 
         return result;
     }
