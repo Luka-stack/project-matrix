@@ -1,21 +1,21 @@
 package com.lukastack.projectmatrix.core.serial;
 
 import com.lukastack.projectmatrix.core.matrices.Matrix;
-import com.lukastack.projectmatrix.core.operations.ISerialMatrixMultiplication;
+import com.lukastack.projectmatrix.core.operations.ISerialMatrixAddition;
 
 import java.lang.reflect.InvocationTargetException;
 
-public class SerialMatrixMultiplication<E extends Matrix> implements ISerialMatrixMultiplication {
+public class SerialMatrixAddition<E extends Matrix> implements ISerialMatrixAddition {
 
     private final Class<E> clazz;
 
-    public SerialMatrixMultiplication(Class<E> clazz) {
+    public SerialMatrixAddition(Class<E> clazz) {
 
         this.clazz = clazz;
     }
 
     @Override
-    public Matrix multiply(Matrix leftMatrix, Matrix rightMatrix) {
+    public Matrix add(Matrix leftMatrix, Matrix rightMatrix) {
 
         int[] shape = leftMatrix.shape();
 
@@ -24,7 +24,7 @@ public class SerialMatrixMultiplication<E extends Matrix> implements ISerialMatr
         for (int row = 0; row < shape[0]; ++row) {
             for (int col = 0; col < shape[1]; ++col) {
                 result.set(row, col,
-                        leftMatrix.get(row, col) * rightMatrix.get(row, col));
+                        leftMatrix.get(row, col) + rightMatrix.get(row, col));
             }
         }
 
@@ -32,7 +32,7 @@ public class SerialMatrixMultiplication<E extends Matrix> implements ISerialMatr
     }
 
     @Override
-    public Matrix multiply(Matrix matrix, double scalar) {
+    public Matrix add(Matrix matrix, double scalar) {
 
         int[] shape = matrix.shape();
 
@@ -41,7 +41,7 @@ public class SerialMatrixMultiplication<E extends Matrix> implements ISerialMatr
         for (int row = 0; row < shape[0]; ++row) {
             for (int col = 0; col < shape[1]; ++col) {
                 result.set(row, col,
-                        matrix.get(row, col) * scalar);
+                        matrix.get(row, col) + scalar);
             }
         }
 
