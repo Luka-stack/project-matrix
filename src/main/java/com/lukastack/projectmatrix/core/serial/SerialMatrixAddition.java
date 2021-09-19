@@ -1,11 +1,11 @@
 package com.lukastack.projectmatrix.core.serial;
 
 import com.lukastack.projectmatrix.core.matrices.Matrix;
-import com.lukastack.projectmatrix.core.operations.ISerialMatrixAddition;
+import com.lukastack.projectmatrix.core.operations.serial.ISerialMatrixAddition;
 
 import java.lang.reflect.InvocationTargetException;
 
-public class SerialMatrixAddition<E extends Matrix> implements ISerialMatrixAddition, MatrixEquation {
+public class SerialMatrixAddition<E extends Matrix> implements ISerialMatrixAddition, SerialElementWiseMatrixEquation {
 
     private final Class<E> clazz;
 

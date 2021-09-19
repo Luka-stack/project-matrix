@@ -1,11 +1,11 @@
 package com.lukastack.projectmatrix.core.serial;
 
 import com.lukastack.projectmatrix.core.matrices.Matrix;
-import com.lukastack.projectmatrix.core.operations.ISerialMatrixSubtraction;
+import com.lukastack.projectmatrix.core.operations.serial.ISerialMatrixSubtraction;
 
 import java.lang.reflect.InvocationTargetException;
 
-public class SerialMatrixSubtraction<E extends Matrix> implements ISerialMatrixSubtraction, MatrixEquation {
+public class SerialMatrixSubtraction<E extends Matrix> implements ISerialMatrixSubtraction, SerialElementWiseMatrixEquation {
 
     private final Class<E> clazz;
 

@@ -2,7 +2,7 @@ package com.lukastack.projectmatrix.core.serial;
 
 import com.lukastack.projectmatrix.core.matrices.Matrix;
 
-public interface MatrixEquation {
+public interface SerialElementWiseMatrixEquation {
 
     default void operate(Matrix leftMatrix, Matrix rightMatrix, Matrix resultMatrix, GenericEquation genericEquation) {
 
