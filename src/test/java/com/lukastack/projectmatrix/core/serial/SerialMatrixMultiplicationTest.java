@@ -10,8 +10,8 @@ import java.text.DecimalFormat;
 
 class SerialMatrixMultiplicationTest {
 
-    private SerialMatrixMultiplication<MatJv> multiplicationImpl;
     private final DecimalFormat toOneDecimal = new DecimalFormat("0.0");
+    private SerialMatrixMultiplication<MatJv> multiplicationImpl;
 
     @BeforeEach
     void setUp() {

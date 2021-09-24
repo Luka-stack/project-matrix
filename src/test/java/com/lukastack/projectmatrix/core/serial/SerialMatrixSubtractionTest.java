@@ -10,8 +10,8 @@ import java.text.DecimalFormat;
 
 class SerialMatrixSubtractionTest {
 
-    private SerialMatrixSubtraction<MatJv> subtractionImpl;
     private final DecimalFormat toOneDecimal = new DecimalFormat("0.0");
+    private SerialMatrixSubtraction<MatJv> subtractionImpl;
 
     @BeforeEach
     void setUp() {

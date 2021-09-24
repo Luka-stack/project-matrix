@@ -83,7 +83,7 @@ class SingletonThreadPoolProviderTest {
     }
 
     @Test
-    void close_providerCloseThread() {
+    void close_providerCloseThread() throws InterruptedException {
 
         var threadPool = threadPoolProvider.provideThreadPool();
 

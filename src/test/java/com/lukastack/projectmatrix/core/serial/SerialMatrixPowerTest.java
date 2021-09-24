@@ -10,8 +10,8 @@ import java.text.DecimalFormat;
 
 class SerialMatrixPowerTest {
 
-    private SerialMatrixPower<MatJv> powerImpl;
     private final DecimalFormat toThreeDecimal = new DecimalFormat("0.000");
+    private SerialMatrixPower<MatJv> powerImpl;
 
     @BeforeEach
     void setUp() {

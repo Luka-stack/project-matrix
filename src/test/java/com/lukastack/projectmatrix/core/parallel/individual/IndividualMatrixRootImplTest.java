@@ -2,28 +2,34 @@ package com.lukastack.projectmatrix.core.parallel.individual;
 
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
+import com.lukastack.projectmatrix.parameters.threads.SingletonThreadPoolProvider;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.text.DecimalFormat;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.ExecutionException;
 
 class IndividualMatrixRootImplTest {
 
-    private ThreadPoolExecutor poolExecutor;
-    private IndividualMatrixRootImpl<MatJv> rootImpl;
     private final DecimalFormat toThreeDecimal = new DecimalFormat("0.0");
+    private SingletonThreadPoolProvider poolProvider;
+    private IndividualMatrixRootImpl<MatJv> rootImpl;
 
     @BeforeEach
     void setUp() {
-        poolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(3);
+        poolProvider = new SingletonThreadPoolProvider<>();
         rootImpl = new IndividualMatrixRootImpl<>(MatJv.class);
     }
 
+    @AfterEach
+    void tearDown() throws InterruptedException {
+        poolProvider.close();
+    }
+
     @Test
-    void root_Matrix_x_Matrix_correctEquations() {
+    void root_Matrix_x_Matrix_correctEquations() throws ExecutionException, InterruptedException {
 
         Matrix matrixFirst = new MatJv(2, 2);
         Matrix matrixSecond = new MatJv(2, 2);
@@ -38,8 +44,8 @@ class IndividualMatrixRootImplTest {
         matrixSecond.set(1, 0, 3.0);
         matrixSecond.set(1, 1, 3.0);
 
-        var result = rootImpl.root(matrixFirst, matrixSecond, poolExecutor);
-        poolExecutor.shutdown();
+        var result = rootImpl.root(matrixFirst, matrixSecond, poolProvider.provideThreadPool());
+        poolProvider.waitForCompletion();
 
         Assertions.assertEquals(2.000, Double.parseDouble(toThreeDecimal.format(result.get(0, 0))));
         Assertions.assertEquals(3.000, Double.parseDouble(toThreeDecimal.format(result.get(0, 1))));
@@ -48,7 +54,7 @@ class IndividualMatrixRootImplTest {
     }
 
     @Test
-    void power_Matrix_x_Scalar_correctEquations() {
+    void power_Matrix_x_Scalar_correctEquations() throws ExecutionException, InterruptedException {
 
         Matrix matrixFirst = new MatJv(2, 2);
 
@@ -57,8 +63,8 @@ class IndividualMatrixRootImplTest {
         matrixFirst.set(1, 0, 81.0);
         matrixFirst.set(1, 1, 144.0);
 
-        var result = rootImpl.root(matrixFirst, 2, poolExecutor);
-        poolExecutor.shutdown();
+        var result = rootImpl.root(matrixFirst, 2, poolProvider.provideThreadPool());
+        poolProvider.waitForCompletion();
 
         Assertions.assertEquals(7.0, Double.parseDouble(toThreeDecimal.format(result.get(0, 0))));
         Assertions.assertEquals(10.0, Double.parseDouble(toThreeDecimal.format(result.get(0, 1))));
@@ -67,14 +73,14 @@ class IndividualMatrixRootImplTest {
     }
 
     @Test
-    void createMatrix_createMatJvObject() {
+    void createMatrix_createMatJvObject() throws ExecutionException, InterruptedException {
         Matrix matrixFirst = new MatJv(2, 2);
 
         matrixFirst.set(0, 0, 1.2);
         matrixFirst.set(0, 1, 2.2);
 
-        var result = rootImpl.root(matrixFirst, 34, poolExecutor);
-        poolExecutor.shutdown();
+        var result = rootImpl.root(matrixFirst, 34, poolProvider.provideThreadPool());
+        poolProvider.waitForCompletion();
 
         Assertions.assertTrue(result instanceof MatJv);
     }

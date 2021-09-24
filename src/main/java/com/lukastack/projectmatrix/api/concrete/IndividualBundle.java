@@ -6,6 +6,8 @@ import com.lukastack.projectmatrix.core.parallel.individual.IndividualMatrixProd
 import com.lukastack.projectmatrix.parameters.threads.AbstractThreadPoolProvider;
 import com.lukastack.projectmatrix.parameters.threads.SingletonThreadPoolProvider;
 
+import java.util.concurrent.ExecutionException;
+
 public class IndividualBundle extends OperationsBundle {
 
     /**
@@ -21,7 +23,7 @@ public class IndividualBundle extends OperationsBundle {
     }
 
     @Override
-    public Matrix matMul(Matrix matOne, Matrix matTwo) {
+    public Matrix matMul(Matrix matOne, Matrix matTwo) throws ExecutionException, InterruptedException {
 
         if (matOne.shape()[1] != matTwo.shape()[0]) {
             throw new IllegalArgumentException(
@@ -32,6 +34,7 @@ public class IndividualBundle extends OperationsBundle {
 
         var result = this.matrixProductImpl.matMul(matOne, matTwo, this.threadPoolProvider.provideThreadPool());
 
+        threadPoolProvider.waitForCompletion();
         threadPoolProvider.close();
 
         return result;

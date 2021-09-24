@@ -8,12 +8,10 @@ import org.junit.jupiter.api.Test;
 
 import java.text.DecimalFormat;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class SerialMatrixAdditionTest {
 
-    private SerialMatrixAddition<MatJv> additionService;
     private final DecimalFormat toOneDecimal = new DecimalFormat("0.0");
+    private SerialMatrixAddition<MatJv> additionService;
 
     @BeforeEach
     void setUp() {

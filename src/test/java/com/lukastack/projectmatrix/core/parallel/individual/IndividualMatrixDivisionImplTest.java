@@ -2,28 +2,29 @@ package com.lukastack.projectmatrix.core.parallel.individual;
 
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
+import com.lukastack.projectmatrix.parameters.threads.SingletonThreadPoolProvider;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.text.DecimalFormat;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.ExecutionException;
 
 class IndividualMatrixDivisionImplTest {
 
-    private ThreadPoolExecutor poolExecutor;
-    private IndividualMatrixDivisionImpl<MatJv> divisionImpl;
     private final DecimalFormat toThreeDecimal = new DecimalFormat("0.000");
+    private SingletonThreadPoolProvider poolProvider;
+    private IndividualMatrixDivisionImpl<MatJv> divisionImpl;
 
     @BeforeEach
     void setUp() {
-        poolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(3);
+        poolProvider = new SingletonThreadPoolProvider<>();
         divisionImpl = new IndividualMatrixDivisionImpl<>(MatJv.class);
     }
 
     @Test
-    void divide_Matrix_x_Matrix_correctEquations() {
+    void divide_Matrix_x_Matrix_correctEquations() throws ExecutionException, InterruptedException {
 
         Matrix matrixFirst = new MatJv(3, 3);
         Matrix matrixSecond = new MatJv(3, 3);
@@ -48,8 +49,8 @@ class IndividualMatrixDivisionImplTest {
         matrixSecond.set(2, 1, 1.0);
         matrixSecond.set(2, 2, 1.0);
 
-        var result = divisionImpl.divide(matrixFirst, matrixSecond, poolExecutor);
-        poolExecutor.shutdown();
+        var result = divisionImpl.divide(matrixFirst, matrixSecond, poolProvider.provideThreadPool());
+        poolProvider.waitForCompletion();
 
         Assertions.assertEquals(0.714, Double.parseDouble(toThreeDecimal.format(result.get(0, 0))));
         Assertions.assertEquals(1.600, Double.parseDouble(toThreeDecimal.format(result.get(0, 1))));
@@ -63,7 +64,7 @@ class IndividualMatrixDivisionImplTest {
     }
 
     @Test
-    void divide_Matrix_x_Scalar_correctEquations() {
+    void divide_Matrix_x_Scalar_correctEquations() throws ExecutionException, InterruptedException {
 
         Matrix matrixFirst = new MatJv(3, 3);
 
@@ -77,8 +78,8 @@ class IndividualMatrixDivisionImplTest {
         matrixFirst.set(2, 1, 8.0);
         matrixFirst.set(2, 2, 3.0);
 
-        var result = divisionImpl.divide(matrixFirst, 9, poolExecutor);
-        poolExecutor.shutdown();
+        var result = divisionImpl.divide(matrixFirst, 9, poolProvider.provideThreadPool());
+        poolProvider.waitForCompletion();
 
         Assertions.assertEquals(0.333, Double.parseDouble(toThreeDecimal.format(result.get(0, 0))));
         Assertions.assertEquals(0.778, Double.parseDouble(toThreeDecimal.format(result.get(0, 1))));
@@ -92,16 +93,20 @@ class IndividualMatrixDivisionImplTest {
     }
 
     @Test
-    void createMatrix_createMatJvObject() {
+    void createMatrix_createMatJvObject() throws ExecutionException, InterruptedException {
         Matrix matrixFirst = new MatJv(2, 2);
 
         matrixFirst.set(0, 0, 1.2);
         matrixFirst.set(0, 1, 2.2);
 
-        var result = divisionImpl.divide(matrixFirst, 34, poolExecutor);
-        poolExecutor.shutdown();
+        var result = divisionImpl.divide(matrixFirst, 34, poolProvider.provideThreadPool());
+        poolProvider.waitForCompletion();
 
         Assertions.assertTrue(result instanceof MatJv);
     }
 
+    @AfterEach
+    void tearDown() throws InterruptedException {
+        poolProvider.close();
+    }
 }

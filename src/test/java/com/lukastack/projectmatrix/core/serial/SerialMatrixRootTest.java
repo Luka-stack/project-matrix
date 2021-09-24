@@ -8,12 +8,10 @@ import org.junit.jupiter.api.Test;
 
 import java.text.DecimalFormat;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class SerialMatrixRootTest {
 
-    private SerialMatrixRoot<MatJv> rootImpl;
     private final DecimalFormat toThreeDecimal = new DecimalFormat("0.000");
+    private SerialMatrixRoot<MatJv> rootImpl;
 
     @BeforeEach
     void setUp() {

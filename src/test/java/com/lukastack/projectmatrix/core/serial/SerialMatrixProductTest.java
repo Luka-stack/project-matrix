@@ -10,8 +10,8 @@ import java.text.DecimalFormat;
 
 class SerialMatrixProductTest {
 
-    private SerialMatrixProduct<MatJv> productImpl;
     private final DecimalFormat toThreeDecimal = new DecimalFormat("0.000");
+    private SerialMatrixProduct<MatJv> productImpl;
 
     @BeforeEach
     void setUp() {

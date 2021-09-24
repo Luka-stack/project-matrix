@@ -4,8 +4,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class LiMatJvTest {
 
     private final int rows = 5;
@@ -85,7 +83,7 @@ class LiMatJvTest {
     @Test
     void reshape_providedWrongRowsAndCells_throwIllegalArgumentException() {
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.reshape(rows*5, cols*2));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.reshape(rows * 5, cols * 2));
     }
 
 }

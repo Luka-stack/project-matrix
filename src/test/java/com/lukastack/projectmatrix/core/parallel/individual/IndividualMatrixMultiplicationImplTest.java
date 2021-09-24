@@ -2,28 +2,29 @@ package com.lukastack.projectmatrix.core.parallel.individual;
 
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
+import com.lukastack.projectmatrix.parameters.threads.AbstractThreadPoolProvider;
+import com.lukastack.projectmatrix.parameters.threads.SingletonThreadPoolProvider;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.text.DecimalFormat;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.ExecutionException;
 
 class IndividualMatrixMultiplicationImplTest {
 
-    private ThreadPoolExecutor poolExecutor;
-    private IndividualMatrixMultiplicationImpl<MatJv> multiplyImpl;
     private final DecimalFormat toOneDecimal = new DecimalFormat("0.0");
+    private AbstractThreadPoolProvider poolProvider;
+    private IndividualMatrixMultiplicationImpl<MatJv> multiplyImpl;
 
     @BeforeEach
     void setUp() {
-        poolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(3);
+        poolProvider = new SingletonThreadPoolProvider<>();
         multiplyImpl = new IndividualMatrixMultiplicationImpl<>(MatJv.class);
     }
 
     @Test
-    void multiply_Matrix_x_Matrix_correctEquations() {
+    void multiply_Matrix_x_Matrix_correctEquations() throws ExecutionException, InterruptedException {
 
         Matrix matrixFirst = new MatJv(3, 3);
         Matrix matrixSecond = new MatJv(3, 3);
@@ -48,8 +49,11 @@ class IndividualMatrixMultiplicationImplTest {
         matrixSecond.set(2, 1, 1.0);
         matrixSecond.set(2, 2, 1.0);
 
-        var result = multiplyImpl.multiply(matrixFirst, matrixSecond, poolExecutor);
-        poolExecutor.shutdown();
+        var pool = poolProvider.provideThreadPool();
+        var result = multiplyImpl.multiply(matrixFirst, matrixSecond, pool);
+
+        poolProvider.waitForCompletion();
+        poolProvider.close();
 
         Assertions.assertEquals(35.0, Double.parseDouble(toOneDecimal.format(result.get(0, 0))));
         Assertions.assertEquals(40.0, Double.parseDouble(toOneDecimal.format(result.get(0, 1))));
@@ -63,7 +67,7 @@ class IndividualMatrixMultiplicationImplTest {
     }
 
     @Test
-    void multiply_Matrix_x_Scalar_correctEquations() {
+    void multiply_Matrix_x_Scalar_correctEquations() throws ExecutionException, InterruptedException {
 
         Matrix matrixFirst = new MatJv(3, 3);
 
@@ -77,8 +81,11 @@ class IndividualMatrixMultiplicationImplTest {
         matrixFirst.set(2, 1, 8.0);
         matrixFirst.set(2, 2, 3.0);
 
-        var result = multiplyImpl.multiply(matrixFirst, 9, poolExecutor);
-        poolExecutor.shutdown();
+        var pool = poolProvider.provideThreadPool();
+        var result = multiplyImpl.multiply(matrixFirst, 9, pool);
+
+        poolProvider.waitForCompletion();
+        poolProvider.close();
 
         Assertions.assertEquals(27.0, Double.parseDouble(toOneDecimal.format(result.get(0, 0))));
         Assertions.assertEquals(63.0, Double.parseDouble(toOneDecimal.format(result.get(0, 1))));
@@ -92,14 +99,17 @@ class IndividualMatrixMultiplicationImplTest {
     }
 
     @Test
-    void createMatrix_createMatJvObject() {
+    void createMatrix_createMatJvObject() throws ExecutionException, InterruptedException {
         Matrix matrixFirst = new MatJv(2, 2);
 
         matrixFirst.set(0, 0, 1.2);
         matrixFirst.set(0, 1, 2.2);
 
-        var result = multiplyImpl.multiply(matrixFirst, 34, poolExecutor);
-        poolExecutor.shutdown();
+        var pool = poolProvider.provideThreadPool();
+        var result = multiplyImpl.multiply(matrixFirst, 34, pool);
+
+        poolProvider.waitForCompletion();
+        poolProvider.close();
 
         Assertions.assertTrue(result instanceof MatJv);
     }

@@ -2,28 +2,34 @@ package com.lukastack.projectmatrix.core.parallel.individual;
 
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
+import com.lukastack.projectmatrix.parameters.threads.SingletonThreadPoolProvider;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.text.DecimalFormat;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.ExecutionException;
 
 class IndividualMatrixSubtractionImplTest {
 
-    private ThreadPoolExecutor poolExecutor;
-    private IndividualMatrixSubtractionImpl<MatJv> subtractionImpl;
     private final DecimalFormat toOneDecimal = new DecimalFormat("0.0");
+    private SingletonThreadPoolProvider poolProvider;
+    private IndividualMatrixSubtractionImpl<MatJv> subtractionImpl;
 
     @BeforeEach
     void setUp() {
-        poolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(3);
+        poolProvider = new SingletonThreadPoolProvider<>();
         subtractionImpl = new IndividualMatrixSubtractionImpl<>(MatJv.class);
     }
 
+    @AfterEach
+    void tearDown() throws InterruptedException {
+        poolProvider.close();
+    }
+
     @Test
-    void sub_Matrix_x_Matrix_correctEquations() {
+    void sub_Matrix_x_Matrix_correctEquations() throws ExecutionException, InterruptedException {
 
         Matrix matrixFirst = new MatJv(3, 3);
         Matrix matrixSecond = new MatJv(3, 3);
@@ -48,8 +54,8 @@ class IndividualMatrixSubtractionImplTest {
         matrixSecond.set(2, 1, 1.0);
         matrixSecond.set(2, 2, 1.0);
 
-        var result = subtractionImpl.sub(matrixFirst, matrixSecond, poolExecutor);
-        poolExecutor.shutdown();
+        var result = subtractionImpl.sub(matrixFirst, matrixSecond, poolProvider.provideThreadPool());
+        poolProvider.waitForCompletion();
 
         Assertions.assertEquals(-2.0, Double.parseDouble(toOneDecimal.format(result.get(0, 0))));
         Assertions.assertEquals(3.0, Double.parseDouble(toOneDecimal.format(result.get(0, 1))));
@@ -63,7 +69,7 @@ class IndividualMatrixSubtractionImplTest {
     }
 
     @Test
-    void sub_Matrix_x_Scalar_correctEquations() {
+    void sub_Matrix_x_Scalar_correctEquations() throws ExecutionException, InterruptedException {
 
         Matrix matrixFirst = new MatJv(3, 3);
 
@@ -77,8 +83,8 @@ class IndividualMatrixSubtractionImplTest {
         matrixFirst.set(2, 1, 8.0);
         matrixFirst.set(2, 2, 3.0);
 
-        var result = subtractionImpl.sub(matrixFirst, 9, poolExecutor);
-        poolExecutor.shutdown();
+        var result = subtractionImpl.sub(matrixFirst, 9, poolProvider.provideThreadPool());
+        poolProvider.waitForCompletion();
 
         Assertions.assertEquals(-6.0, Double.parseDouble(toOneDecimal.format(result.get(0, 0))));
         Assertions.assertEquals(-2.0, Double.parseDouble(toOneDecimal.format(result.get(0, 1))));
@@ -92,14 +98,14 @@ class IndividualMatrixSubtractionImplTest {
     }
 
     @Test
-    void createMatrix_createMatJvObject() {
+    void createMatrix_createMatJvObject() throws ExecutionException, InterruptedException {
         Matrix matrixFirst = new MatJv(2, 2);
 
         matrixFirst.set(0, 0, 1.2);
         matrixFirst.set(0, 1, 2.2);
 
-        var result = subtractionImpl.sub(matrixFirst, 34, poolExecutor);
-        poolExecutor.shutdown();
+        var result = subtractionImpl.sub(matrixFirst, 34, poolProvider.provideThreadPool());
+        poolProvider.waitForCompletion();
 
         Assertions.assertTrue(result instanceof MatJv);
     }
