@@ -1,17 +1,15 @@
 package com.lukastack.projectmatrix.core.serial;
 
+import com.lukastack.projectmatrix.core.MatrixOperationTemplate;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
 import com.lukastack.projectmatrix.core.operations.serial.ISerialMatrixProduct;
 
-import java.lang.reflect.InvocationTargetException;
-
-public class SerialMatrixProduct<E extends Matrix> implements ISerialMatrixProduct {
-
-    private final Class<E> clazz;
+public class SerialMatrixProduct<E extends Matrix> extends MatrixOperationTemplate<E>
+        implements ISerialMatrixProduct {
 
     public SerialMatrixProduct(Class<E> clazz) {
 
-        this.clazz = clazz;
+        super(clazz);
     }
 
     @Override
@@ -35,17 +33,4 @@ public class SerialMatrixProduct<E extends Matrix> implements ISerialMatrixProdu
 
         return result;
     }
-
-    // TODO this method is and will be across all implementation, should be extracted somewhere
-    private Matrix createMatrix(int rows, int cols) {
-
-        try {
-            return clazz.getDeclaredConstructor(int.class, int.class)
-                    .newInstance(rows, cols);
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Implementation of a Matrix class must have constructor with 2 integer parameters");
-        }
-    }
-
 }

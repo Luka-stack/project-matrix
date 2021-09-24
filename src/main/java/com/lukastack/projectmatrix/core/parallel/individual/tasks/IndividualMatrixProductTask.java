@@ -1,4 +1,4 @@
-package com.lukastack.projectmatrix.core.parallel.individual;
+package com.lukastack.projectmatrix.core.parallel.individual.tasks;
 
 import com.lukastack.projectmatrix.core.matrices.Matrix;
 

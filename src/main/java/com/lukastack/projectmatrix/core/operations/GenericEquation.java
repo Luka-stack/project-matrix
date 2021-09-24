@@ -1,4 +1,4 @@
-package com.lukastack.projectmatrix.core.serial;
+package com.lukastack.projectmatrix.core.operations;
 
 @FunctionalInterface
 public interface GenericEquation {

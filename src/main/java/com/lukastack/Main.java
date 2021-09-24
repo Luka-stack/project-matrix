@@ -1,7 +1,6 @@
 package com.lukastack;
 
-import com.lukastack.projectmatrix.core.serial.GenericEquation;
-import com.lukastack.projectmatrix.utils.NthRoot;
+import com.lukastack.projectmatrix.core.operations.GenericEquation;
 
 public class Main {
 

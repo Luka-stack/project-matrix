@@ -1,6 +1,7 @@
 package com.lukastack.projectmatrix.core.serial;
 
 import com.lukastack.projectmatrix.core.matrices.Matrix;
+import com.lukastack.projectmatrix.core.operations.GenericEquation;
 
 public interface SerialElementWiseMatrixEquation {
 

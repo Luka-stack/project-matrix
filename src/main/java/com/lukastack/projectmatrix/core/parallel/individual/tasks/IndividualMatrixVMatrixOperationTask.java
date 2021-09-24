@@ -1,9 +1,9 @@
-package com.lukastack.projectmatrix.core.parallel.individual;
+package com.lukastack.projectmatrix.core.parallel.individual.tasks;
 
 import com.lukastack.projectmatrix.core.matrices.Matrix;
-import com.lukastack.projectmatrix.core.serial.GenericEquation;
+import com.lukastack.projectmatrix.core.operations.GenericEquation;
 
-public class IndividualMatrixOperationTask implements Runnable {
+public class IndividualMatrixVMatrixOperationTask implements Runnable {
 
     private final Matrix result;
     private final Matrix matLeft;
@@ -14,9 +14,9 @@ public class IndividualMatrixOperationTask implements Runnable {
     private final int row;
     private final int column;
 
-    public IndividualMatrixOperationTask(final Matrix result, final Matrix matLeft, final Matrix matRight,
-                                         GenericEquation equation,
-                                         int row, int column) {
+    public IndividualMatrixVMatrixOperationTask(final Matrix result, final Matrix matLeft, final Matrix matRight,
+                                                GenericEquation equation,
+                                                int row, int column) {
 
         this.row = row;
         this.column = column;
