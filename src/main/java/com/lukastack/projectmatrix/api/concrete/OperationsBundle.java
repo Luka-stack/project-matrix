@@ -1,15 +1,15 @@
 package com.lukastack.projectmatrix.api.concrete;
 
 import com.lukastack.projectmatrix.api.IOperationsBundle;
-import com.lukastack.projectmatrix.core.operations.parallel.IParallelMatrixProduct;
-import com.lukastack.projectmatrix.parameters.threads.AbstractThreadPoolProvider;
+import com.lukastack.projectmatrix.core.operations.parallel.OperationProduct;
+import com.lukastack.projectmatrix.parameters.threads.ThreadPoolProvider;
 
 public abstract class OperationsBundle implements IOperationsBundle {
 
-    protected final IParallelMatrixProduct matrixProductImpl;
-    protected final AbstractThreadPoolProvider threadPoolProvider;
+    protected final OperationProduct matrixProductImpl;
+    protected final ThreadPoolProvider threadPoolProvider;
 
-    protected OperationsBundle(IParallelMatrixProduct matrixProductImpl, AbstractThreadPoolProvider threadPoolProvider) {
+    protected OperationsBundle(OperationProduct matrixProductImpl, ThreadPoolProvider threadPoolProvider) {
 
         this.matrixProductImpl = matrixProductImpl;
         this.threadPoolProvider = threadPoolProvider;

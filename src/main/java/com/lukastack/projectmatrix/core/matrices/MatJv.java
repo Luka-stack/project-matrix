@@ -2,7 +2,7 @@ package com.lukastack.projectmatrix.core.matrices;
 
 import java.util.Arrays;
 
-public class MatJv extends Matrix {
+public class MatJv implements Matrix {
 
     private final double[][] data;
 
@@ -32,7 +32,7 @@ public class MatJv extends Matrix {
     }
 
     @Override
-    public IMatrix reshape(int rows, int cols) {
+    public Matrix reshape(int rows, int cols) {
 
         if (rows*cols != this.data.length * this.data[0].length) {
             throw new IllegalArgumentException(

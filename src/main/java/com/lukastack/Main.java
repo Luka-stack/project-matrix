@@ -1,9 +1,6 @@
 package com.lukastack;
 
-import com.lukastack.projectmatrix.core.operations.GenericEquation;
-
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+import com.lukastack.projectmatrix.core.equations.GenericEquation;
 
 public class Main {
 
