@@ -19,7 +19,7 @@ class IndividualMatrixDivisionImplTest {
 
     @BeforeEach
     void setUp() {
-        poolProvider = new SingletonThreadPoolProvider<>();
+        poolProvider = new SingletonThreadPoolProvider();
         divisionImpl = new IndividualMatrixDivisionImpl<>(MatJv.class);
     }
 

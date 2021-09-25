@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.management.InvalidAttributeValueException;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -28,13 +29,13 @@ class SingletonThreadPoolProviderTest {
         this.timeUnit = TimeUnit.MILLISECONDS;
         this.poolType = ThreadPoolType.FIXED;
 
-        threadPoolProvider = new SingletonThreadPoolProvider<>(coreSize, maxSize, keepAlive, timeUnit, poolType);
+        threadPoolProvider = new SingletonThreadPoolProvider(coreSize, maxSize, keepAlive, timeUnit, poolType);
     }
 
     @Test
     void constructor_createsProviderWithDefaultQueue() throws InvalidAttributeValueException {
 
-        var provider = new SingletonThreadPoolProvider<>(coreSize, maxSize, keepAlive, timeUnit, ThreadPoolType.FIXED);
+        var provider = new SingletonThreadPoolProvider(coreSize, maxSize, keepAlive, timeUnit, ThreadPoolType.FIXED);
 
         Assertions.assertEquals(coreSize, provider.getCorePoolSize());
         Assertions.assertEquals(maxSize, provider.getMaximumPoolSize());
@@ -49,15 +50,16 @@ class SingletonThreadPoolProviderTest {
         this.poolType = ThreadPoolType.CUSTOM;
 
         Assertions.assertThrows(InvalidAttributeValueException.class,
-                () -> new SingletonThreadPoolProvider<>(coreSize, maxSize, keepAlive, timeUnit, poolType));
+                () -> new SingletonThreadPoolProvider(coreSize, maxSize, keepAlive, timeUnit, poolType));
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     void constructor_createsProviderWithCustomQueue() {
 
         this.poolType = ThreadPoolType.CUSTOM;
 
-        var provider = new SingletonThreadPoolProvider<>(coreSize, maxSize, keepAlive, timeUnit,
+        var provider = new SingletonThreadPoolProvider(coreSize, maxSize, keepAlive, timeUnit,
                 LinkedBlockingQueue.class);
 
         Assertions.assertEquals(coreSize, provider.getCorePoolSize());
@@ -133,5 +135,38 @@ class SingletonThreadPoolProviderTest {
         Assertions.assertTrue(duration > 2000);
 
         threadPoolProvider.close();
+    }
+
+    @Test
+    void providerWithCustomWorkingQueueWorkingProperly() throws ExecutionException, InterruptedException {
+        this.poolType = ThreadPoolType.CUSTOM;
+
+        var provider = new SingletonThreadPoolProvider(coreSize, maxSize, keepAlive, timeUnit,
+                LinkedBlockingQueue.class);
+        var threadPool = provider.provideThreadPool();
+
+        threadPool.submit(() -> {
+            System.out.println("First Thread Starts");
+            Thread.sleep(1000);
+            System.out.println("First Thread Ends");
+            return null;
+        });
+
+        threadPool.submit(() -> {
+            System.out.println("First Thread Starts");
+            Thread.sleep(1000);
+            System.out.println("First Thread Ends");
+            return null;
+        });
+
+        long startTime = System.nanoTime();
+        provider.waitForCompletion();
+        long endTime = System.nanoTime();
+
+        long duration = (endTime - startTime) / 1000000;
+
+        Assertions.assertTrue(duration > 2000);
+
+        provider.close();
     }
 }

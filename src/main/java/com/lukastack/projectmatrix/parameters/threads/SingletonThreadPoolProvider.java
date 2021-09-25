@@ -5,7 +5,7 @@ import com.lukastack.projectmatrix.threadpools.ThreadPoolExecutorCachedFutures;
 import javax.management.InvalidAttributeValueException;
 import java.util.concurrent.*;
 
-public class SingletonThreadPoolProvider<E extends BlockingQueue<Runnable>> extends AbstractThreadPoolProvider {
+public class SingletonThreadPoolProvider extends AbstractThreadPoolProvider {
 
     private ThreadPoolExecutorCachedFutures threadPool = null;
 
@@ -32,7 +32,7 @@ public class SingletonThreadPoolProvider<E extends BlockingQueue<Runnable>> exte
         this.threadPoolType = threadPoolType;
     }
 
-    public SingletonThreadPoolProvider(int corePoolSize, int maximumPoolSize, long keepAlive,
+    public <E extends BlockingQueue<Runnable>> SingletonThreadPoolProvider(int corePoolSize, int maximumPoolSize, long keepAlive,
                                        TimeUnit keepAliveUnit, Class<E> workQueueClass) {
 
         this.corePoolSize = corePoolSize;

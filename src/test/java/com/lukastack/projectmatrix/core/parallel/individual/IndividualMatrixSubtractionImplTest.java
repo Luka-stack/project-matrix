@@ -19,7 +19,7 @@ class IndividualMatrixSubtractionImplTest {
 
     @BeforeEach
     void setUp() {
-        poolProvider = new SingletonThreadPoolProvider<>();
+        poolProvider = new SingletonThreadPoolProvider();
         subtractionImpl = new IndividualMatrixSubtractionImpl<>(MatJv.class);
     }
 

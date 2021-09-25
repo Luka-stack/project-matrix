@@ -19,7 +19,7 @@ class IndividualMatrixPowerImplTest {
 
     @BeforeEach
     void setUp() {
-        poolProvider = new SingletonThreadPoolProvider<>();
+        poolProvider = new SingletonThreadPoolProvider();
         powerImpl = new IndividualMatrixPowerImpl<>(MatJv.class);
     }
 

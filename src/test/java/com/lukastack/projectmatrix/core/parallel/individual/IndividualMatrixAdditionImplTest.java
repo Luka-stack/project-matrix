@@ -18,7 +18,7 @@ class IndividualMatrixAdditionImplTest {
 
     @BeforeEach
     void setUp() {
-        poolProvider = new SingletonThreadPoolProvider<>();
+        poolProvider = new SingletonThreadPoolProvider();
         additionImpl = new IndividualMatrixAdditionImpl<>(MatJv.class);
     }
 
