@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class LiMatJv extends Matrix {
+public class LiMatJv implements Matrix {
 
     private final List<List<Double>> data;
 
@@ -34,7 +34,7 @@ public class LiMatJv extends Matrix {
     }
 
     @Override
-    public IMatrix reshape(int rows, int cols) {
+    public Matrix reshape(int rows, int cols) {
 
         if (rows*cols != this.data.size() * this.data.get(0).size()) {
             throw new IllegalArgumentException(String.format("Cannot reshape MatJv of size %d into shape (%d,%d)",

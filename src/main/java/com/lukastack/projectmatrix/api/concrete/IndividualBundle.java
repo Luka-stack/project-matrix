@@ -2,9 +2,11 @@ package com.lukastack.projectmatrix.api.concrete;
 
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
-import com.lukastack.projectmatrix.core.parallel.individual.IndividualMatrixProductImpl;
-import com.lukastack.projectmatrix.parameters.threads.AbstractThreadPoolProvider;
+import com.lukastack.projectmatrix.core.operations.implementations.parallel.individual.IndividualMatrixProduct;
+import com.lukastack.projectmatrix.parameters.threads.ThreadPoolProvider;
 import com.lukastack.projectmatrix.parameters.threads.SingletonThreadPoolProvider;
+
+import java.util.concurrent.ExecutionException;
 
 public class IndividualBundle extends OperationsBundle {
 
@@ -13,15 +15,15 @@ public class IndividualBundle extends OperationsBundle {
      * Create Bundle with Individual implementation, and fixed SingletonThreadPool
      */
     public IndividualBundle() {
-        super(new IndividualMatrixProductImpl<>(MatJv.class), new SingletonThreadPoolProvider());
+        super(new IndividualMatrixProduct(MatJv.class), new SingletonThreadPoolProvider());
     }
 
-    public IndividualBundle(Class<? extends Matrix> clazz, AbstractThreadPoolProvider poolProvider) {
-        super(new IndividualMatrixProductImpl<>(clazz), poolProvider);
+    public IndividualBundle(Class<? extends Matrix> clazz, ThreadPoolProvider poolProvider) {
+        super(new IndividualMatrixProduct(clazz), poolProvider);
     }
 
     @Override
-    public Matrix matMul(Matrix matOne, Matrix matTwo) {
+    public Matrix matMul(Matrix matOne, Matrix matTwo) throws ExecutionException, InterruptedException {
 
         if (matOne.shape()[1] != matTwo.shape()[0]) {
             throw new IllegalArgumentException(
@@ -32,6 +34,7 @@ public class IndividualBundle extends OperationsBundle {
 
         var result = this.matrixProductImpl.matMul(matOne, matTwo, this.threadPoolProvider.provideThreadPool());
 
+        threadPoolProvider.waitForCompletion();
         threadPoolProvider.close();
 
         return result;

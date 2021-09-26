@@ -83,6 +83,6 @@ class MatJvTest {
     @Test
     void reshape_providedWrongRowsAndCells_throwIllegalArgumentException() {
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.reshape(rows*5, cols*2));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.reshape(rows * 5, cols * 2));
     }
 }

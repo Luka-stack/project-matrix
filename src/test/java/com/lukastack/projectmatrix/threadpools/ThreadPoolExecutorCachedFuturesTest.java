@@ -17,11 +17,11 @@ class ThreadPoolExecutorCachedFuturesTest {
     @BeforeEach
     void setUp() {
         threadPool = new ThreadPoolExecutorCachedFutures(3, 3, 0L,
-                TimeUnit.SECONDS,  new LinkedBlockingDeque<>());
+                TimeUnit.SECONDS, new LinkedBlockingDeque<>());
     }
 
     @Test
-    void submit_CallableTask_AddsFutureToList(){
+    void submit_CallableTask_AddsFutureToList() {
 
         List<Callable<String>> callables = Arrays.asList(
                 new DelayedCallable("fast thread", 100),
@@ -37,7 +37,7 @@ class ThreadPoolExecutorCachedFuturesTest {
     }
 
     @Test
-    void submit_RunnableTask_AddsFutureToList(){
+    void submit_RunnableTask_AddsFutureToList() {
 
         List<Runnable> runnables = Arrays.asList(
                 new DelayedRunnable(100),

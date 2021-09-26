@@ -5,7 +5,7 @@ import com.lukastack.projectmatrix.threadpools.ThreadPoolExecutorCachedFutures;
 import javax.management.InvalidAttributeValueException;
 import java.util.concurrent.*;
 
-public class SingletonThreadPoolProvider<E extends BlockingQueue<Runnable>> extends AbstractThreadPoolProvider {
+public class SingletonThreadPoolProvider extends ThreadPoolProvider {
 
     private ThreadPoolExecutorCachedFutures threadPool = null;
 
@@ -32,7 +32,7 @@ public class SingletonThreadPoolProvider<E extends BlockingQueue<Runnable>> exte
         this.threadPoolType = threadPoolType;
     }
 
-    public SingletonThreadPoolProvider(int corePoolSize, int maximumPoolSize, long keepAlive,
+    public <E extends BlockingQueue<Runnable>> SingletonThreadPoolProvider(int corePoolSize, int maximumPoolSize, long keepAlive,
                                        TimeUnit keepAliveUnit, Class<E> workQueueClass) {
 
         this.corePoolSize = corePoolSize;
@@ -59,9 +59,29 @@ public class SingletonThreadPoolProvider<E extends BlockingQueue<Runnable>> exte
     // TODO Extract close to Interface ? Abstract class ?
     // TODO Should throw error ? Log error ? if couldn't close thread pool
     // TODO Should return bool ?
-    public void close() {
+    public void close() throws InterruptedException {
 
         this.threadPool.shutdown();
+        if (!this.threadPool.awaitTermination(60, TimeUnit.SECONDS)) {
+            this.threadPool.shutdownNow();
+
+            if (!this.threadPool.awaitTermination(60, TimeUnit.SECONDS)) {
+                // TODO throw an custom error
+            }
+        }
+        this.threadPool = null;
+    }
+
+    public void close(int timeout, TimeUnit unit) throws InterruptedException {
+
+        this.threadPool.shutdown();
+        if (!this.threadPool.awaitTermination(timeout, unit)) {
+            this.threadPool.shutdownNow();
+
+            if (!this.threadPool.awaitTermination(timeout, unit)) {
+                // TODO throw an custom error
+            }
+        }
         this.threadPool = null;
     }
 

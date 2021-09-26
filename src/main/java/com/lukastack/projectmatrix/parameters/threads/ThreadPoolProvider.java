@@ -3,7 +3,7 @@ package com.lukastack.projectmatrix.parameters.threads;
 import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.*;
 
-public abstract class AbstractThreadPoolProvider implements IThreadPoolProvider, IThreadPoolParameters {
+public abstract class ThreadPoolProvider implements IThreadPoolProvider, ThreadPoolParameters {
 
     protected long keepAlive;
     protected TimeUnit keepAliveUnit;

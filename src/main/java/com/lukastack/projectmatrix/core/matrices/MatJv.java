@@ -1,11 +1,19 @@
 package com.lukastack.projectmatrix.core.matrices;
 
-public class MatJv extends Matrix {
+import java.util.Arrays;
+
+public class MatJv implements Matrix {
 
     private final double[][] data;
 
     public MatJv(int rows, int cols) {
         this.data = new double[rows][cols];
+    }
+
+    public MatJv(int rows, int cols, double initialValue) {
+        this.data = new double[rows][cols];
+        for (double[] row: data)
+            Arrays.fill(row, initialValue);
     }
 
     @Override
@@ -24,7 +32,7 @@ public class MatJv extends Matrix {
     }
 
     @Override
-    public IMatrix reshape(int rows, int cols) {
+    public Matrix reshape(int rows, int cols) {
 
         if (rows*cols != this.data.length * this.data[0].length) {
             throw new IllegalArgumentException(

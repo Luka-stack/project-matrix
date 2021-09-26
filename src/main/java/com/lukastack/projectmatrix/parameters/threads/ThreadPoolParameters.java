@@ -2,7 +2,7 @@ package com.lukastack.projectmatrix.parameters.threads;
 
 import java.util.concurrent.TimeUnit;
 
-public interface IThreadPoolParameters {
+public interface ThreadPoolParameters {
 
     void setKeepAlive(long time, TimeUnit unit);
 
