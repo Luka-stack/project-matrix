@@ -1,11 +1,10 @@
 package com.lukastack.projectmatrix.core.operations.implementations.serial;
 
-import com.lukastack.projectmatrix.core.operations.implementations.parallel.MatrixOperation;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
-import com.lukastack.projectmatrix.core.operations.serial.SerialOperationDivision;
+import com.lukastack.projectmatrix.core.operations.definitions.serial.SerialDivision;
 
-public class SerialMatrixDivision extends MatrixOperation
-        implements SerialOperationDivision {
+public class SerialMatrixDivision extends SerialMatrixOperation
+        implements SerialDivision {
 
     public SerialMatrixDivision(Class<? extends Matrix> clazz) {
 

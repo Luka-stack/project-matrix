@@ -1,10 +1,10 @@
 package com.lukastack.projectmatrix.core.operations.implementations.serial;
 
 import com.lukastack.projectmatrix.core.matrices.Matrix;
-import com.lukastack.projectmatrix.core.operations.serial.SerialOperationAddition;
+import com.lukastack.projectmatrix.core.operations.definitions.serial.SerialAddition;
 
 public class SerialMatrixAddition extends SerialMatrixOperation
-        implements SerialOperationAddition {
+        implements SerialAddition {
 
     public SerialMatrixAddition(Class<? extends Matrix> clazz) {
 

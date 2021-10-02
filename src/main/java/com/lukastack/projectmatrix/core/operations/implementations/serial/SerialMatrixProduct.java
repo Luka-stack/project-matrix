@@ -1,11 +1,11 @@
 package com.lukastack.projectmatrix.core.operations.implementations.serial;
 
-import com.lukastack.projectmatrix.core.operations.implementations.parallel.MatrixOperation;
+import com.lukastack.projectmatrix.core.operations.api.parallel.MatrixOperation;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
-import com.lukastack.projectmatrix.core.operations.serial.SerialOperationProduct;
+import com.lukastack.projectmatrix.core.operations.definitions.serial.SerialProduct;
 
 public class SerialMatrixProduct extends MatrixOperation
-        implements SerialOperationProduct {
+        implements SerialProduct {
 
     public SerialMatrixProduct(Class<? extends Matrix> clazz) {
 

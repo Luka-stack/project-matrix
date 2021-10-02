@@ -1,18 +1,18 @@
 package com.lukastack.projectmatrix.api.selective;
 
 import com.lukastack.projectmatrix.api.IOperationsBundle;
-import com.lukastack.projectmatrix.core.operations.parallel.OperationProduct;
+import com.lukastack.projectmatrix.core.operations.definitions.parallel.Product;
 
 public abstract class SelectiveOperationsBundle implements IOperationsBundle {
 
-    protected OperationProduct matrixProductImpl;
+    protected Product matrixProductImpl;
 
-    protected SelectiveOperationsBundle(final OperationProduct matrixProductImpl) {
+    protected SelectiveOperationsBundle(final Product matrixProductImpl) {
 
         this.matrixProductImpl = matrixProductImpl;
     }
 
-    public void setMatrixProduct(OperationProduct matrixProductImpl) {
+    public void setMatrixProduct(Product matrixProductImpl) {
 
         this.matrixProductImpl = matrixProductImpl;
     }
