@@ -73,8 +73,8 @@ public class AxisRowOperations implements AxisMatrixOperations {
 
         private final int row;
 
-        private AxisRowOperationsScalarTask(final Matrix result, final Matrix matrix, final double scalar, int row,
-                                      final GenericEquation equation) {
+        private AxisRowOperationsScalarTask(final Matrix result, final Matrix matrix, double scalar, int row,
+                                            final GenericEquation equation) {
 
             this.result = result;
             this.matrix = matrix;

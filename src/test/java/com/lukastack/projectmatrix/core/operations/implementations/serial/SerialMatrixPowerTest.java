@@ -2,6 +2,7 @@ package com.lukastack.projectmatrix.core.operations.implementations.serial;
 
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
+import com.lukastack.projectmatrix.core.operations.api.serial.SerialMatrixPower;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
