@@ -3,6 +3,9 @@ package com.lukastack.projectmatrix.core.operations.implementations.parallel.axi
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
 import com.lukastack.projectmatrix.core.operations.api.parallel.axis.AxisMatrixPower;
+import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.column.AxisColumnOperations;
+import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.diagonal.AxisDiagonalOperations;
+import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.row.AxisRowOperations;
 import com.lukastack.projectmatrix.parameters.threads.SingletonThreadPoolProvider;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -45,6 +48,14 @@ class AxisMatrixPowerTest {
     }
 
     @Test
+    void power_Matrix_x_Matrix_correctEquations_DiagonalImplementation() throws ExecutionException, InterruptedException {
+
+        powerImpl = new AxisMatrixPower(MatJv.class, new AxisDiagonalOperations());
+
+        test_Matrix_x_Matrix_Equation();
+    }
+
+    @Test
     void power_Matrix_x_Scalar_correctEquations_RowImplementation() throws ExecutionException, InterruptedException {
 
         powerImpl = new AxisMatrixPower(MatJv.class, new AxisRowOperations());
@@ -56,6 +67,14 @@ class AxisMatrixPowerTest {
     void power_Matrix_x_Scalar_correctEquations_ColumnImplementation() throws ExecutionException, InterruptedException {
 
         powerImpl = new AxisMatrixPower(MatJv.class, new AxisColumnOperations());
+
+        test_Matrix_x_Scalar_Equation();
+    }
+
+    @Test
+    void power_Matrix_x_Scalar_correctEquations_DiagonalImplementation() throws ExecutionException, InterruptedException {
+
+        powerImpl = new AxisMatrixPower(MatJv.class, new AxisDiagonalOperations());
 
         test_Matrix_x_Scalar_Equation();
     }

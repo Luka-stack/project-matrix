@@ -3,6 +3,9 @@ package com.lukastack.projectmatrix.core.operations.implementations.parallel.axi
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
 import com.lukastack.projectmatrix.core.operations.api.parallel.axis.AxisMatrixProduct;
+import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.column.AxisColumnProduct;
+import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.diagonal.AxisDiagonalProduct;
+import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.row.AxisRowProduct;
 import com.lukastack.projectmatrix.parameters.threads.SingletonThreadPoolProvider;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -32,6 +35,14 @@ class AxisMatrixProductTest {
     void matMul_correctEquations_RowImplementation() throws ExecutionException, InterruptedException {
 
         productImpl = new AxisMatrixProduct(MatJv.class, new AxisRowProduct());
+
+        test_Product_Equation();
+    }
+
+    @Test
+    void matMul_correctEquations_DiagonalImplementation() throws ExecutionException, InterruptedException {
+
+        productImpl = new AxisMatrixProduct(MatJv.class, new AxisDiagonalProduct());
 
         test_Product_Equation();
     }

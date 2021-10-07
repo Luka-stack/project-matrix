@@ -1,6 +1,7 @@
-package com.lukastack.projectmatrix.core.operations.implementations.parallel.axis;
+package com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.row;
 
 import com.lukastack.projectmatrix.core.matrices.Matrix;
+import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.AxisMatrixProductOperation;
 
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -12,7 +13,7 @@ public class AxisRowProduct implements AxisMatrixProductOperation {
         for (int row = 0; row < leftMatrix.shape()[0]; ++row) {
 
             taskPool.submit(
-                    new AxisRowProductTask(result, leftMatrix, rightMatrix,row)
+                    new AxisRowProductTask(result, leftMatrix, rightMatrix, row)
             );
         }
     }

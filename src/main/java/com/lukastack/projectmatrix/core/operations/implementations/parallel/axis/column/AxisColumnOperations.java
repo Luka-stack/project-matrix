@@ -1,7 +1,8 @@
-package com.lukastack.projectmatrix.core.operations.implementations.parallel.axis;
+package com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.column;
 
 import com.lukastack.projectmatrix.core.equations.GenericEquation;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
+import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.AxisMatrixOperations;
 
 import java.util.concurrent.ThreadPoolExecutor;
 

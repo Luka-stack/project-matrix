@@ -5,7 +5,6 @@ import com.lukastack.projectmatrix.core.matrices.Matrix;
 import com.lukastack.projectmatrix.core.operations.definitions.parallel.Product;
 import com.lukastack.projectmatrix.core.operations.implementations.parallel.individual.IndividualMatrixProductOperation;
 import com.lukastack.projectmatrix.core.operations.implementations.parallel.individual.IndividualProduct;
-import com.lukastack.projectmatrix.core.operations.implementations.parallel.individual.tasks.IndividualMatrixProductTask;
 
 import java.util.concurrent.*;
 
