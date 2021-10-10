@@ -3,6 +3,7 @@ package com.lukastack.projectmatrix.core.operations.implementations.parallel.ind
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
 import com.lukastack.projectmatrix.core.operations.api.parallel.individual.IndividualMatrixDivision;
+import com.lukastack.projectmatrix.errors.DimensionException;
 import com.lukastack.projectmatrix.parameters.threads.SingletonThreadPoolProvider;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -62,6 +63,17 @@ class IndividualMatrixDivisionTest {
         Assertions.assertEquals(3.000, Double.parseDouble(toThreeDecimal.format(result.get(2, 0))));
         Assertions.assertEquals(2.000, Double.parseDouble(toThreeDecimal.format(result.get(2, 1))));
         Assertions.assertEquals(0.000, Double.parseDouble(toThreeDecimal.format(result.get(2, 2))));
+    }
+
+    @Test
+    void divide_Matrix_x_Matrix_WrongDimensions_ThrowsDimensionException() {
+
+        var pool = poolProvider.provideThreadPool();
+
+        Matrix matrixFirst = new MatJv(2, 2);
+        Matrix matrixSecond = new MatJv(5, 2);
+
+        Assertions.assertThrows(DimensionException.class, () -> divisionImpl.divide(matrixFirst, matrixSecond, pool));
     }
 
     @Test

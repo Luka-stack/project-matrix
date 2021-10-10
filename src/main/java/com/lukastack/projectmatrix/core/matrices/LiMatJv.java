@@ -1,5 +1,8 @@
 package com.lukastack.projectmatrix.core.matrices;
 
+import com.lukastack.projectmatrix.errors.DimensionException;
+import com.lukastack.projectmatrix.errors.DimensionsIndexException;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,26 +22,45 @@ public class LiMatJv implements Matrix {
 
     @Override
     public void set(int row, int col, double value) {
-        data.get(row).set(col, value);
+
+        try {
+            data.get(row).set(col, value);
+        }
+        catch (IndexOutOfBoundsException e) {
+            throw new DimensionsIndexException(
+                    String.format("Index [%d, %d] is out of bounds for size [%d, %d]",
+                            row, col, shape()[0], shape()[1])
+            );
+        }
     }
 
     @Override
     public double get(int row, int col) {
-        return data.get(row).get(col);
+
+        try {
+            return data.get(row).get(col);
+        }
+        catch (IndexOutOfBoundsException e) {
+            throw new DimensionsIndexException(
+                    String.format("Index [%d, %d] is out of bounds for shape (%d, %d)",
+                            row, col, shape()[0], shape()[1])
+            );
+        }
     }
 
     @Override
     public int[] shape() {
 
-        return new int[] { data.size(), data.get(0).size() };
+        return new int[]{data.size(), data.get(0).size()};
     }
 
     @Override
     public Matrix reshape(int rows, int cols) {
 
-        if (rows*cols != this.data.size() * this.data.get(0).size()) {
-            throw new IllegalArgumentException(String.format("Cannot reshape MatJv of size %d into shape (%d,%d)",
-                    this.data.get(0).size()*this.data.size(), rows, cols));
+        if (rows * cols != this.data.size() * this.data.get(0).size()) {
+            throw new DimensionException(
+                    String.format("Cannot reshape Matrix of size %d into shape (%d, %d)",
+                            this.data.get(0).size() * this.data.size(), rows, cols));
         }
 
         var result = new LiMatJv(rows, cols);
@@ -48,7 +70,7 @@ public class LiMatJv implements Matrix {
         for (int r = 0; r < rows; ++r) {
 
             for (int c = 0; c < cols; ++c) {
-                result.set(r, c, data.get(i/oldCols).get(i%oldCols));
+                result.set(r, c, data.get(i / oldCols).get(i % oldCols));
                 ++i;
             }
         }

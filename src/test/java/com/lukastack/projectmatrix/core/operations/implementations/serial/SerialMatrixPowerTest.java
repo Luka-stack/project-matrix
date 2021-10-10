@@ -3,6 +3,7 @@ package com.lukastack.projectmatrix.core.operations.implementations.serial;
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
 import com.lukastack.projectmatrix.core.operations.api.serial.SerialMatrixPower;
+import com.lukastack.projectmatrix.errors.DimensionException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -56,6 +57,15 @@ class SerialMatrixPowerTest {
         Assertions.assertEquals(3.000, Double.parseDouble(toThreeDecimal.format(result.get(2, 0))));
         Assertions.assertEquals(2.000, Double.parseDouble(toThreeDecimal.format(result.get(2, 1))));
         Assertions.assertEquals(0.000, Double.parseDouble(toThreeDecimal.format(result.get(2, 2))));
+    }
+
+    @Test
+    void power_WrongDimensions_ThrowsDimensionException() {
+
+        Matrix matrixFirst = new MatJv(2, 2);
+        Matrix matrixSecond = new MatJv(5, 2);
+
+        Assertions.assertThrows(DimensionException.class, () -> powerImpl.power(matrixFirst, matrixSecond));
     }
 
     @Test

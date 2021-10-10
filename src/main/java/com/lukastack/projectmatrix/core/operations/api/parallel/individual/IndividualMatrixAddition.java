@@ -30,8 +30,9 @@ public class IndividualMatrixAddition extends MatrixOperation implements Additio
     @Override
     public Matrix add(Matrix leftMatrix, Matrix rightMatrix, ThreadPoolExecutor taskPool) {
 
-        int[] shape = leftMatrix.shape();
+        this.assertCorrectDimension(leftMatrix, rightMatrix);
 
+        int[] shape = leftMatrix.shape();
         Matrix result = createMatrix(shape[0], shape[1]);
 
         this.matrixOperations.operate(leftMatrix, rightMatrix, result, taskPool, Double::sum);
@@ -43,7 +44,6 @@ public class IndividualMatrixAddition extends MatrixOperation implements Additio
     public Matrix add(Matrix leftMatrix, double scalar, ThreadPoolExecutor taskPool) {
 
         int[] shape = leftMatrix.shape();
-
         Matrix result = createMatrix(shape[0], shape[1]);
 
         this.matrixOperations.operate(leftMatrix, scalar, result, taskPool, Double::sum);

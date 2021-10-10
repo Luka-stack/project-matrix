@@ -31,8 +31,9 @@ public class IndividualMatrixRoot extends MatrixOperation
     @Override
     public Matrix root(Matrix leftMatrix, Matrix rightMatrix, ThreadPoolExecutor taskPool) {
 
-        int[] shape = leftMatrix.shape();
+        this.assertCorrectDimension(leftMatrix, rightMatrix);
 
+        int[] shape = leftMatrix.shape();
         Matrix result = createMatrix(shape[0], shape[1]);
 
         this.matrixOperations.operate(leftMatrix, rightMatrix, result, taskPool, NthRoot::nthRoot);
@@ -44,7 +45,6 @@ public class IndividualMatrixRoot extends MatrixOperation
     public Matrix root(Matrix leftMatrix, double scalar, ThreadPoolExecutor taskPool) {
 
         int[] shape = leftMatrix.shape();
-
         Matrix result = createMatrix(shape[0], shape[1]);
 
         this.matrixOperations.operate(leftMatrix, scalar, result, taskPool, NthRoot::nthRoot);

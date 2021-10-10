@@ -2,10 +2,12 @@ package com.lukastack.projectmatrix.core.operations.implementations.parallel.axi
 
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
+import com.lukastack.projectmatrix.core.operations.api.parallel.axis.AxisMatrixDivision;
 import com.lukastack.projectmatrix.core.operations.api.parallel.axis.AxisMatrixMultiplication;
 import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.column.AxisColumnOperations;
 import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.diagonal.AxisDiagonalOperations;
 import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.row.AxisRowOperations;
+import com.lukastack.projectmatrix.errors.DimensionException;
 import com.lukastack.projectmatrix.parameters.threads.SingletonThreadPoolProvider;
 import com.lukastack.projectmatrix.parameters.threads.ThreadPoolProvider;
 import org.junit.jupiter.api.AfterEach;
@@ -41,6 +43,18 @@ class AxisMatrixMultiplicationTest {
     }
 
     @Test
+    void multiply_Matrix_x_Matrix_RowImplementation_WrongDimensions_ThrowsDimensionException() {
+
+        multiplyImpl = new AxisMatrixMultiplication(MatJv.class, new AxisRowOperations());
+        var pool = poolProvider.provideThreadPool();
+
+        Matrix matrixFirst = new MatJv(2, 2);
+        Matrix matrixSecond = new MatJv(5, 2);
+
+        Assertions.assertThrows(DimensionException.class, () -> multiplyImpl.multiply(matrixFirst, matrixSecond, pool));
+    }
+
+    @Test
     void multiply_Matrix_x_Matrix_correctEquations_ColumnImplementation() throws ExecutionException, InterruptedException {
 
         multiplyImpl = new AxisMatrixMultiplication(MatJv.class, new AxisColumnOperations());
@@ -49,11 +63,35 @@ class AxisMatrixMultiplicationTest {
     }
 
     @Test
+    void multiply_Matrix_x_Matrix_ColumnImplementation_WrongDimensions_ThrowsDimensionException() {
+
+        multiplyImpl = new AxisMatrixMultiplication(MatJv.class, new AxisColumnOperations());
+        var pool = poolProvider.provideThreadPool();
+
+        Matrix matrixFirst = new MatJv(2, 2);
+        Matrix matrixSecond = new MatJv(5, 2);
+
+        Assertions.assertThrows(DimensionException.class, () -> multiplyImpl.multiply(matrixFirst, matrixSecond, pool));
+    }
+
+    @Test
     void multiply_Matrix_x_Matrix_correctEquations_DiagonalImplementation() throws ExecutionException, InterruptedException {
 
         multiplyImpl = new AxisMatrixMultiplication(MatJv.class, new AxisDiagonalOperations());
 
         test_Matrix_x_Matrix_Equation();
+    }
+
+    @Test
+    void multiply_Matrix_x_Matrix_DiagonalImplementation_WrongDimensions_ThrowsDimensionException() {
+
+        multiplyImpl = new AxisMatrixMultiplication(MatJv.class, new AxisDiagonalOperations());
+        var pool = poolProvider.provideThreadPool();
+
+        Matrix matrixFirst = new MatJv(2, 2);
+        Matrix matrixSecond = new MatJv(5, 2);
+
+        Assertions.assertThrows(DimensionException.class, () -> multiplyImpl.multiply(matrixFirst, matrixSecond, pool));
     }
 
     @Test

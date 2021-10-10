@@ -21,8 +21,9 @@ public class AxisMatrixPower extends MatrixOperation implements Power {
     @Override
     public Matrix power(Matrix leftMatrix, Matrix rightMatrix, ThreadPoolExecutor taskPool) {
 
-        var shape = leftMatrix.shape();
+        this.assertCorrectDimension(leftMatrix, rightMatrix);
 
+        var shape = leftMatrix.shape();
         Matrix result = createMatrix(shape[0], shape[1]);
 
         this.axisMatrixOperations.operate(leftMatrix, rightMatrix, result, taskPool, Math::pow);
@@ -34,7 +35,6 @@ public class AxisMatrixPower extends MatrixOperation implements Power {
     public Matrix power(Matrix matrix, double scalar, ThreadPoolExecutor taskPool) {
 
         var shape = matrix.shape();
-
         Matrix result = createMatrix(shape[0], shape[1]);
 
         this.axisMatrixOperations.operate(matrix, scalar, result, taskPool, Math::pow);

@@ -1,5 +1,7 @@
 package com.lukastack.projectmatrix.core.matrices;
 
+import com.lukastack.projectmatrix.errors.DimensionException;
+import com.lukastack.projectmatrix.errors.DimensionsIndexException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,6 +39,12 @@ class MatJvTest {
     }
 
     @Test
+    void set_indexOutOfBounds_ThrowDimensionsIndexException() {
+
+        Assertions.assertThrows(DimensionsIndexException.class, () -> matrix.set(rows*2, cols*3, 10.0));
+    }
+
+    @Test
     void get_returnCorrectCell() {
 
         int lookUpRow = 3;
@@ -46,6 +54,12 @@ class MatJvTest {
         matrix.set(lookUpRow, lookUpCol, lookUpValue);
 
         Assertions.assertEquals(lookUpValue, matrix.get(lookUpRow, lookUpCol));
+    }
+
+    @Test
+    void get_indexOutOfBounds_ThrowDimensionsIndexException() {
+
+        Assertions.assertThrows(DimensionsIndexException.class, () -> matrix.get(rows*2, cols));
     }
 
     @Test
@@ -81,8 +95,8 @@ class MatJvTest {
     }
 
     @Test
-    void reshape_providedWrongRowsAndCells_throwIllegalArgumentException() {
+    void reshape_providedWrongRowsAndCells_throwDimensionException() {
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.reshape(rows * 5, cols * 2));
+        Assertions.assertThrows(DimensionException.class, () -> matrix.reshape(rows * 5, cols * 2));
     }
 }

@@ -5,6 +5,7 @@ import com.lukastack.projectmatrix.core.matrices.Matrix;
 import com.lukastack.projectmatrix.core.operations.definitions.serial.SerialProduct;
 import com.lukastack.projectmatrix.core.operations.implementations.serial.SerialMatrixProductOperation;
 import com.lukastack.projectmatrix.core.operations.implementations.serial.SerialProductOperation;
+import com.lukastack.projectmatrix.errors.DimensionException;
 
 public class SerialMatrixProduct extends MatrixOperation
         implements SerialProduct {
@@ -29,6 +30,8 @@ public class SerialMatrixProduct extends MatrixOperation
     @Override
     public Matrix matMul(Matrix matLeft, Matrix matRight) {
 
+        this.assertCorrectDimension(matLeft, matRight);
+
         int[] shape = matLeft.shape();
         int columnsRight = matRight.shape()[1];
 
@@ -37,5 +40,15 @@ public class SerialMatrixProduct extends MatrixOperation
         this.matrixOperation.operate(matLeft, matRight, result);
 
         return result;
+    }
+
+    @Override
+    protected void assertCorrectDimension(Matrix leftMatrix, Matrix rightMatrix) {
+
+        if (leftMatrix.shape()[1] != rightMatrix.shape()[0]) {
+            throw new DimensionException(
+                    String.format("Left side Matrix's column size and right side Matrix's row size must be equal %d != %d",
+                            leftMatrix.shape()[1], rightMatrix.shape()[0]));
+        }
     }
 }

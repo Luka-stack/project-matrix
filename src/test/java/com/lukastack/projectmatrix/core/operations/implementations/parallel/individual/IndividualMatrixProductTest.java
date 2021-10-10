@@ -2,7 +2,10 @@ package com.lukastack.projectmatrix.core.operations.implementations.parallel.ind
 
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
+import com.lukastack.projectmatrix.core.operations.api.parallel.axis.AxisMatrixProduct;
 import com.lukastack.projectmatrix.core.operations.api.parallel.individual.IndividualMatrixProduct;
+import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.diagonal.AxisDiagonalProduct;
+import com.lukastack.projectmatrix.errors.DimensionException;
 import com.lukastack.projectmatrix.parameters.threads.SingletonThreadPoolProvider;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -89,6 +92,17 @@ class IndividualMatrixProductTest {
         Assertions.assertEquals(9.328, Double.parseDouble(toThreeDecimal.format(result.get(4, 2))));
         Assertions.assertEquals(7.194, Double.parseDouble(toThreeDecimal.format(result.get(4, 3))));
         Assertions.assertEquals(5.162, Double.parseDouble(toThreeDecimal.format(result.get(4, 4))));
+    }
+
+    @Test
+    void matMul_WrongDimensions_ThrowsDimensionException() {
+
+        var pool = poolProvider.provideThreadPool();
+
+        Matrix matrixFirst = new MatJv(2, 2);
+        Matrix matrixSecond = new MatJv(5, 2);
+
+        Assertions.assertThrows(DimensionException.class, () -> productImpl.matMul(matrixFirst, matrixSecond, pool));
     }
 
     @Test

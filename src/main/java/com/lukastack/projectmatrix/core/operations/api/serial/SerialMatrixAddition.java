@@ -27,8 +27,9 @@ public class SerialMatrixAddition extends SerialMatrixOperation
     @Override
     public Matrix add(Matrix leftMatrix, Matrix rightMatrix) {
 
-        int[] shape = leftMatrix.shape();
+        this.assertCorrectDimension(leftMatrix, rightMatrix);
 
+        int[] shape = leftMatrix.shape();
         Matrix result = createMatrix(shape[0], shape[1]);
 
         this.matrixOperations.operate(leftMatrix, rightMatrix, result, Double::sum);
@@ -40,7 +41,6 @@ public class SerialMatrixAddition extends SerialMatrixOperation
     public Matrix add(Matrix matrix, double scalar) {
 
         int[] shape = matrix.shape();
-
         Matrix result = createMatrix(shape[0], shape[1]);
 
         this.matrixOperations.operate(matrix, scalar, result, Double::sum);

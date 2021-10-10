@@ -30,8 +30,9 @@ public class IndividualMatrixDivision extends MatrixOperation implements Divisio
     @Override
     public Matrix divide(Matrix leftMatrix, Matrix rightMatrix, ThreadPoolExecutor taskPool) {
 
-        int[] shape = leftMatrix.shape();
+        this.assertCorrectDimension(leftMatrix, rightMatrix);
 
+        int[] shape = leftMatrix.shape();
         Matrix result = createMatrix(shape[0], shape[1]);
 
         this.matrixOperations.operate(leftMatrix, rightMatrix, result, taskPool, (a, b) -> a / b);
@@ -43,7 +44,6 @@ public class IndividualMatrixDivision extends MatrixOperation implements Divisio
     public Matrix divide(Matrix leftMatrix, double scalar, ThreadPoolExecutor taskPool) {
 
         int[] shape = leftMatrix.shape();
-
         Matrix result = createMatrix(shape[0], shape[1]);
 
         this.matrixOperations.operate(leftMatrix, scalar, result, taskPool, (a, b) -> a / b);

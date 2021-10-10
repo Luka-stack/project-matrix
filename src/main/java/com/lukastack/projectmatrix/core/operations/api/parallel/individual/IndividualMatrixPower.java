@@ -29,8 +29,9 @@ public class IndividualMatrixPower extends MatrixOperation implements Power {
     @Override
     public Matrix power(Matrix leftMatrix, Matrix rightMatrix, ThreadPoolExecutor taskPool) {
 
-        int[] shape = leftMatrix.shape();
+        this.assertCorrectDimension(leftMatrix, rightMatrix);
 
+        int[] shape = leftMatrix.shape();
         Matrix result = createMatrix(shape[0], shape[1]);
 
         this.matrixOperations.operate(leftMatrix, rightMatrix, result, taskPool, Math::pow);
@@ -42,7 +43,6 @@ public class IndividualMatrixPower extends MatrixOperation implements Power {
     public Matrix power(Matrix leftMatrix, double scalar, ThreadPoolExecutor taskPool) {
 
         int[] shape = leftMatrix.shape();
-
         Matrix result = createMatrix(shape[0], shape[1]);
 
         this.matrixOperations.operate(leftMatrix, scalar, result, taskPool, Math::pow);

@@ -21,8 +21,9 @@ public class AxisMatrixMultiplication extends MatrixOperation implements Multipl
     @Override
     public Matrix multiply(Matrix leftMatrix, Matrix rightMatrix, ThreadPoolExecutor taskPool) {
 
-        var shape = leftMatrix.shape();
+        this.assertCorrectDimension(leftMatrix, rightMatrix);
 
+        var shape = leftMatrix.shape();
         Matrix result = createMatrix(shape[0], shape[1]);
 
         this.axisMatrixOperations.operate(leftMatrix, rightMatrix, result, taskPool, (a, b) -> a * b);
@@ -34,7 +35,6 @@ public class AxisMatrixMultiplication extends MatrixOperation implements Multipl
     public Matrix multiply(Matrix matrix, double scalar, ThreadPoolExecutor taskPool) {
 
         var shape = matrix.shape();
-
         Matrix result = createMatrix(shape[0], shape[1]);
 
         this.axisMatrixOperations.operate(matrix, scalar, result, taskPool, (a, b) -> a * b);

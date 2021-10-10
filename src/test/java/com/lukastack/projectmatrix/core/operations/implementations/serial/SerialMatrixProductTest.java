@@ -3,6 +3,7 @@ package com.lukastack.projectmatrix.core.operations.implementations.serial;
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
 import com.lukastack.projectmatrix.core.operations.api.serial.SerialMatrixProduct;
+import com.lukastack.projectmatrix.errors.DimensionException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -78,6 +79,15 @@ class SerialMatrixProductTest {
         Assertions.assertEquals(9.328, Double.parseDouble(toThreeDecimal.format(result.get(4, 2))));
         Assertions.assertEquals(7.194, Double.parseDouble(toThreeDecimal.format(result.get(4, 3))));
         Assertions.assertEquals(5.162, Double.parseDouble(toThreeDecimal.format(result.get(4, 4))));
+    }
+
+    @Test
+    void matMul_WrongDimensions_ThrowsDimensionException() {
+
+        Matrix matrixFirst = new MatJv(2, 2);
+        Matrix matrixSecond = new MatJv(5, 2);
+
+        Assertions.assertThrows(DimensionException.class, () -> productImpl.matMul(matrixFirst, matrixSecond));
     }
 
     @Test

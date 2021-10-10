@@ -3,6 +3,7 @@ package com.lukastack.projectmatrix.core.operations.implementations.serial;
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
 import com.lukastack.projectmatrix.core.operations.api.serial.SerialMatrixSubtraction;
+import com.lukastack.projectmatrix.errors.DimensionException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -56,6 +57,15 @@ class SerialMatrixSubtractionTest {
         Assertions.assertEquals(2.0, Double.parseDouble(toOneDecimal.format(result.get(2, 0))));
         Assertions.assertEquals(1.0, Double.parseDouble(toOneDecimal.format(result.get(2, 1))));
         Assertions.assertEquals(-1.0, Double.parseDouble(toOneDecimal.format(result.get(2, 2))));
+    }
+
+    @Test
+    void sub_WrongDimensions_ThrowsDimensionException() {
+
+        Matrix matrixFirst = new MatJv(2, 2);
+        Matrix matrixSecond = new MatJv(5, 2);
+
+        Assertions.assertThrows(DimensionException.class, () -> subtractionImpl.sub(matrixFirst, matrixSecond));
     }
 
     @Test

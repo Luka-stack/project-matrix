@@ -6,6 +6,7 @@ import com.lukastack.projectmatrix.core.operations.api.parallel.axis.AxisMatrixA
 import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.column.AxisColumnOperations;
 import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.diagonal.AxisDiagonalOperations;
 import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.row.AxisRowOperations;
+import com.lukastack.projectmatrix.errors.DimensionException;
 import com.lukastack.projectmatrix.parameters.threads.SingletonThreadPoolProvider;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -40,6 +41,18 @@ class AxisMatrixAdditionTest {
     }
 
     @Test
+    void add_Matrix_x_Matrix_RowImplementation_WrongDimensions_ThrowsDimensionException() {
+
+        additionImpl = new AxisMatrixAddition(MatJv.class, new AxisRowOperations());
+        var pool = poolProvider.provideThreadPool();
+
+        Matrix matrixFirst = new MatJv(2, 2);
+        Matrix matrixSecond = new MatJv(5, 2);
+
+        Assertions.assertThrows(DimensionException.class, () -> additionImpl.add(matrixFirst, matrixSecond, pool));
+    }
+
+    @Test
     void add_Matrix_x_Matrix_correctEquations_ColumnImplementation() throws ExecutionException, InterruptedException {
 
         additionImpl = new AxisMatrixAddition(MatJv.class, new AxisColumnOperations());
@@ -48,11 +61,35 @@ class AxisMatrixAdditionTest {
     }
 
     @Test
+    void add_Matrix_x_Matrix_ColumnImplementation_WrongDimensions_ThrowsDimensionException() {
+
+        additionImpl = new AxisMatrixAddition(MatJv.class, new AxisColumnOperations());
+        var pool = poolProvider.provideThreadPool();
+
+        Matrix matrixFirst = new MatJv(2, 2);
+        Matrix matrixSecond = new MatJv(5, 2);
+
+        Assertions.assertThrows(DimensionException.class, () -> additionImpl.add(matrixFirst, matrixSecond, pool));
+    }
+
+    @Test
     void add_Matrix_x_Matrix_correctEquations_DiagonalImplementation() throws ExecutionException, InterruptedException {
 
         additionImpl = new AxisMatrixAddition(MatJv.class, new AxisDiagonalOperations());
 
         test_Matrix_x_Matrix_Equation();
+    }
+
+    @Test
+    void add_Matrix_x_Matrix_DiagonalImplementation_WrongDimensions_ThrowsDimensionException() {
+
+        additionImpl = new AxisMatrixAddition(MatJv.class, new AxisDiagonalOperations());
+        var pool = poolProvider.provideThreadPool();
+
+        Matrix matrixFirst = new MatJv(2, 2);
+        Matrix matrixSecond = new MatJv(5, 2);
+
+        Assertions.assertThrows(DimensionException.class, () -> additionImpl.add(matrixFirst, matrixSecond, pool));
     }
 
     @Test

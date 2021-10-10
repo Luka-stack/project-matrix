@@ -3,6 +3,7 @@ package com.lukastack.projectmatrix.core.operations.implementations.parallel.ind
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
 import com.lukastack.projectmatrix.core.operations.api.parallel.individual.IndividualMatrixRoot;
+import com.lukastack.projectmatrix.errors.DimensionException;
 import com.lukastack.projectmatrix.parameters.threads.SingletonThreadPoolProvider;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -55,7 +56,18 @@ class IndividualMatrixRootTest {
     }
 
     @Test
-    void power_Matrix_x_Scalar_correctEquations() throws ExecutionException, InterruptedException {
+    void root_Matrix_x_Matrix_WrongDimensions_ThrowsDimensionException() {
+
+        var pool = poolProvider.provideThreadPool();
+
+        Matrix matrixFirst = new MatJv(2, 2);
+        Matrix matrixSecond = new MatJv(5, 2);
+
+        Assertions.assertThrows(DimensionException.class, () -> rootImpl.root(matrixFirst, matrixSecond, pool));
+    }
+
+    @Test
+    void root_Matrix_x_Scalar_correctEquations() throws ExecutionException, InterruptedException {
 
         Matrix matrixFirst = new MatJv(2, 2);
 

@@ -21,8 +21,9 @@ public class AxisMatrixAddition extends MatrixOperation implements Addition {
     @Override
     public Matrix add(Matrix leftMatrix, Matrix rightMatrix, ThreadPoolExecutor taskPool) {
 
-        var shape = leftMatrix.shape();
+        this.assertCorrectDimension(leftMatrix, rightMatrix);
 
+        var shape = leftMatrix.shape();
         Matrix result = createMatrix(shape[0], shape[1]);
 
         this.axisMatrixOperations.operate(leftMatrix, rightMatrix, result, taskPool, Double::sum);
@@ -34,7 +35,6 @@ public class AxisMatrixAddition extends MatrixOperation implements Addition {
     public Matrix add(Matrix matrix, double scalar, ThreadPoolExecutor taskPool) {
 
         var shape = matrix.shape();
-
         Matrix result = createMatrix(shape[0], shape[1]);
 
         this.axisMatrixOperations.operate(matrix, scalar, result, taskPool, Double::sum);

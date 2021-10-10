@@ -27,8 +27,9 @@ public class SerialMatrixPower extends SerialMatrixOperation
     @Override
     public Matrix power(Matrix leftMatrix, Matrix rightMatrix) {
 
-        int[] shape = leftMatrix.shape();
+        this.assertCorrectDimension(leftMatrix, rightMatrix);
 
+        int[] shape = leftMatrix.shape();
         Matrix result = createMatrix(shape[0], shape[1]);
 
         this.matrixOperations.operate(leftMatrix, rightMatrix, result, Math::pow);
@@ -40,7 +41,6 @@ public class SerialMatrixPower extends SerialMatrixOperation
     public Matrix power(Matrix matrix, double scalar) {
 
         int[] shape = matrix.shape();
-
         Matrix result = createMatrix(shape[0], shape[1]);
 
         this.matrixOperations.operate(matrix, scalar, result, Math::pow);

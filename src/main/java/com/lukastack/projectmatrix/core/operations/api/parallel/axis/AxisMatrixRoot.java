@@ -22,8 +22,9 @@ public class AxisMatrixRoot extends MatrixOperation implements Root {
     @Override
     public Matrix root(Matrix leftMatrix, Matrix rightMatrix, ThreadPoolExecutor taskPool) {
 
-        var shape = leftMatrix.shape();
+        this.assertCorrectDimension(leftMatrix, rightMatrix);
 
+        var shape = leftMatrix.shape();
         Matrix result = createMatrix(shape[0], shape[1]);
 
         this.axisMatrixOperations.operate(leftMatrix, rightMatrix, result, taskPool, NthRoot::nthRoot);
@@ -35,7 +36,6 @@ public class AxisMatrixRoot extends MatrixOperation implements Root {
     public Matrix root(Matrix matrix, double scalar, ThreadPoolExecutor taskPool) {
 
         var shape = matrix.shape();
-
         Matrix result = createMatrix(shape[0], shape[1]);
 
         this.axisMatrixOperations.operate(matrix, scalar, result, taskPool, NthRoot::nthRoot);
