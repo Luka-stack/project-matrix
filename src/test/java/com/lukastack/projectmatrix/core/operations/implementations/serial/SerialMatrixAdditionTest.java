@@ -2,6 +2,8 @@ package com.lukastack.projectmatrix.core.operations.implementations.serial;
 
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
+import com.lukastack.projectmatrix.core.operations.api.serial.SerialMatrixAddition;
+import com.lukastack.projectmatrix.errors.DimensionException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,11 +13,11 @@ import java.text.DecimalFormat;
 class SerialMatrixAdditionTest {
 
     private final DecimalFormat toOneDecimal = new DecimalFormat("0.0");
-    private SerialMatrixAddition additionService;
+    private SerialMatrixAddition additionImpl;
 
     @BeforeEach
     void setUp() {
-        additionService = new SerialMatrixAddition(MatJv.class);
+        additionImpl = new SerialMatrixAddition(MatJv.class);
     }
 
     @Test
@@ -44,7 +46,7 @@ class SerialMatrixAdditionTest {
         matrixSecond.set(2, 1, 1.0);
         matrixSecond.set(2, 2, 1.0);
 
-        var result = additionService.add(matrixFirst, matrixSecond);
+        var result = additionImpl.add(matrixFirst, matrixSecond);
 
         Assertions.assertEquals(12.0, Double.parseDouble(toOneDecimal.format(result.get(0, 0))));
         Assertions.assertEquals(13.0, Double.parseDouble(toOneDecimal.format(result.get(0, 1))));
@@ -55,6 +57,15 @@ class SerialMatrixAdditionTest {
         Assertions.assertEquals(4.0, Double.parseDouble(toOneDecimal.format(result.get(2, 0))));
         Assertions.assertEquals(3.0, Double.parseDouble(toOneDecimal.format(result.get(2, 1))));
         Assertions.assertEquals(1.0, Double.parseDouble(toOneDecimal.format(result.get(2, 2))));
+    }
+
+    @Test
+    void add_WrongDimensions_ThrowsDimensionException() {
+
+        Matrix matrixFirst = new MatJv(2, 2);
+        Matrix matrixSecond = new MatJv(5, 2);
+
+        Assertions.assertThrows(DimensionException.class, () -> additionImpl.add(matrixFirst, matrixSecond));
     }
 
     @Test
@@ -72,7 +83,7 @@ class SerialMatrixAdditionTest {
         matrixFirst.set(2, 1, 8.0);
         matrixFirst.set(2, 2, 3.0);
 
-        var result = additionService.add(matrixFirst, 9);
+        var result = additionImpl.add(matrixFirst, 9);
 
         Assertions.assertEquals(12.0, Double.parseDouble(toOneDecimal.format(result.get(0, 0))));
         Assertions.assertEquals(16.0, Double.parseDouble(toOneDecimal.format(result.get(0, 1))));
@@ -92,7 +103,7 @@ class SerialMatrixAdditionTest {
         matrixFirst.set(0, 0, 1.2);
         matrixFirst.set(0, 1, 2.2);
 
-        var result = additionService.add(matrixFirst, 34);
+        var result = additionImpl.add(matrixFirst, 34);
 
         Assertions.assertTrue(result instanceof MatJv);
     }

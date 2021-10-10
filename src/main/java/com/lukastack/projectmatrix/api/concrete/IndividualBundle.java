@@ -2,7 +2,7 @@ package com.lukastack.projectmatrix.api.concrete;
 
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
-import com.lukastack.projectmatrix.core.operations.implementations.parallel.individual.IndividualMatrixProduct;
+import com.lukastack.projectmatrix.core.operations.api.parallel.individual.IndividualMatrixProduct;
 import com.lukastack.projectmatrix.parameters.threads.ThreadPoolProvider;
 import com.lukastack.projectmatrix.parameters.threads.SingletonThreadPoolProvider;
 

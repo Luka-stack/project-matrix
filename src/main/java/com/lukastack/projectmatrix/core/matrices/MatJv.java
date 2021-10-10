@@ -1,5 +1,8 @@
 package com.lukastack.projectmatrix.core.matrices;
 
+import com.lukastack.projectmatrix.errors.DimensionException;
+import com.lukastack.projectmatrix.errors.DimensionsIndexException;
+
 import java.util.Arrays;
 
 public class MatJv implements Matrix {
@@ -18,12 +21,31 @@ public class MatJv implements Matrix {
 
     @Override
     public void set(int row, int col, double value) {
-        this.data[row][col] = value;
+
+        try {
+            this.data[row][col] = value;
+        }
+        catch (ArrayIndexOutOfBoundsException e) {
+            throw new DimensionsIndexException(
+                    String.format("Index [%d, %d] is out of bounds for size [%d, %d]",
+                            row, col, shape()[0], shape()[1])
+            );
+        }
     }
 
     @Override
     public double get(int row, int col) {
-        return this.data[row][col];
+
+        try {
+            return this.data[row][col];
+        }
+        catch (ArrayIndexOutOfBoundsException e) {
+            throw new DimensionsIndexException(
+                    String.format("Index [%d, %d] is out of bounds for shape (%d, %d)",
+                            row, col, shape()[0], shape()[1])
+            );
+        }
+
     }
 
     @Override
@@ -35,9 +57,9 @@ public class MatJv implements Matrix {
     public Matrix reshape(int rows, int cols) {
 
         if (rows*cols != this.data.length * this.data[0].length) {
-            throw new IllegalArgumentException(
-                    String.format("Cannot reshape MatJv of size %d into shape (%d,%d)",
-                            this.data[0].length*this.data.length, rows, cols));
+            throw new DimensionException(
+                    String.format("Cannot reshape Matrix of size %d into shape (%d, %d)",
+                            this.data[0].length * this.data.length, rows, cols));
         }
 
         var result = new MatJv(rows, cols);
