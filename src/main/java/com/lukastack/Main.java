@@ -2,8 +2,12 @@ package com.lukastack;
 
 import com.lukastack.projectmatrix.core.equations.GenericEquation;
 import com.lukastack.projectmatrix.core.matrices.LiMatJv;
+import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
+import com.lukastack.projectmatrix.core.operations.api.serial.SerialMatrixProduct;
 import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.row.AxisRowOperations;
+import com.lukastack.projectmatrix.core.operations.implementations.serial.SerialMatrixProductOperation;
+import com.lukastack.projectmatrix.core.operations.implementations.serial.SerialProductOperation;
 import com.lukastack.projectmatrix.wrapper.NumJv;
 
 import java.util.ArrayList;
@@ -15,15 +19,10 @@ public class Main {
 
     public static void main(String... args) {
 
-        int index = 3;
-        int maxRowId = 2 + 1;
-        int maxColId = 4 + 1;
+        var m1 = NumJv.uniformMatrix(1000, 1000);
+        var m2 = NumJv.uniformMatrix(1000, 1000);
 
-        int column = index % maxColId;
-        int row = (index / maxColId) % maxRowId;
-
-        System.out.println(row +" "+ column);
-
-        System.out.println(1 % 5);
+        SerialMatrixProduct operation = new SerialMatrixProduct(MatJv.class);
+        operation.matMul(m1, m2);
     }
 }

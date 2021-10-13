@@ -9,6 +9,11 @@ public class GroupRowMatrixProduct implements GroupMatrixProductOperation {
 
     private int maxGroupSize;
 
+    public GroupRowMatrixProduct() {
+
+        this.maxGroupSize = -1;
+    }
+
     public GroupRowMatrixProduct(int maxGroupSize) {
 
         this.maxGroupSize = maxGroupSize;
@@ -19,16 +24,25 @@ public class GroupRowMatrixProduct implements GroupMatrixProductOperation {
                         final ThreadPoolExecutor taskPool) {
 
         int rows = leftMatrix.shape()[0];
-        int step = rows / maxGroupSize;
+        int groupSize;
+
+        if (this.maxGroupSize == -1) {
+            groupSize = (int) Math.pow(Math.E, Math.log10(rows));
+        }
+        else {
+            groupSize = this.maxGroupSize;
+        }
+
+        int step = rows / groupSize;
         int startIndex = 0;
         int endIndex = step;
 
-        for (int group = 0; group < maxGroupSize; ++group) {
+        for (int group = 0; group < groupSize; ++group) {
             taskPool.submit(
                     new ProductTask(result, leftMatrix, rightMatrix, startIndex, endIndex)
             );
             startIndex = endIndex;
-            endIndex = group == maxGroupSize - 2 ? rows : endIndex + step;
+            endIndex = group == groupSize - 2 ? rows : endIndex + step;
         }
     }
 

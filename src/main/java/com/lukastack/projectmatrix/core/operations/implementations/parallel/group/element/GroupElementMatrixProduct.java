@@ -9,6 +9,11 @@ public class GroupElementMatrixProduct implements GroupMatrixProductOperation {
 
     private int maxGroupSize;
 
+    public GroupElementMatrixProduct() {
+
+        this.maxGroupSize = -1;
+    }
+
     public GroupElementMatrixProduct(int maxGroupSize) {
 
         this.maxGroupSize = maxGroupSize;
@@ -19,17 +24,26 @@ public class GroupElementMatrixProduct implements GroupMatrixProductOperation {
 
         var shape = result.shape();
         int elements = shape[0] * shape[1];
-        int step = elements / maxGroupSize;
+        int groupSize;
+
+        if (this.maxGroupSize == -1) {
+            groupSize = (int) Math.pow(Math.E, Math.log10(elements));
+        }
+        else {
+            groupSize = this.maxGroupSize;
+        }
+
+        int step = elements / groupSize;
         int startIndex = 0;
         int endIndex = step;
 
-        for (int group = 0; group < maxGroupSize; ++group) {
+        for (int group = 0; group < groupSize; ++group) {
             taskPool.submit(
                     new ProductTask(result, leftMatrix, rightMatrix, startIndex, endIndex)
             );
 
             startIndex = endIndex;
-            endIndex = group == maxGroupSize - 2 ? elements : endIndex + step;
+            endIndex = group == groupSize - 2 ? elements : endIndex + step;
         }
     }
 

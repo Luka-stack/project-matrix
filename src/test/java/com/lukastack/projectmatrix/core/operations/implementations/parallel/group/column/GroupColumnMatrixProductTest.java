@@ -1,4 +1,4 @@
-package com.lukastack.projectmatrix.core.operations.implementations.parallel.group.element;
+package com.lukastack.projectmatrix.core.operations.implementations.parallel.group.column;
 
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
@@ -11,11 +11,11 @@ import org.junit.jupiter.api.Test;
 import java.text.DecimalFormat;
 import java.util.concurrent.ExecutionException;
 
-class GroupElementMatrixProductTest {
+class GroupColumnMatrixProductTest {
 
     private final DecimalFormat toThreeDecimal = new DecimalFormat("0.000");
     private SingletonThreadPoolProvider poolProvider;
-    private GroupElementMatrixProduct productImpl;
+    private GroupColumnMatrixProduct productImpl;
 
     @BeforeEach
     void setUp() {
@@ -30,7 +30,7 @@ class GroupElementMatrixProductTest {
     @Test
     void matMul_correctEquation_staticGroupSize() throws ExecutionException, InterruptedException {
 
-        productImpl = new GroupElementMatrixProduct(2);
+        productImpl = new GroupColumnMatrixProduct(2);
 
         Matrix matrixFirst = new MatJv(5, 2);
         Matrix matrixSecond = new MatJv(2, 5);
@@ -95,7 +95,7 @@ class GroupElementMatrixProductTest {
     @Test
     void matMul_correctEquation_staticGroupSize_squareMatrix() throws ExecutionException, InterruptedException {
 
-        productImpl = new GroupElementMatrixProduct(2);
+        productImpl = new GroupColumnMatrixProduct(2);
 
         Matrix matrixFirst = new MatJv(3, 3);
         Matrix matrixSecond = new MatJv(3, 3);
@@ -144,7 +144,7 @@ class GroupElementMatrixProductTest {
     @Test
     void matMul_correctEquation_dynamicGroupSize() throws ExecutionException, InterruptedException {
 
-        productImpl = new GroupElementMatrixProduct();
+        productImpl = new GroupColumnMatrixProduct();
 
         Matrix matrixFirst = new MatJv(5, 2);
         Matrix matrixSecond = new MatJv(2, 5);
@@ -209,7 +209,7 @@ class GroupElementMatrixProductTest {
     @Test
     void matMul_correctEquation_dynamicGroupSize_squareMatrix() throws ExecutionException, InterruptedException {
 
-        productImpl = new GroupElementMatrixProduct();
+        productImpl = new GroupColumnMatrixProduct();
 
         Matrix matrixFirst = new MatJv(3, 3);
         Matrix matrixSecond = new MatJv(3, 3);

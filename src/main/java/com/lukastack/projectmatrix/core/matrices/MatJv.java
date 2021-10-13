@@ -27,7 +27,7 @@ public class MatJv implements Matrix {
         }
         catch (ArrayIndexOutOfBoundsException e) {
             throw new DimensionsIndexException(
-                    String.format("Index [%d, %d] is out of bounds for size [%d, %d]",
+                    String.format("Index [%d, %d] is out of bounds for size (%d, %d)",
                             row, col, shape()[0], shape()[1])
             );
         }

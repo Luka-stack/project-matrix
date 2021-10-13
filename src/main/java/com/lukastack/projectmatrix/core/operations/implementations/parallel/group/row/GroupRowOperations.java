@@ -10,6 +10,11 @@ public class GroupRowOperations implements GroupMatrixOperations {
 
     private int maxGroupSize;
 
+    public GroupRowOperations() {
+
+        maxGroupSize = -1;
+    }
+
     public GroupRowOperations(int maxGroupSize) {
 
         this.maxGroupSize = maxGroupSize;
@@ -20,17 +25,26 @@ public class GroupRowOperations implements GroupMatrixOperations {
                         final ThreadPoolExecutor taskPool, final GenericEquation genericEquation) {
 
         int rows = leftMatrix.shape()[0];
-        int step = rows / maxGroupSize;
+        int groupSize;
+
+        if (this.maxGroupSize == -1) {
+            groupSize = (int) Math.pow(Math.E, Math.log10(rows));
+        }
+        else {
+            groupSize = this.maxGroupSize;
+        }
+
+        int step = rows / groupSize;
         int startIndex = 0;
         int endIndex = step;
 
-        for (int group = 0; group < maxGroupSize; ++group) {
+        for (int group = 0; group < groupSize; ++group) {
             taskPool.submit(
                     new MatrixWithMatrixTask(resultMatrix, leftMatrix, rightMatrix, genericEquation,
                             startIndex, endIndex)
             );
             startIndex = endIndex;
-            endIndex = group == maxGroupSize - 2 ? rows : endIndex + step;
+            endIndex = group == groupSize - 2 ? rows : endIndex + step;
         }
     }
 
@@ -39,17 +53,26 @@ public class GroupRowOperations implements GroupMatrixOperations {
                         final ThreadPoolExecutor taskPool, final GenericEquation genericEquation) {
 
         int rows = matrix.shape()[0];
-        int step = rows / maxGroupSize;
+        int groupSize;
+
+        if (this.maxGroupSize == -1) {
+            groupSize = (int) Math.pow(Math.E, Math.log10(rows));
+        }
+        else {
+            groupSize = this.maxGroupSize;
+        }
+
+        int step = rows / groupSize;
         int startIndex = 0;
         int endIndex = step;
 
-        for (int group = 0; group < maxGroupSize; ++group) {
+        for (int group = 0; group < groupSize; ++group) {
             taskPool.submit(
                     new MatrixWithScalarTask(resultMatrix, matrix, scalar, genericEquation,
                             startIndex, endIndex)
             );
             startIndex = endIndex;
-            endIndex = group == maxGroupSize - 2 ? rows : endIndex + step;
+            endIndex = group == groupSize - 2 ? rows : endIndex + step;
         }
     }
 

@@ -9,6 +9,11 @@ public class GroupColumnMatrixProduct implements GroupMatrixProductOperation {
 
     private int maxGroupSize;
 
+    public GroupColumnMatrixProduct() {
+
+        this.maxGroupSize = -1;
+    }
+
     public GroupColumnMatrixProduct(int maxGroupSize) {
 
         this.maxGroupSize = maxGroupSize;
@@ -17,17 +22,26 @@ public class GroupColumnMatrixProduct implements GroupMatrixProductOperation {
     @Override
     public void operate(Matrix leftMatrix, Matrix rightMatrix, Matrix result, ThreadPoolExecutor taskPool) {
 
-        int columns = leftMatrix.shape()[1];
-        int step = columns / maxGroupSize;
+        int columns = result.shape()[1];
+        int groupSize;
+
+        if (this.maxGroupSize == -1) {
+            groupSize = (int) Math.pow(Math.E, Math.log10(columns));
+        }
+        else {
+            groupSize = this.maxGroupSize;
+        }
+
+        int step = columns / groupSize;
         int startIndex = 0;
         int endIndex = step;
 
-        for (int group = 0; group < maxGroupSize; ++group) {
+        for (int group = 0; group < groupSize; ++group) {
             taskPool.submit(
                     new ProductTask(result, leftMatrix, rightMatrix, startIndex, endIndex)
             );
             startIndex = endIndex;
-            endIndex = group == maxGroupSize - 2 ? columns : endIndex + step;
+            endIndex = group == groupSize - 2 ? columns : endIndex + step;
         }
     }
 
@@ -41,7 +55,7 @@ public class GroupColumnMatrixProduct implements GroupMatrixProductOperation {
         private final int endIndex;
 
         public ProductTask(final Matrix result, final Matrix matLeft, final Matrix matRight,
-                                       int startIndex, int endIndex) {
+                           int startIndex, int endIndex) {
 
             this.result = result;
             this.matLeft = matLeft;
@@ -60,8 +74,8 @@ public class GroupColumnMatrixProduct implements GroupMatrixProductOperation {
                 for (int leftMovingRow = 0; leftMovingRow < matLeft.shape()[0]; ++leftMovingRow) {
 
                     movingResult = 0;
-                    for (int rightMovingRow = 0; rightMovingRow < matLeft.shape()[1]; ++rightMovingRow) {
-                        movingResult += matLeft.get(rightMovingRow, startIndex) * matRight.get(rightMovingRow, leftMovingRow);
+                    for (int rightMovingRow = 0; rightMovingRow < matRight.shape()[0]; ++rightMovingRow) {
+                        movingResult += matLeft.get(leftMovingRow, rightMovingRow) * matRight.get(rightMovingRow, startIndex);
                     }
 
                     result.set(leftMovingRow, startIndex, movingResult);
