@@ -10,6 +10,9 @@ import org.junit.jupiter.api.Test;
 
 import java.text.DecimalFormat;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 class IndividualOperationsTest {
 
@@ -160,6 +163,7 @@ class IndividualOperationsTest {
     }
 
     private void correctEquation_Matrix_v_Matrix_squareMatrix_test() throws InterruptedException, ExecutionException {
+
         Matrix matrixFirst = new MatJv(3, 3);
         Matrix matrixSecond = new MatJv(3, 3);
         Matrix result = new MatJv(3, 3);
@@ -184,7 +188,13 @@ class IndividualOperationsTest {
         matrixSecond.set(2, 1, 1.0);
         matrixSecond.set(2, 2, 1.0);
 
+
+//        var pool = (ThreadPoolExecutor) Executors.newFixedThreadPool(5);
         operations.operate(matrixFirst, matrixSecond, result, poolProvider.provideThreadPool(), Double::sum);
+//        pool.shutdown();
+//        while (!pool.awaitTermination(10, TimeUnit.SECONDS)) {
+//            //log.info("Awaiting completion of threads.");
+//        }
         poolProvider.waitForCompletion();
 
         Assertions.assertEquals(12.0, Double.parseDouble(toOneDecimal.format(result.get(0, 0))));

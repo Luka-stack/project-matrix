@@ -1,17 +1,21 @@
 package com.lukastack.projectmatrix.threadpools;
 
-import java.util.LinkedList;
-import java.util.List;
+import com.lukastack.projectmatrix.parameters.threads.CapacityQueue;
+
 import java.util.concurrent.*;
 
 public class ThreadPoolExecutorCachedFutures extends ThreadPoolExecutor {
 
-    private List<Future<?>> futures = new LinkedList<>();
+    private static final int TASK_CAPACITY = 1000000;
+    private CapacityQueue<Future<?>> futures;
 
-    public ThreadPoolExecutorCachedFutures(int corePoolSize, int maximumPoolSize,
-                                           long keepAliveTime, TimeUnit unit,
-                                           BlockingQueue<Runnable> workQueue) {
-        super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue);
+    public ThreadPoolExecutorCachedFutures(int corePoolSize, int maximumPoolSize, long keepAliveTime,
+                                           TimeUnit unit, BlockingQueue<Runnable> workQueue) {
+
+        super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue,
+                new ThreadPoolExecutor.CallerRunsPolicy());
+
+        futures = new CapacityQueue<>(TASK_CAPACITY);
     }
 
     @Override
@@ -30,11 +34,11 @@ public class ThreadPoolExecutorCachedFutures extends ThreadPoolExecutor {
         return futureTask;
     }
 
-    public List<Future<?>> getFutures() {
+    public CapacityQueue<Future<?>> getFutures() {
         return futures;
     }
 
     public void clearFuturesCache() {
-        futures = new LinkedList<>();
+        futures.clear();
     }
 }

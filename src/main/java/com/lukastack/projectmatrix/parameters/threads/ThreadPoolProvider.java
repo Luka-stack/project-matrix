@@ -1,6 +1,5 @@
 package com.lukastack.projectmatrix.parameters.threads;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.*;
 
 public abstract class ThreadPoolProvider implements IThreadPoolProvider, ThreadPoolParameters {
@@ -9,8 +8,6 @@ public abstract class ThreadPoolProvider implements IThreadPoolProvider, ThreadP
     protected TimeUnit keepAliveUnit;
     protected int corePoolSize;
     protected int maximumPoolSize;
-    protected ThreadPoolType threadPoolType;
-    protected Class<? extends BlockingQueue<Runnable>> workQueueClass;
 
     @Override
     public void setKeepAlive(long time, TimeUnit unit) {
@@ -44,11 +41,6 @@ public abstract class ThreadPoolProvider implements IThreadPoolProvider, ThreadP
     }
 
     @Override
-    public ThreadPoolType getThreadPoolType() {
-        return threadPoolType;
-    }
-
-    @Override
     public TimeUnit getTimeUnit() {
         return keepAliveUnit;
     }
@@ -60,18 +52,6 @@ public abstract class ThreadPoolProvider implements IThreadPoolProvider, ThreadP
 
     protected BlockingQueue<Runnable> newWorkQueueInstance() {
 
-        if (this.workQueueClass != null) {
-
-            try {
-                return workQueueClass.getDeclaredConstructor().newInstance();
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                e.printStackTrace();
-                throw new RuntimeException("ThreadPoolProvider - Could not create a new workQueue instance");
-            }
-        }
-
-        return this.threadPoolType == ThreadPoolType.FIXED ?
-                new LinkedBlockingQueue<>() :
-                new SynchronousQueue<>();
+        return new ArrayBlockingQueue<>(1000000);
     }
 }
