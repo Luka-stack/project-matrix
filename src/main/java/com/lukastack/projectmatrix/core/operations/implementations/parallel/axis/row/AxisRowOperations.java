@@ -55,7 +55,7 @@ public class AxisRowOperations implements AxisMatrixOperations {
         @Override
         public void run() {
 
-            for (int column = 0; column < matLeft.shape()[0]; ++column) {
+            for (int column = 0; column < matLeft.shape()[1]; ++column) {
 
                 result.set(row, column,
                         equation.operate(matLeft.get(row, column), matRight.get(row, column))
@@ -87,7 +87,7 @@ public class AxisRowOperations implements AxisMatrixOperations {
         @Override
         public void run() {
 
-            for (int column = 0; column < matrix.shape()[0]; ++column) {
+            for (int column = 0; column < matrix.shape()[1]; ++column) {
 
                 result.set(row, column,
                         equation.operate(matrix.get(row, column), scalar)

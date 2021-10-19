@@ -2,7 +2,6 @@ package com.lukastack.projectmatrix.parameters.threads;
 
 import com.lukastack.projectmatrix.threadpools.ThreadPoolExecutorCachedFutures;
 
-import javax.management.InvalidAttributeValueException;
 import java.util.concurrent.*;
 
 public class SingletonThreadPoolProvider extends ThreadPoolProvider {
@@ -11,36 +10,18 @@ public class SingletonThreadPoolProvider extends ThreadPoolProvider {
 
     public SingletonThreadPoolProvider() {
 
-        this.corePoolSize = 3;
-        this.maximumPoolSize = 3;
+        this.corePoolSize = Runtime.getRuntime().availableProcessors();
+        this.maximumPoolSize = Runtime.getRuntime().availableProcessors();
         this.keepAlive = 0L;
         this.keepAliveUnit = TimeUnit.SECONDS;
-        this.threadPoolType = ThreadPoolType.FIXED;
     }
 
-    public SingletonThreadPoolProvider(int corePoolSize, int maximumPoolSize, long keepAlive,
-                                TimeUnit keepAliveUnit, ThreadPoolType threadPoolType) throws InvalidAttributeValueException {
-
-        if (threadPoolType == ThreadPoolType.CUSTOM) {
-            throw new InvalidAttributeValueException("Cannot create provider with Custom queue without queue");
-        }
+    public SingletonThreadPoolProvider(int corePoolSize, int maximumPoolSize, long keepAlive, TimeUnit keepAliveUnit) {
 
         this.corePoolSize = corePoolSize;
         this.maximumPoolSize = maximumPoolSize;
         this.keepAlive = keepAlive;
         this.keepAliveUnit = keepAliveUnit;
-        this.threadPoolType = threadPoolType;
-    }
-
-    public <E extends BlockingQueue<Runnable>> SingletonThreadPoolProvider(int corePoolSize, int maximumPoolSize, long keepAlive,
-                                       TimeUnit keepAliveUnit, Class<E> workQueueClass) {
-
-        this.corePoolSize = corePoolSize;
-        this.maximumPoolSize = maximumPoolSize;
-        this.keepAlive = keepAlive;
-        this.keepAliveUnit = keepAliveUnit;
-        this.threadPoolType = ThreadPoolType.CUSTOM;
-        this.workQueueClass = workQueueClass;
     }
 
     @Override
@@ -49,8 +30,7 @@ public class SingletonThreadPoolProvider extends ThreadPoolProvider {
         if (this.threadPool == null) {
 
             this.threadPool = new ThreadPoolExecutorCachedFutures(this.corePoolSize, this.maximumPoolSize,
-                    this.keepAlive, this.keepAliveUnit,
-                    newWorkQueueInstance());
+                    this.keepAlive, this.keepAliveUnit, newWorkQueueInstance());
         }
 
         return this.threadPool;

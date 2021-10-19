@@ -16,8 +16,6 @@ public interface ThreadPoolParameters {
 
     int getMaximumPoolSize();
 
-    ThreadPoolType getThreadPoolType();
-
     TimeUnit getTimeUnit();
 
     void printSettings();

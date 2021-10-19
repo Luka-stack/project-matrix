@@ -1,15 +1,11 @@
 package com.lukastack.projectmatrix.parameters;
 
 import com.lukastack.projectmatrix.parameters.threads.SingletonThreadPoolProvider;
-import com.lukastack.projectmatrix.parameters.threads.ThreadPoolType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.management.InvalidAttributeValueException;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 class SingletonThreadPoolProviderTest {
@@ -19,54 +15,26 @@ class SingletonThreadPoolProviderTest {
     private int maxSize;
     private long keepAlive;
     private TimeUnit timeUnit;
-    private ThreadPoolType poolType;
 
     @BeforeEach
-    void setUp() throws InvalidAttributeValueException {
+    void setUp() {
         this.coreSize = 0;
         this.maxSize = 10;
         this.keepAlive = 10L;
         this.timeUnit = TimeUnit.MILLISECONDS;
-        this.poolType = ThreadPoolType.FIXED;
 
-        threadPoolProvider = new SingletonThreadPoolProvider(coreSize, maxSize, keepAlive, timeUnit, poolType);
+        threadPoolProvider = new SingletonThreadPoolProvider(coreSize, maxSize, keepAlive, timeUnit);
     }
 
     @Test
-    void constructor_createsProviderWithDefaultQueue() throws InvalidAttributeValueException {
+    void constructor_createsProvider() {
 
-        var provider = new SingletonThreadPoolProvider(coreSize, maxSize, keepAlive, timeUnit, ThreadPoolType.FIXED);
+        var provider = new SingletonThreadPoolProvider(coreSize, maxSize, keepAlive, timeUnit);
 
         Assertions.assertEquals(coreSize, provider.getCorePoolSize());
         Assertions.assertEquals(maxSize, provider.getMaximumPoolSize());
         Assertions.assertEquals(keepAlive, provider.getKeepAlive());
         Assertions.assertEquals(timeUnit, provider.getTimeUnit());
-        Assertions.assertEquals(poolType, provider.getThreadPoolType());
-    }
-
-    @Test
-    void constructor_cannotCreateProviderWithCustomQueueWithoutProvidedQueue_ThrowsInvalidAttributeValueException() {
-
-        this.poolType = ThreadPoolType.CUSTOM;
-
-        Assertions.assertThrows(InvalidAttributeValueException.class,
-                () -> new SingletonThreadPoolProvider(coreSize, maxSize, keepAlive, timeUnit, poolType));
-    }
-
-    @Test
-    @SuppressWarnings("unchecked")
-    void constructor_createsProviderWithCustomQueue() {
-
-        this.poolType = ThreadPoolType.CUSTOM;
-
-        var provider = new SingletonThreadPoolProvider(coreSize, maxSize, keepAlive, timeUnit,
-                LinkedBlockingQueue.class);
-
-        Assertions.assertEquals(coreSize, provider.getCorePoolSize());
-        Assertions.assertEquals(maxSize, provider.getMaximumPoolSize());
-        Assertions.assertEquals(keepAlive, provider.getKeepAlive());
-        Assertions.assertEquals(timeUnit, provider.getTimeUnit());
-        Assertions.assertEquals(poolType, provider.getThreadPoolType());
     }
 
     @Test
@@ -135,38 +103,5 @@ class SingletonThreadPoolProviderTest {
         Assertions.assertTrue(duration > 2000);
 
         threadPoolProvider.close();
-    }
-
-    @Test
-    void providerWithCustomWorkingQueueWorkingProperly() throws ExecutionException, InterruptedException {
-        this.poolType = ThreadPoolType.CUSTOM;
-
-        var provider = new SingletonThreadPoolProvider(coreSize, maxSize, keepAlive, timeUnit,
-                LinkedBlockingQueue.class);
-        var threadPool = provider.provideThreadPool();
-
-        threadPool.submit(() -> {
-            System.out.println("First Thread Starts");
-            Thread.sleep(1000);
-            System.out.println("First Thread Ends");
-            return null;
-        });
-
-        threadPool.submit(() -> {
-            System.out.println("First Thread Starts");
-            Thread.sleep(1000);
-            System.out.println("First Thread Ends");
-            return null;
-        });
-
-        long startTime = System.nanoTime();
-        provider.waitForCompletion();
-        long endTime = System.nanoTime();
-
-        long duration = (endTime - startTime) / 1000000;
-
-        Assertions.assertTrue(duration > 2000);
-
-        provider.close();
     }
 }
