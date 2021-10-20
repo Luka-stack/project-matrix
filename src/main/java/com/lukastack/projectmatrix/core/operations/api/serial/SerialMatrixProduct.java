@@ -3,24 +3,23 @@ package com.lukastack.projectmatrix.core.operations.api.serial;
 import com.lukastack.projectmatrix.core.operations.api.parallel.MatrixOperation;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
 import com.lukastack.projectmatrix.core.operations.definitions.serial.SerialProduct;
-import com.lukastack.projectmatrix.core.operations.implementations.serial.SerialMatrixProductOperation;
-import com.lukastack.projectmatrix.core.operations.implementations.serial.SerialProductOperation;
+import com.lukastack.projectmatrix.core.operations.implementations.serial.SerialDefaultMatrixProduct;
 import com.lukastack.projectmatrix.errors.DimensionException;
 
 public class SerialMatrixProduct extends MatrixOperation
         implements SerialProduct {
 
-    private final SerialMatrixProductOperation matrixOperation;
+    private final com.lukastack.projectmatrix.core.operations.implementations.serial.SerialMatrixProduct matrixOperation;
 
     public SerialMatrixProduct(final Class<? extends Matrix> clazz) {
 
         super(clazz);
 
-        this.matrixOperation = new SerialProductOperation();
+        this.matrixOperation = new SerialDefaultMatrixProduct();
     }
 
     public SerialMatrixProduct(final Class<? extends Matrix> clazz,
-                               final SerialMatrixProductOperation matrixOperation) {
+                               final com.lukastack.projectmatrix.core.operations.implementations.serial.SerialMatrixProduct matrixOperation) {
 
         super(clazz);
 

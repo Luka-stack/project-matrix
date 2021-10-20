@@ -3,24 +3,24 @@ package com.lukastack.projectmatrix.core.operations.api.parallel.individual;
 import com.lukastack.projectmatrix.core.operations.api.parallel.MatrixOperation;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
 import com.lukastack.projectmatrix.core.operations.definitions.parallel.Division;
-import com.lukastack.projectmatrix.core.operations.implementations.parallel.individual.IndividualMatrixOperations;
-import com.lukastack.projectmatrix.core.operations.implementations.parallel.individual.IndividualOperations;
+import com.lukastack.projectmatrix.core.operations.implementations.parallel.individual.IndividualMatrixOperation;
+import com.lukastack.projectmatrix.core.operations.implementations.parallel.individual.IndividualDefaultOperation;
 
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class IndividualMatrixDivision extends MatrixOperation implements Division {
 
-    private final IndividualMatrixOperations matrixOperations;
+    private final IndividualMatrixOperation matrixOperations;
 
     public IndividualMatrixDivision(Class<? extends Matrix> clazz) {
 
         super(clazz);
 
-        this.matrixOperations = new IndividualOperations();
+        this.matrixOperations = new IndividualDefaultOperation();
     }
 
     public IndividualMatrixDivision(Class<? extends Matrix> clazz,
-                                    final IndividualMatrixOperations matrixOperations) {
+                                    final IndividualMatrixOperation matrixOperations) {
 
         super(clazz);
 

@@ -2,8 +2,6 @@ package com.lukastack.projectmatrix.core.operations.api.serial;
 
 import com.lukastack.projectmatrix.core.matrices.CreateMatrix;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
-import com.lukastack.projectmatrix.core.operations.implementations.serial.SerialMatrixOperations;
-import com.lukastack.projectmatrix.core.operations.implementations.serial.SerialOperations;
 import com.lukastack.projectmatrix.errors.DimensionException;
 
 public abstract class SerialMatrixOperation implements CreateMatrix {

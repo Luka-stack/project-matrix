@@ -2,22 +2,22 @@ package com.lukastack.projectmatrix.core.operations.api.serial;
 
 import com.lukastack.projectmatrix.core.matrices.Matrix;
 import com.lukastack.projectmatrix.core.operations.definitions.serial.SerialDivision;
-import com.lukastack.projectmatrix.core.operations.implementations.serial.SerialMatrixOperations;
-import com.lukastack.projectmatrix.core.operations.implementations.serial.SerialOperations;
+import com.lukastack.projectmatrix.core.operations.implementations.serial.SerialMatrixOperation;
+import com.lukastack.projectmatrix.core.operations.implementations.serial.SerialDefaultOperation;
 
-public class SerialMatrixDivision extends SerialMatrixOperation
+public class SerialMatrixDivision extends com.lukastack.projectmatrix.core.operations.api.serial.SerialMatrixOperation
         implements SerialDivision {
 
-    private final SerialMatrixOperations matrixOperations;
+    private final SerialMatrixOperation matrixOperations;
 
     public SerialMatrixDivision(final Class<? extends Matrix> clazz) {
         super(clazz);
 
-        this.matrixOperations = new SerialOperations();
+        this.matrixOperations = new SerialDefaultOperation();
     }
 
     public SerialMatrixDivision(final Class<? extends Matrix> clazz,
-                                final SerialMatrixOperations matrixOperations) {
+                                final SerialMatrixOperation matrixOperations) {
 
         super(clazz);
 

@@ -15,7 +15,7 @@ class GroupRowOperationsTest {
 
     private final DecimalFormat toOneDecimal = new DecimalFormat("0.0");
     private SingletonThreadPoolProvider poolProvider;
-    private GroupRowOperations operations;
+    private GroupRowOperation operations;
 
     @BeforeEach
     void setUp() {
@@ -30,7 +30,7 @@ class GroupRowOperationsTest {
     @Test
     void operate_correctEquation_Matrix_v_Matrix_staticGroupSize_squareMatrix() throws ExecutionException, InterruptedException {
 
-        operations = new GroupRowOperations(2);
+        operations = new GroupRowOperation(2);
 
         correctEquation_Matrix_v_Matrix_squareMatrix_test();
     }
@@ -38,21 +38,21 @@ class GroupRowOperationsTest {
     @Test
     void operate_correctEquations_Matrix_v_Matrix_staticGroupSize_longerRow() throws ExecutionException, InterruptedException {
 
-        operations = new GroupRowOperations(2);
+        operations = new GroupRowOperation(2);
         correctEquation_Matrix_v_Matrix_longerRow_test();
     }
 
     @Test
     void operate_correctEquations_Matrix_v_Matrix_staticGroupSize_longerColumn() throws ExecutionException, InterruptedException {
 
-        operations = new GroupRowOperations(2);
+        operations = new GroupRowOperation(2);
         correctEquation_Matrix_v_Matrix_longerColumn_test();
     }
 
     @Test
     void operate_correctEquation_Matrix_v_Scalar_staticGroupSize_squareMatrix() throws ExecutionException, InterruptedException {
 
-        operations = new GroupRowOperations(2);
+        operations = new GroupRowOperation(2);
 
         correctEquation_Matrix_v_Scalar_squareMatrix_test();
     }
@@ -60,21 +60,21 @@ class GroupRowOperationsTest {
     @Test
     void operate_correctEquations_Matrix_v_Scalar_staticGroupSize_longerRow() throws ExecutionException, InterruptedException {
 
-        operations = new GroupRowOperations(2);
+        operations = new GroupRowOperation(2);
         correctEquation_Matrix_v_Scalar_longerRow_test();
     }
 
     @Test
     void operate_correctEquations_Matrix_v_Scalar_staticGroupSize_longerColumn() throws ExecutionException, InterruptedException {
 
-        operations = new GroupRowOperations(2);
+        operations = new GroupRowOperation(2);
         correctEquation_Matrix_v_Scalar_longerColumn_test();
     }
 
     @Test
     void operate_correctEquation_Matrix_v_Matrix_dynamicGroupSize_squareMatrix() throws ExecutionException, InterruptedException {
 
-        operations = new GroupRowOperations();
+        operations = new GroupRowOperation();
 
         correctEquation_Matrix_v_Matrix_squareMatrix_test();
     }
@@ -82,21 +82,21 @@ class GroupRowOperationsTest {
     @Test
     void operate_correctEquations_Matrix_v_Matrix_dynamicGroupSize_longerRow() throws ExecutionException, InterruptedException {
 
-        operations = new GroupRowOperations();
+        operations = new GroupRowOperation();
         correctEquation_Matrix_v_Matrix_longerRow_test();
     }
 
     @Test
     void operate_correctEquations_Matrix_v_Matrix_dynamicGroupSize_longerColumn() throws ExecutionException, InterruptedException {
 
-        operations = new GroupRowOperations();
+        operations = new GroupRowOperation();
         correctEquation_Matrix_v_Matrix_longerColumn_test();
     }
 
     @Test
     void operate_correctEquation_Matrix_v_Scalar_dynamicGroupSize_squareMatrix() throws ExecutionException, InterruptedException {
 
-        operations = new GroupRowOperations();
+        operations = new GroupRowOperation();
 
         correctEquation_Matrix_v_Scalar_squareMatrix_test();
     }
@@ -104,14 +104,14 @@ class GroupRowOperationsTest {
     @Test
     void operate_correctEquations_Matrix_v_Scalar_dynamicGroupSize_longerRow() throws ExecutionException, InterruptedException {
 
-        operations = new GroupRowOperations();
+        operations = new GroupRowOperation();
         correctEquation_Matrix_v_Scalar_longerRow_test();
     }
 
     @Test
     void operate_correctEquations_Matrix_v_Scalar_dynamicGroupSize_longerColumn() throws ExecutionException, InterruptedException {
 
-        operations = new GroupRowOperations();
+        operations = new GroupRowOperation();
         correctEquation_Matrix_v_Scalar_longerColumn_test();
     }
 

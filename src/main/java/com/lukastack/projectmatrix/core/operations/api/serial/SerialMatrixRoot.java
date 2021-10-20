@@ -2,23 +2,23 @@ package com.lukastack.projectmatrix.core.operations.api.serial;
 
 import com.lukastack.projectmatrix.core.matrices.Matrix;
 import com.lukastack.projectmatrix.core.operations.definitions.serial.SerialRoot;
-import com.lukastack.projectmatrix.core.operations.implementations.serial.SerialMatrixOperations;
-import com.lukastack.projectmatrix.core.operations.implementations.serial.SerialOperations;
+import com.lukastack.projectmatrix.core.operations.implementations.serial.SerialMatrixOperation;
+import com.lukastack.projectmatrix.core.operations.implementations.serial.SerialDefaultOperation;
 import com.lukastack.projectmatrix.utils.NthRoot;
 
-public class SerialMatrixRoot extends SerialMatrixOperation
+public class SerialMatrixRoot extends com.lukastack.projectmatrix.core.operations.api.serial.SerialMatrixOperation
         implements SerialRoot {
 
-    private final SerialMatrixOperations matrixOperations;
+    private final SerialMatrixOperation matrixOperations;
 
     public SerialMatrixRoot(final Class<? extends Matrix> clazz) {
         super(clazz);
 
-        this.matrixOperations = new SerialOperations();
+        this.matrixOperations = new SerialDefaultOperation();
     }
 
     public SerialMatrixRoot(final Class<? extends Matrix> clazz,
-                             final SerialMatrixOperations matrixOperations) {
+                             final SerialMatrixOperation matrixOperations) {
 
         super(clazz);
 

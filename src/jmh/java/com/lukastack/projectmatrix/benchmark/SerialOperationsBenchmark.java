@@ -2,10 +2,9 @@ package com.lukastack.projectmatrix.benchmark;
 
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
-import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.row.AxisRowOperations;
-import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.row.AxisRowProduct;
-import com.lukastack.projectmatrix.core.operations.implementations.serial.SerialOperations;
-import com.lukastack.projectmatrix.core.operations.implementations.serial.SerialProductOperation;
+import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.row.AxisRowOperation;
+import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.row.AxisRowMatrixProduct;
+import com.lukastack.projectmatrix.core.operations.implementations.serial.SerialDefaultOperation;
 import com.lukastack.projectmatrix.parameters.threads.SingletonThreadPoolProvider;
 import com.lukastack.projectmatrix.wrapper.NumJv;
 import org.openjdk.jmh.annotations.*;
@@ -34,9 +33,9 @@ public class SerialOperationsBenchmark {
     private Matrix rightMatrixOp;
     private Matrix resultMatrixOp;
 
-    private AxisRowProduct axisRowProduct;
-    private AxisRowOperations axisRowOperations;
-    private SerialOperations serialOperations;
+    private AxisRowMatrixProduct axisRowProduct;
+    private AxisRowOperation axisRowOperations;
+    private SerialDefaultOperation serialOperations;
     private SingletonThreadPoolProvider poolExecutor;
 
     @Setup
@@ -46,10 +45,10 @@ public class SerialOperationsBenchmark {
         rightMatrix = NumJv.uniformMatrix(N, N);
         resultMatrix = new MatJv(N, N);
 
-        serialOperations = new SerialOperations();
+        serialOperations = new SerialDefaultOperation();
 
-        axisRowProduct = new AxisRowProduct();
-        axisRowOperations = new AxisRowOperations();
+        axisRowProduct = new AxisRowMatrixProduct();
+        axisRowOperations = new AxisRowOperation();
         poolExecutor = new SingletonThreadPoolProvider(16, 16, 500L, TimeUnit.MILLISECONDS);
 
         leftMatrixOp = NumJv.uniformMatrix(B, B);

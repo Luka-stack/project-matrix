@@ -3,8 +3,7 @@ package com.lukastack.projectmatrix.core.operations.api.parallel.individual;
 import com.lukastack.projectmatrix.core.operations.api.parallel.MatrixOperation;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
 import com.lukastack.projectmatrix.core.operations.definitions.parallel.MatrixProduct;
-import com.lukastack.projectmatrix.core.operations.implementations.parallel.individual.IndividualMatrixProductOperation;
-import com.lukastack.projectmatrix.core.operations.implementations.parallel.individual.IndividualProduct;
+import com.lukastack.projectmatrix.core.operations.implementations.parallel.individual.IndividualDefaultMatrixProduct;
 import com.lukastack.projectmatrix.errors.DimensionException;
 
 import java.util.concurrent.*;
@@ -12,10 +11,10 @@ import java.util.concurrent.*;
 public final class IndividualMatrixProduct extends MatrixOperation
         implements MatrixProduct {
 
-    private final IndividualMatrixProductOperation matrixOperation;
+    private final com.lukastack.projectmatrix.core.operations.implementations.parallel.individual.IndividualMatrixProduct matrixOperation;
 
     public IndividualMatrixProduct(Class<? extends Matrix> clazz,
-                                   final IndividualMatrixProductOperation matrixOperation) {
+                                   final com.lukastack.projectmatrix.core.operations.implementations.parallel.individual.IndividualMatrixProduct matrixOperation) {
 
         super(clazz);
 
@@ -26,7 +25,7 @@ public final class IndividualMatrixProduct extends MatrixOperation
 
         super(clazz);
 
-        this.matrixOperation = new IndividualProduct();
+        this.matrixOperation = new IndividualDefaultMatrixProduct();
     }
 
     // TODO needs throw error if rows/cols not correct

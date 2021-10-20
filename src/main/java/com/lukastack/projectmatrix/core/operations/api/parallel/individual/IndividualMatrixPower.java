@@ -3,23 +3,23 @@ package com.lukastack.projectmatrix.core.operations.api.parallel.individual;
 import com.lukastack.projectmatrix.core.operations.api.parallel.MatrixOperation;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
 import com.lukastack.projectmatrix.core.operations.definitions.parallel.Power;
-import com.lukastack.projectmatrix.core.operations.implementations.parallel.individual.IndividualMatrixOperations;
-import com.lukastack.projectmatrix.core.operations.implementations.parallel.individual.IndividualOperations;
+import com.lukastack.projectmatrix.core.operations.implementations.parallel.individual.IndividualMatrixOperation;
+import com.lukastack.projectmatrix.core.operations.implementations.parallel.individual.IndividualDefaultOperation;
 
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class IndividualMatrixPower extends MatrixOperation implements Power {
 
-    private final IndividualMatrixOperations matrixOperations;
+    private final IndividualMatrixOperation matrixOperations;
 
     public IndividualMatrixPower(Class<? extends Matrix> clazz) {
 
         super(clazz);
 
-        this.matrixOperations = new IndividualOperations();
+        this.matrixOperations = new IndividualDefaultOperation();
     }
 
-    public IndividualMatrixPower(Class<? extends Matrix> clazz, final IndividualMatrixOperations matrixOperations) {
+    public IndividualMatrixPower(Class<? extends Matrix> clazz, final IndividualMatrixOperation matrixOperations) {
 
         super(clazz);
 

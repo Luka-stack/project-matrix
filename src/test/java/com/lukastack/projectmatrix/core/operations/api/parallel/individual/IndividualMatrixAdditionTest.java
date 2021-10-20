@@ -2,9 +2,6 @@ package com.lukastack.projectmatrix.core.operations.api.parallel.individual;
 
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
-import com.lukastack.projectmatrix.core.operations.api.parallel.axis.AxisMatrixAddition;
-import com.lukastack.projectmatrix.core.operations.api.parallel.individual.IndividualMatrixAddition;
-import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.row.AxisRowOperations;
 import com.lukastack.projectmatrix.errors.DimensionException;
 import com.lukastack.projectmatrix.parameters.threads.SingletonThreadPoolProvider;
 import org.junit.jupiter.api.Assertions;

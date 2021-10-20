@@ -3,17 +3,16 @@ package com.lukastack.projectmatrix.core.operations.api.parallel.group;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
 import com.lukastack.projectmatrix.core.operations.api.parallel.MatrixOperation;
 import com.lukastack.projectmatrix.core.operations.definitions.parallel.MatrixProduct;
-import com.lukastack.projectmatrix.core.operations.implementations.parallel.group.GroupMatrixProductOperation;
 import com.lukastack.projectmatrix.errors.DimensionException;
 
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class GroupMatrixProduct extends MatrixOperation implements MatrixProduct {
 
-    private final GroupMatrixProductOperation groupMatrixProductOperation;
+    private final com.lukastack.projectmatrix.core.operations.implementations.parallel.group.GroupMatrixProduct groupMatrixProductOperation;
 
     public GroupMatrixProduct(Class<? extends Matrix> clazz,
-                             final GroupMatrixProductOperation groupMatrixProductOperation) {
+                             final com.lukastack.projectmatrix.core.operations.implementations.parallel.group.GroupMatrixProduct groupMatrixProductOperation) {
 
         super(clazz);
 

@@ -15,7 +15,7 @@ class AxisColumnProductTest {
 
     private final DecimalFormat toThreeDecimal = new DecimalFormat("0.000");
     private SingletonThreadPoolProvider poolProvider;
-    private AxisColumnProduct productImpl;
+    private AxisColumnMatrixProduct productImpl;
 
     @BeforeEach
     void setUp() {
@@ -30,7 +30,7 @@ class AxisColumnProductTest {
     @Test
     void matMul_correctEquation() throws ExecutionException, InterruptedException {
 
-        productImpl = new AxisColumnProduct();
+        productImpl = new AxisColumnMatrixProduct();
 
         Matrix matrixFirst = new MatJv(5, 2);
         Matrix matrixSecond = new MatJv(2, 5);
@@ -95,7 +95,7 @@ class AxisColumnProductTest {
     @Test
     void matMul_correctEquation_squareMatrix() throws ExecutionException, InterruptedException {
 
-        productImpl = new AxisColumnProduct();
+        productImpl = new AxisColumnMatrixProduct();
 
         Matrix matrixFirst = new MatJv(3, 3);
         Matrix matrixSecond = new MatJv(3, 3);

@@ -2,7 +2,7 @@ package com.lukastack.projectmatrix.core.operations.api.parallel.group;
 
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
-import com.lukastack.projectmatrix.core.operations.implementations.parallel.group.row.GroupRowOperations;
+import com.lukastack.projectmatrix.core.operations.implementations.parallel.group.row.GroupRowOperation;
 import com.lukastack.projectmatrix.errors.DimensionException;
 import com.lukastack.projectmatrix.parameters.threads.SingletonThreadPoolProvider;
 import org.junit.jupiter.api.AfterEach;
@@ -30,7 +30,7 @@ class GroupMatrixAdditionTest {
     @Test
     void add_Matrix_x_Matrix_WrongDimensions_ThrowsDimensionException() {
 
-        addition = new GroupMatrixAddition(MatJv.class, new GroupRowOperations());
+        addition = new GroupMatrixAddition(MatJv.class, new GroupRowOperation());
         var pool = poolProvider.provideThreadPool();
 
         Matrix matrixFirst = new MatJv(2, 2);
@@ -42,7 +42,7 @@ class GroupMatrixAdditionTest {
     @Test
     void createMatrix_createMatJvObject() throws ExecutionException, InterruptedException {
 
-        addition = new GroupMatrixAddition(MatJv.class, new GroupRowOperations());
+        addition = new GroupMatrixAddition(MatJv.class, new GroupRowOperation());
 
         Matrix matrixFirst = new MatJv(2, 2);
 

@@ -15,7 +15,7 @@ class AxisRowOperationsTest {
 
     private final DecimalFormat toOneDecimal = new DecimalFormat("0.0");
     private SingletonThreadPoolProvider poolProvider;
-    private AxisRowOperations operations;
+    private AxisRowOperation operations;
 
     @BeforeEach
     void setUp() {
@@ -30,7 +30,7 @@ class AxisRowOperationsTest {
     @Test
     void operate_correctEquation_Matrix_v_Matrix_squareMatrix() throws ExecutionException, InterruptedException {
 
-        operations = new AxisRowOperations();
+        operations = new AxisRowOperation();
 
         correctEquation_Matrix_v_Matrix_squareMatrix_test();
     }
@@ -38,21 +38,21 @@ class AxisRowOperationsTest {
     @Test
     void operate_correctEquations_Matrix_v_Matrix_longerRow() throws ExecutionException, InterruptedException {
 
-        operations = new AxisRowOperations();
+        operations = new AxisRowOperation();
         correctEquation_Matrix_v_Matrix_longerRow_test();
     }
 
     @Test
     void operate_correctEquations_Matrix_v_Matrix_longerColumn() throws ExecutionException, InterruptedException {
 
-        operations = new AxisRowOperations();
+        operations = new AxisRowOperation();
         correctEquation_Matrix_v_Matrix_longerColumn_test();
     }
 
     @Test
     void operate_correctEquation_Matrix_v_Scalar_squareMatrix() throws ExecutionException, InterruptedException {
 
-        operations = new AxisRowOperations();
+        operations = new AxisRowOperation();
 
         correctEquation_Matrix_v_Scalar_squareMatrix_test();
     }
@@ -60,14 +60,14 @@ class AxisRowOperationsTest {
     @Test
     void operate_correctEquations_Matrix_v_Scalar_longerRow() throws ExecutionException, InterruptedException {
 
-        operations = new AxisRowOperations();
+        operations = new AxisRowOperation();
         correctEquation_Matrix_v_Scalar_longerRow_test();
     }
 
     @Test
     void operate_correctEquations_Matrix_v_Scalar_longerColumn() throws ExecutionException, InterruptedException {
 
-        operations = new AxisRowOperations();
+        operations = new AxisRowOperation();
         correctEquation_Matrix_v_Scalar_longerColumn_test();
     }
 

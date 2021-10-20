@@ -3,17 +3,17 @@ package com.lukastack.projectmatrix.core.operations.api.parallel.group;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
 import com.lukastack.projectmatrix.core.operations.api.parallel.MatrixOperation;
 import com.lukastack.projectmatrix.core.operations.definitions.parallel.Root;
-import com.lukastack.projectmatrix.core.operations.implementations.parallel.group.GroupMatrixOperations;
+import com.lukastack.projectmatrix.core.operations.implementations.parallel.group.GroupMatrixOperation;
 import com.lukastack.projectmatrix.utils.NthRoot;
 
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class GroupMatrixRoot extends MatrixOperation implements Root {
 
-    private final GroupMatrixOperations groupMatrixOperations;
+    private final GroupMatrixOperation groupMatrixOperations;
 
     public GroupMatrixRoot(Class<? extends Matrix> clazz,
-                          final GroupMatrixOperations groupMatrixOperations) {
+                          final GroupMatrixOperation groupMatrixOperations) {
 
         super(clazz);
 

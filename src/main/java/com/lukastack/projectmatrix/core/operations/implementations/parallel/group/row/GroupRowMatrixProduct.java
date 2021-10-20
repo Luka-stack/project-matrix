@@ -1,11 +1,11 @@
 package com.lukastack.projectmatrix.core.operations.implementations.parallel.group.row;
 
 import com.lukastack.projectmatrix.core.matrices.Matrix;
-import com.lukastack.projectmatrix.core.operations.implementations.parallel.group.GroupMatrixProductOperation;
+import com.lukastack.projectmatrix.core.operations.implementations.parallel.group.GroupMatrixProduct;
 
 import java.util.concurrent.ThreadPoolExecutor;
 
-public class GroupRowMatrixProduct implements GroupMatrixProductOperation {
+public class GroupRowMatrixProduct implements GroupMatrixProduct {
 
     private int maxGroupSize;
 

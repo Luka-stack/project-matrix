@@ -1,7 +1,7 @@
 package com.lukastack;
 
-import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.row.AxisRowOperations;
-import com.lukastack.projectmatrix.core.operations.implementations.serial.SerialOperations;
+import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.row.AxisRowOperation;
+import com.lukastack.projectmatrix.core.operations.implementations.serial.SerialDefaultOperation;
 import com.lukastack.projectmatrix.parameters.threads.SingletonThreadPoolProvider;
 import com.lukastack.projectmatrix.wrapper.NumJv;
 
@@ -18,7 +18,7 @@ public class Main {
         var m3 = NumJv.uniformMatrix(10000, 10000);
         var m4 = NumJv.uniformMatrix(10000, 10000);
 
-        var serialOps = new SerialOperations();
+        var serialOps = new SerialDefaultOperation();
 
         long startTime = System.nanoTime();
         serialOps.operate(m1, m2, m3, Math::pow);
@@ -26,7 +26,7 @@ public class Main {
 
         System.out.println(endTime - startTime);
 
-        var axisRowOps = new AxisRowOperations();
+        var axisRowOps = new AxisRowOperation();
         var provider = new SingletonThreadPoolProvider(16, 16, 500L, TimeUnit.MILLISECONDS);
 
         startTime = System.nanoTime();
@@ -36,5 +36,6 @@ public class Main {
         endTime = System.nanoTime();
 
         System.out.println(endTime - startTime);
+
     }
 }

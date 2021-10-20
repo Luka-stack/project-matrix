@@ -10,15 +10,12 @@ import org.junit.jupiter.api.Test;
 
 import java.text.DecimalFormat;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 class IndividualOperationsTest {
 
     private final DecimalFormat toOneDecimal = new DecimalFormat("0.0");
     private SingletonThreadPoolProvider poolProvider;
-    private IndividualOperations operations;
+    private IndividualDefaultOperation operations;
 
     @BeforeEach
     void setUp() {
@@ -33,7 +30,7 @@ class IndividualOperationsTest {
     @Test
     void operate_correctEquation_Matrix_v_Matrix_squareMatrix() throws ExecutionException, InterruptedException {
 
-        operations = new IndividualOperations();
+        operations = new IndividualDefaultOperation();
 
         correctEquation_Matrix_v_Matrix_squareMatrix_test();
     }
@@ -41,21 +38,21 @@ class IndividualOperationsTest {
     @Test
     void operate_correctEquations_Matrix_v_Matrix_longerRow() throws ExecutionException, InterruptedException {
 
-        operations = new IndividualOperations();
+        operations = new IndividualDefaultOperation();
         correctEquation_Matrix_v_Matrix_longerRow_test();
     }
 
     @Test
     void operate_correctEquations_Matrix_v_Matrix_longerColumn() throws ExecutionException, InterruptedException {
 
-        operations = new IndividualOperations();
+        operations = new IndividualDefaultOperation();
         correctEquation_Matrix_v_Matrix_longerColumn_test();
     }
 
     @Test
     void operate_correctEquation_Matrix_v_Scalar_squareMatrix() throws ExecutionException, InterruptedException {
 
-        operations = new IndividualOperations();
+        operations = new IndividualDefaultOperation();
 
         correctEquation_Matrix_v_Scalar_squareMatrix_test();
     }
@@ -63,14 +60,14 @@ class IndividualOperationsTest {
     @Test
     void operate_correctEquations_Matrix_v_Scalar_longerRow() throws ExecutionException, InterruptedException {
 
-        operations = new IndividualOperations();
+        operations = new IndividualDefaultOperation();
         correctEquation_Matrix_v_Scalar_longerRow_test();
     }
 
     @Test
     void operate_correctEquations_Matrix_v_Scalar_longerColumn() throws ExecutionException, InterruptedException {
 
-        operations = new IndividualOperations();
+        operations = new IndividualDefaultOperation();
         correctEquation_Matrix_v_Scalar_longerColumn_test();
     }
 

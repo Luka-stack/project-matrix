@@ -3,16 +3,16 @@ package com.lukastack.projectmatrix.core.operations.api.parallel.group;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
 import com.lukastack.projectmatrix.core.operations.api.parallel.MatrixOperation;
 import com.lukastack.projectmatrix.core.operations.definitions.parallel.Power;
-import com.lukastack.projectmatrix.core.operations.implementations.parallel.group.GroupMatrixOperations;
+import com.lukastack.projectmatrix.core.operations.implementations.parallel.group.GroupMatrixOperation;
 
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class GroupMatrixPower extends MatrixOperation implements Power {
 
-    private final GroupMatrixOperations groupMatrixOperations;
+    private final GroupMatrixOperation groupMatrixOperations;
 
     public GroupMatrixPower(Class<? extends Matrix> clazz,
-                            final GroupMatrixOperations groupMatrixOperations) {
+                            final GroupMatrixOperation groupMatrixOperations) {
 
         super(clazz);
 
