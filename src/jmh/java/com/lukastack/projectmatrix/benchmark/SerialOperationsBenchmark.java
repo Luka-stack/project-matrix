@@ -5,7 +5,7 @@ import com.lukastack.projectmatrix.core.matrices.Matrix;
 import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.row.AxisRowOperation;
 import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.row.AxisRowMatrixProduct;
 import com.lukastack.projectmatrix.core.operations.implementations.serial.SerialDefaultOperation;
-import com.lukastack.projectmatrix.parameters.threads.SingletonThreadPoolProvider;
+import com.lukastack.projectmatrix.parameters.poolproviders.singleton.SingletonThreadPoolProvider;
 import com.lukastack.projectmatrix.wrapper.NumJv;
 import org.openjdk.jmh.annotations.*;
 
