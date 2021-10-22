@@ -2,7 +2,7 @@ package com.lukastack.projectmatrix.core.matrices;
 
 import java.lang.reflect.InvocationTargetException;
 
-public interface CreateMatrix {
+public interface CreateMatrixOld {
 
     default Matrix createMatrix(Class<? extends Matrix> clazz, int rows, int cols) {
 

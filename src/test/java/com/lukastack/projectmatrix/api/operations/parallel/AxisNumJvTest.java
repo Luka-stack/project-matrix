@@ -1,11 +1,13 @@
 package com.lukastack.projectmatrix.api.operations.parallel;
 
+import com.lukastack.projectmatrix.core.matrices.LiMatJv;
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
 import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.column.AxisColumnMatrixProduct;
 import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.row.AxisRowOperation;
 import com.lukastack.projectmatrix.errors.CreationalException;
 import com.lukastack.projectmatrix.errors.DimensionException;
+import com.lukastack.projectmatrix.wrapper.NumJv;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -649,4 +651,68 @@ class AxisNumJvTest {
         Assertions.assertEquals(5.162, Double.parseDouble(toThreeDecimal.format(result.get(4, 4))));
     }
 
+    @Test
+    void builder_createsCorrectMatrix() {
+
+        var newInstance = new AxisNumJv.Builder()
+                .operationsImpl(new AxisRowOperation())
+                .matrixProductImpl(new AxisColumnMatrixProduct())
+                .matrixImpl(LiMatJv.class)
+                .build();
+
+        leftMatrix = NumJv.uniformMatrix(5, 5);
+        rightMatrix = NumJv.uniformMatrix(5, 5);
+
+        var result = newInstance.add(leftMatrix, rightMatrix);
+
+
+        Assertions.assertTrue(result instanceof LiMatJv);
+    }
+
+    @Test
+    void param_WaitForResult_false_NotBlockingMainThread() {
+
+        leftMatrix = NumJv.uniformMatrix(500, 500);
+        rightMatrix = NumJv.uniformMatrix(500, 500);
+
+        int repeats = 5;
+        long blockingTime = 0;
+        long notBlockingTime = 0;
+
+        long startTime;
+        long endTime;
+
+        var newInstance2 = new AxisNumJv.Builder()
+                .operationsImpl(new AxisRowOperation())
+                .matrixProductImpl(new AxisColumnMatrixProduct())
+                .waitForResult(true)
+                .build();
+
+        for (int i = 0; i < repeats; ++i) {
+            startTime = System.nanoTime();
+            newInstance2.add(leftMatrix, rightMatrix);
+            endTime = System.nanoTime();
+
+            blockingTime += endTime - startTime;
+        }
+
+        var newInstance = new AxisNumJv.Builder()
+                .operationsImpl(new AxisRowOperation())
+                .matrixProductImpl(new AxisColumnMatrixProduct())
+                .waitForResult(false)
+                .build();
+
+        for (int i = 0; i < repeats; ++i) {
+            startTime = System.nanoTime();
+            newInstance.add(leftMatrix, rightMatrix);
+            endTime = System.nanoTime();
+
+            newInstance.waitForResult();
+            newInstance.closeThreadPool();
+
+            notBlockingTime += endTime - startTime;
+        }
+
+        Assertions.assertTrue((blockingTime * 1.0 / repeats) > (notBlockingTime * 1.0 / repeats) * 0.5);
+    }
 }

@@ -1,8 +1,13 @@
 package com.lukastack.projectmatrix.api.operations.parallel;
 
+import com.lukastack.projectmatrix.core.matrices.LiMatJv;
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
+import com.lukastack.projectmatrix.core.operations.implementations.parallel.group.row.GroupRowMatrixProduct;
+import com.lukastack.projectmatrix.core.operations.implementations.parallel.group.row.GroupRowOperation;
+import com.lukastack.projectmatrix.errors.CreationalException;
 import com.lukastack.projectmatrix.errors.DimensionException;
+import com.lukastack.projectmatrix.wrapper.NumJv;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -527,5 +532,187 @@ class GroupNumJvTest {
         rightMatrix = new MatJv(5, 2);
 
         Assertions.assertThrows(DimensionException.class, () -> groupNumJv.matMul(leftMatrix, rightMatrix));
+    }
+
+    @Test
+    void builder_CannotCreateBuilder_ThrowsCreationalException() {
+
+        Assertions.assertThrows(CreationalException.class, () -> new GroupNumJv.Builder().build());
+    }
+
+    @Test
+    void builder_createsInstance_OperationWorks() {
+
+        var newInstance = new GroupNumJv.Builder()
+                .operationsImpl(new GroupRowOperation())
+                .matrixProductImpl(new GroupRowMatrixProduct())
+                .build();
+
+        leftMatrix = new MatJv(3, 3);
+        rightMatrix = new MatJv(3, 3);
+
+        leftMatrix.set(0, 0, 5.0);
+        leftMatrix.set(0, 1, 8.0);
+        leftMatrix.set(0, 2, 1.0);
+        leftMatrix.set(1, 0, 7.0);
+        leftMatrix.set(1, 1, 1.0);
+        leftMatrix.set(1, 2, 5.0);
+        leftMatrix.set(2, 0, 3.0);
+        leftMatrix.set(2, 1, 2.0);
+        leftMatrix.set(2, 2, 0.0);
+
+        rightMatrix.set(0, 0, 7.0);
+        rightMatrix.set(0, 1, 5.0);
+        rightMatrix.set(0, 2, 1.0);
+        rightMatrix.set(1, 0, 2.0);
+        rightMatrix.set(1, 1, 4.0);
+        rightMatrix.set(1, 2, 1.0);
+        rightMatrix.set(2, 0, 1.0);
+        rightMatrix.set(2, 1, 1.0);
+        rightMatrix.set(2, 2, 1.0);
+
+        var result = newInstance.add(leftMatrix, rightMatrix);
+
+        Assertions.assertEquals(12.0, Double.parseDouble(toOneDecimal.format(result.get(0, 0))));
+        Assertions.assertEquals(13.0, Double.parseDouble(toOneDecimal.format(result.get(0, 1))));
+        Assertions.assertEquals(2.0, Double.parseDouble(toOneDecimal.format(result.get(0, 2))));
+        Assertions.assertEquals(9.0, Double.parseDouble(toOneDecimal.format(result.get(1, 0))));
+        Assertions.assertEquals(5.0, Double.parseDouble(toOneDecimal.format(result.get(1, 1))));
+        Assertions.assertEquals(6.0, Double.parseDouble(toOneDecimal.format(result.get(1, 2))));
+        Assertions.assertEquals(4.0, Double.parseDouble(toOneDecimal.format(result.get(2, 0))));
+        Assertions.assertEquals(3.0, Double.parseDouble(toOneDecimal.format(result.get(2, 1))));
+        Assertions.assertEquals(1.0, Double.parseDouble(toOneDecimal.format(result.get(2, 2))));
+    }
+
+    @Test
+    void builder_createsInstance_MatrixProductWorks() {
+
+        var newInstance = new GroupNumJv.Builder()
+                .operationsImpl(new GroupRowOperation())
+                .matrixProductImpl(new GroupRowMatrixProduct())
+                .build();
+
+
+        leftMatrix = new MatJv(5, 2);
+        rightMatrix = new MatJv(2, 5);
+
+        leftMatrix.set(0, 0, 1.2);
+        leftMatrix.set(0, 1, 2.2);
+        leftMatrix.set(1, 0, 3.2);
+        leftMatrix.set(1, 1, 4.2);
+        leftMatrix.set(2, 0, 5.2);
+        leftMatrix.set(2, 1, 6.2);
+        leftMatrix.set(3, 0, 7.2);
+        leftMatrix.set(3, 1, 8.2);
+        leftMatrix.set(4, 0, 9.2);
+        leftMatrix.set(4, 1, 10.2);
+
+        rightMatrix.set(0, 0, 0.99);
+        rightMatrix.set(0, 1, 0.88);
+        rightMatrix.set(0, 2, 0.77);
+        rightMatrix.set(0, 3, 0.66);
+        rightMatrix.set(0, 4, 0.55);
+        rightMatrix.set(1, 0, 0.44);
+        rightMatrix.set(1, 1, 0.33);
+        rightMatrix.set(1, 2, 0.22);
+        rightMatrix.set(1, 3, 0.11);
+        rightMatrix.set(1, 4, 0.01);
+
+        var result = newInstance.matMul(leftMatrix, rightMatrix);
+
+        Assertions.assertEquals(2.156, Double.parseDouble(toThreeDecimal.format(result.get(0, 0))));
+        Assertions.assertEquals(1.782, Double.parseDouble(toThreeDecimal.format(result.get(0, 1))));
+        Assertions.assertEquals(1.408, Double.parseDouble(toThreeDecimal.format(result.get(0, 2))));
+        Assertions.assertEquals(1.034, Double.parseDouble(toThreeDecimal.format(result.get(0, 3))));
+        Assertions.assertEquals(0.682, Double.parseDouble(toThreeDecimal.format(result.get(0, 4))));
+
+        Assertions.assertEquals(5.016, Double.parseDouble(toThreeDecimal.format(result.get(1, 0))));
+        Assertions.assertEquals(4.202, Double.parseDouble(toThreeDecimal.format(result.get(1, 1))));
+        Assertions.assertEquals(3.388, Double.parseDouble(toThreeDecimal.format(result.get(1, 2))));
+        Assertions.assertEquals(2.574, Double.parseDouble(toThreeDecimal.format(result.get(1, 3))));
+        Assertions.assertEquals(1.802, Double.parseDouble(toThreeDecimal.format(result.get(1, 4))));
+
+        Assertions.assertEquals(7.876, Double.parseDouble(toThreeDecimal.format(result.get(2, 0))));
+        Assertions.assertEquals(6.622, Double.parseDouble(toThreeDecimal.format(result.get(2, 1))));
+        Assertions.assertEquals(5.368, Double.parseDouble(toThreeDecimal.format(result.get(2, 2))));
+        Assertions.assertEquals(4.114, Double.parseDouble(toThreeDecimal.format(result.get(2, 3))));
+        Assertions.assertEquals(2.922, Double.parseDouble(toThreeDecimal.format(result.get(2, 4))));
+
+        Assertions.assertEquals(10.736, Double.parseDouble(toThreeDecimal.format(result.get(3, 0))));
+        Assertions.assertEquals(9.042, Double.parseDouble(toThreeDecimal.format(result.get(3, 1))));
+        Assertions.assertEquals(7.348, Double.parseDouble(toThreeDecimal.format(result.get(3, 2))));
+        Assertions.assertEquals(5.654, Double.parseDouble(toThreeDecimal.format(result.get(3, 3))));
+        Assertions.assertEquals(4.042, Double.parseDouble(toThreeDecimal.format(result.get(3, 4))));
+
+        Assertions.assertEquals(13.596, Double.parseDouble(toThreeDecimal.format(result.get(4, 0))));
+        Assertions.assertEquals(11.462, Double.parseDouble(toThreeDecimal.format(result.get(4, 1))));
+        Assertions.assertEquals(9.328, Double.parseDouble(toThreeDecimal.format(result.get(4, 2))));
+        Assertions.assertEquals(7.194, Double.parseDouble(toThreeDecimal.format(result.get(4, 3))));
+        Assertions.assertEquals(5.162, Double.parseDouble(toThreeDecimal.format(result.get(4, 4))));
+    }
+
+    @Test
+    void builder_createsCorrectMatrix() {
+
+        var newInstance = new GroupNumJv.Builder()
+                .operationsImpl(new GroupRowOperation())
+                .matrixProductImpl(new GroupRowMatrixProduct())
+                .matrixImpl(LiMatJv.class)
+                .build();
+
+        leftMatrix = com.lukastack.projectmatrix.wrapper.NumJv.uniformMatrix(5, 5);
+        rightMatrix = com.lukastack.projectmatrix.wrapper.NumJv.uniformMatrix(5, 5);
+
+        var result = newInstance.add(leftMatrix, rightMatrix);
+
+
+        Assertions.assertTrue(result instanceof LiMatJv);
+    }
+
+    @Test
+    void param_WaitForResult_false_NotBlockingMainThread() {
+
+        leftMatrix = com.lukastack.projectmatrix.wrapper.NumJv.uniformMatrix(500, 500);
+        rightMatrix = NumJv.uniformMatrix(500, 500);
+
+        int repeats = 5;
+        long blockingTime = 0;
+        long notBlockingTime = 0;
+
+        long startTime;
+        long endTime;
+
+        var newInstance2 = new GroupNumJv.Builder()
+                .operationsImpl(new GroupRowOperation())
+                .matrixProductImpl(new GroupRowMatrixProduct())
+                .waitForResult(true)
+                .build();
+
+        for (int i = 0; i < repeats; ++i) {
+            startTime = System.nanoTime();
+            newInstance2.add(leftMatrix, rightMatrix);
+            endTime = System.nanoTime();
+
+            blockingTime += endTime - startTime;
+        }
+
+        var newInstance = new GroupNumJv.Builder()
+                .operationsImpl(new GroupRowOperation())
+                .matrixProductImpl(new GroupRowMatrixProduct())
+                .waitForResult(false)
+                .build();
+
+        for (int i = 0; i < repeats; ++i) {
+            startTime = System.nanoTime();
+            newInstance.add(leftMatrix, rightMatrix);
+            endTime = System.nanoTime();
+
+            newInstance.waitForResult();
+            newInstance.closeThreadPool();
+
+            notBlockingTime += endTime - startTime;
+        }
+
+        Assertions.assertTrue((blockingTime * 1.0 / repeats) > (notBlockingTime * 1.0 / repeats) * 0.5);
     }
 }

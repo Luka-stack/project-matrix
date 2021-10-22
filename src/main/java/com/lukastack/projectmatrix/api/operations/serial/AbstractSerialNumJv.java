@@ -1,12 +1,12 @@
 package com.lukastack.projectmatrix.api.operations.serial;
 
 import com.lukastack.projectmatrix.api.operations.specification.DefaultOperations;
-import com.lukastack.projectmatrix.core.matrices.CreateMatrix;
+import com.lukastack.projectmatrix.core.matrices.CreateMatrixOld;
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
 import com.lukastack.projectmatrix.errors.DimensionException;
 
-public abstract class AbstractSerialNumJv implements CreateMatrix, DefaultOperations {
+public abstract class AbstractSerialNumJv implements CreateMatrixOld, DefaultOperations {
 
     private final Class<? extends Matrix> clazz;
 

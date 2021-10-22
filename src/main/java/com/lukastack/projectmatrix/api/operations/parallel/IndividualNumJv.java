@@ -3,8 +3,11 @@ package com.lukastack.projectmatrix.api.operations.parallel;
 import com.lukastack.projectmatrix.core.equations.GenericEquation;
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
+import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.AxisMatrixOperation;
+import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.AxisMatrixProduct;
 import com.lukastack.projectmatrix.core.operations.implementations.parallel.individual.IndividualDefaultOperation;
 import com.lukastack.projectmatrix.core.operations.implementations.parallel.individual.IndividualDefaultMatrixProduct;
+import com.lukastack.projectmatrix.errors.CreationalException;
 import com.lukastack.projectmatrix.parameters.poolproviders.singleton.SingletonThreadPoolProvider;
 import com.lukastack.projectmatrix.parameters.poolproviders.ThreadPoolProvider;
 import com.lukastack.projectmatrix.core.equations.NthRoot;
@@ -13,6 +16,8 @@ public class IndividualNumJv extends AbstractNumJv {
 
     private final IndividualDefaultOperation operationImpl;
     private final IndividualDefaultMatrixProduct matrixProductImpl;
+    private final boolean sharedThreadPool;
+    private final boolean waitForResult;
 
     public IndividualNumJv() {
 
@@ -20,17 +25,22 @@ public class IndividualNumJv extends AbstractNumJv {
 
         operationImpl = new IndividualDefaultOperation();
         matrixProductImpl = new IndividualDefaultMatrixProduct();
+        sharedThreadPool = false;
+        waitForResult = true;
     }
 
     public IndividualNumJv(final IndividualDefaultOperation operationImpl,
                            final IndividualDefaultMatrixProduct matrixProductImpl,
-                           final ThreadPoolProvider poolProvider, boolean sharedThreadPool, boolean waitForResult,
+                           final ThreadPoolProvider poolProvider,
+                           boolean sharedThreadPool, boolean waitForResult,
                            final Class<? extends Matrix> clazz) {
 
-        super(clazz, poolProvider, sharedThreadPool, waitForResult);
+        super(clazz, poolProvider);
 
         this.operationImpl = operationImpl;
         this.matrixProductImpl = matrixProductImpl;
+        this.sharedThreadPool = sharedThreadPool;
+        this.waitForResult = waitForResult;
     }
 
     @Override
@@ -134,7 +144,7 @@ public class IndividualNumJv extends AbstractNumJv {
             waitForResult();
         }
 
-        if (closeOnFinish) {
+        if (!sharedThreadPool) {
             closeThreadPool();
         }
 
@@ -156,7 +166,7 @@ public class IndividualNumJv extends AbstractNumJv {
             waitForResult();
         }
 
-        if (closeOnFinish) {
+        if (!sharedThreadPool) {
             closeThreadPool();
         }
 
@@ -178,7 +188,7 @@ public class IndividualNumJv extends AbstractNumJv {
             waitForResult();
         }
 
-        if (closeOnFinish) {
+        if (!sharedThreadPool) {
             closeThreadPool();
         }
 
@@ -191,49 +201,102 @@ public class IndividualNumJv extends AbstractNumJv {
         private IndividualDefaultMatrixProduct matrixProductImpl;
         private Class<? extends Matrix> clazz = MatJv.class;
         private ThreadPoolProvider poolProvider = new SingletonThreadPoolProvider();
-        private boolean closeOnFinish = true;
+        private boolean sharedThreadPool = true;
         private boolean waitForResult = true;
 
+        /**
+         * Sets operationsImpl to provided implementation,
+         * that IndividualNumJv class will use to do element wise operations
+         *
+         * @param impl An instance of class that implements {@link IndividualDefaultOperation} interface
+         * @return IndividualNumJv.Builder
+         */
         public Builder operationsImpl(final IndividualDefaultOperation impl) {
 
             this.operationsImpl = impl;
             return this;
         }
 
+        /**
+         * Sets matrixProductImpl to provided implementation,
+         * that IndividualNumJv class will use to do matrix product
+         *
+         * @param impl An instance of class that implements {@link IndividualDefaultMatrixProduct} interface
+         * @return IndividualNumJv.Builder
+         */
         public Builder matrixProductImpl(final IndividualDefaultMatrixProduct impl) {
 
             this.matrixProductImpl = impl;
             return this;
         }
 
+        /**
+         * Sets clazz to provided implementation,
+         * that IndividualNumJv class will use to create new instance of {@link Matrix} that operations will return
+         *
+         * @param clazz An class that extends {@link Matrix} interface
+         * @return IndividualNumJv.Builder
+         */
         public Builder matrixImpl(final Class<? extends Matrix> clazz) {
 
             this.clazz = clazz;
             return this;
         }
 
+        /**
+         * Sets poolProvider to provided implementation,
+         * that IndividualNumJv class will use to manipulate (create and close) pools of tasks
+         *
+         * @param poolProvider An instance of class that extends {@link ThreadPoolProvider} class
+         * @return IndividualNumJv.Builder
+         */
         public Builder threadPoolProvider(final ThreadPoolProvider poolProvider) {
 
             this.poolProvider = poolProvider;
             return this;
         }
 
-        public Builder sharedThreadPool() {
+        /**
+         * Sets sharedThreadPool parameter that controls closing pools after performing an operation
+         *
+         * @param bool if true, allow user to close thread on their own
+         *             (meaning, thread pool will be shared by operation until user close it on its own)
+         * @return IndividualNumJv.Builder
+         */
+        public Builder sharedThreadPool(boolean bool) {
 
-            this.closeOnFinish = true;
+            this.sharedThreadPool = bool;
             return this;
         }
 
-        public Builder waitForResult() {
+        /**
+         * Sets waitForResult parameter that force the class to wait until all tasks will be finished.
+         * This parameter is related to sharedThreadPool, false it to true sets sharedThreadPool also to false
+         *
+         * @param bool if true, immediately after submitting tasks to pool function will return
+         * @return IndividualNumJv.Builder
+         */
+        public Builder waitForResult(boolean bool) {
 
-            this.waitForResult = true;
+            this.waitForResult = bool;
             return this;
         }
 
         public IndividualNumJv build() {
 
+            if (operationsImpl == null || matrixProductImpl == null) {
+                throw new CreationalException(
+                        String.format("Cannot create instance of %s because implementations of operations were not provided",
+                                this.getClass().getName())
+                );
+            }
+
+            if (!waitForResult) {
+                sharedThreadPool = true;
+            }
+
             return new IndividualNumJv(operationsImpl, matrixProductImpl, poolProvider,
-                    closeOnFinish, waitForResult, clazz);
+                    sharedThreadPool, waitForResult, clazz);
         }
     }
 }

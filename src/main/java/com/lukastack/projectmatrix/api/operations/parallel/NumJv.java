@@ -27,10 +27,8 @@ public class NumJv extends AbstractNumJv {
 
         super(
                 MatJv.class,
-                new SingletonThreadPoolProvider(1, Runtime.getRuntime().availableProcessors(), 500L, TimeUnit.MILLISECONDS),
-                true,
-                true
-                );
+                new SingletonThreadPoolProvider(1, Runtime.getRuntime().availableProcessors(), 500L, TimeUnit.MILLISECONDS)
+        );
 
         this.rowOperation = new GroupRowOperation();
         this.columnOperation = new GroupColumnOperation();

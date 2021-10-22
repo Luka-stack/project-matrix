@@ -1,9 +1,9 @@
 package com.lukastack.projectmatrix.api.operations.parallel;
 
 import com.lukastack.projectmatrix.api.operations.specification.DefaultOperations;
-import com.lukastack.projectmatrix.core.matrices.CreateMatrix;
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
+import com.lukastack.projectmatrix.core.matrices.MatrixBuilder;
 import com.lukastack.projectmatrix.errors.DimensionException;
 import com.lukastack.projectmatrix.parameters.poolproviders.singleton.SingletonThreadPoolProvider;
 import com.lukastack.projectmatrix.parameters.poolproviders.ThreadPoolProvider;
@@ -11,28 +11,21 @@ import com.lukastack.projectmatrix.parameters.poolproviders.ThreadPoolProvider;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
 
-public abstract class AbstractNumJv implements CreateMatrix, DefaultOperations {
+public abstract class AbstractNumJv implements DefaultOperations {
 
     private final Class<? extends Matrix> clazz;
     protected final ThreadPoolProvider poolProvider;
-    protected final boolean closeOnFinish;
-    protected final boolean waitForResult;
     protected ThreadPoolExecutor threadPoolExecutor = null;
 
     protected AbstractNumJv() {
 
         this.poolProvider = new SingletonThreadPoolProvider();
-        this.closeOnFinish = true;
-        this.waitForResult = true;
         this.clazz = MatJv.class;
     }
 
-    protected AbstractNumJv(final Class<? extends Matrix> clazz, final ThreadPoolProvider threadPoolProvider,
-                            boolean closeOnFinish, boolean waitForResult) {
+    protected AbstractNumJv(final Class<? extends Matrix> clazz, final ThreadPoolProvider threadPoolProvider) {
 
         this.poolProvider = threadPoolProvider;
-        this.closeOnFinish = closeOnFinish;
-        this.waitForResult = waitForResult;
         this.clazz = clazz;
     }
 
@@ -59,7 +52,7 @@ public abstract class AbstractNumJv implements CreateMatrix, DefaultOperations {
 
     protected Matrix createMatrix(int rows, int columns) {
 
-        return createMatrix(clazz, rows, columns);
+        return MatrixBuilder.buildMatrix(clazz, rows, columns);
     }
 
     protected void assertElementWiseDimension(final Matrix leftMatrix, final Matrix rightMatrix) {

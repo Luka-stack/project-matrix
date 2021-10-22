@@ -16,6 +16,8 @@ public class AxisNumJv extends AbstractNumJv {
 
     private final AxisMatrixOperation operationImpl;
     private final AxisMatrixProduct matrixProductImpl;
+    private final boolean sharedThreadPool;
+    private final boolean waitForResult;
 
     public AxisNumJv() {
 
@@ -23,16 +25,20 @@ public class AxisNumJv extends AbstractNumJv {
 
         operationImpl = new AxisRowOperation();
         matrixProductImpl = new AxisRowMatrixProduct();
+        sharedThreadPool = false;
+        waitForResult = true;
     }
 
     public AxisNumJv(final AxisMatrixOperation operationImpl, final AxisMatrixProduct matrixProductImpl,
                      final ThreadPoolProvider poolProvider, boolean sharedThreadPool, boolean waitForResult,
                      final Class<? extends Matrix> clazz) {
 
-        super(clazz, poolProvider, sharedThreadPool, waitForResult);
+        super(clazz, poolProvider);
 
         this.operationImpl = operationImpl;
         this.matrixProductImpl = matrixProductImpl;
+        this.sharedThreadPool = sharedThreadPool;
+        this.waitForResult = waitForResult;
     }
 
     @Override
@@ -136,7 +142,7 @@ public class AxisNumJv extends AbstractNumJv {
             waitForResult();
         }
 
-        if (closeOnFinish) {
+        if (!sharedThreadPool) {
             closeThreadPool();
         }
 
@@ -158,7 +164,7 @@ public class AxisNumJv extends AbstractNumJv {
             waitForResult();
         }
 
-        if (closeOnFinish) {
+        if (!sharedThreadPool) {
             closeThreadPool();
         }
 
@@ -180,7 +186,7 @@ public class AxisNumJv extends AbstractNumJv {
             waitForResult();
         }
 
-        if (closeOnFinish) {
+        if (!sharedThreadPool) {
             closeThreadPool();
         }
 
@@ -193,39 +199,81 @@ public class AxisNumJv extends AbstractNumJv {
         private AxisMatrixProduct matrixProductImpl;
         private Class<? extends Matrix> clazz = MatJv.class;
         private ThreadPoolProvider poolProvider = new SingletonThreadPoolProvider();
-        private boolean closeOnFinish = true;
+        private boolean sharedThreadPool = false;
         private boolean waitForResult = true;
 
+        /**
+         * Sets operationsImpl to provided implementation,
+         * that AxisNumJv class will use to do element wise operations
+         *
+         * @param impl An instance of class that implements {@link AxisMatrixOperation} interface
+         * @return AxisNumJv.Builder
+         */
         public Builder operationsImpl(final AxisMatrixOperation impl) {
 
             this.operationsImpl = impl;
             return this;
         }
 
+        /**
+         * Sets matrixProductImpl to provided implementation,
+         * that AxisNumJv class will use to do matrix product
+         *
+         * @param impl An instance of class that implements {@link AxisMatrixProduct} interface
+         * @return AxisNumJv.Builder
+         */
         public Builder matrixProductImpl(final AxisMatrixProduct impl) {
 
             this.matrixProductImpl = impl;
             return this;
         }
 
+        /**
+         * Sets clazz to provided implementation,
+         * that AxisNumJv class will use to create new instance of {@link Matrix} that operations will return
+         *
+         * @param clazz An class that extends {@link Matrix} interface
+         * @return AxisNumJv.Builder
+         */
         public Builder matrixImpl(final Class<? extends Matrix> clazz) {
 
             this.clazz = clazz;
             return this;
         }
 
+        /**
+         * Sets poolProvider to provided implementation,
+         * that AxisNumJv class will use to manipulate (create and close) pools of tasks
+         *
+         * @param poolProvider An instance of class that extends {@link ThreadPoolProvider} class
+         * @return AxisNumJv.Builder
+         */
         public Builder threadPoolProvider(final ThreadPoolProvider poolProvider) {
 
             this.poolProvider = poolProvider;
             return this;
         }
 
+        /**
+         * Sets sharedThreadPool parameter that controls closing pools after performing an operation
+         *
+         * @param bool if true, allow user to close thread on their own
+         *             (meaning, thread pool will be shared by operation until user close it on its own)
+         * @return AxisNumJv.Builder
+         */
         public Builder sharedThreadPool(boolean bool) {
 
-            this.closeOnFinish = bool;
+            this.sharedThreadPool = bool;
             return this;
         }
 
+        /**
+         * Sets waitForResult parameter that force the class to wait until all tasks will be finished.
+         * This parameter is related to sharedThreadPool, false it to true sets sharedThreadPool also to false
+         *
+         * @param bool if true, immediately after submitting tasks to pool function will return
+         * @return AxisNumJv.Builder
+         */
         public Builder waitForResult(boolean bool) {
 
             this.waitForResult = bool;
@@ -241,8 +289,11 @@ public class AxisNumJv extends AbstractNumJv {
                 );
             }
 
+            if (!waitForResult) {
+                sharedThreadPool = true;
+            }
 
-            return new AxisNumJv(operationsImpl, matrixProductImpl, poolProvider, closeOnFinish, waitForResult, clazz);
+            return new AxisNumJv(operationsImpl, matrixProductImpl, poolProvider, sharedThreadPool, waitForResult, clazz);
         }
     }
 }

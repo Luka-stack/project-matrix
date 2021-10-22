@@ -1,5 +1,6 @@
 package com.lukastack;
 
+import com.lukastack.projectmatrix.api.operations.parallel.AxisNumJv;
 import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.row.AxisRowOperation;
 import com.lukastack.projectmatrix.core.operations.implementations.serial.SerialDefaultOperation;
 import com.lukastack.projectmatrix.parameters.poolproviders.singleton.SingletonThreadPoolProvider;

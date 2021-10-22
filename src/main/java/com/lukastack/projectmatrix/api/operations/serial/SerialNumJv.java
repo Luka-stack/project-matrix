@@ -3,11 +3,14 @@ package com.lukastack.projectmatrix.api.operations.serial;
 import com.lukastack.projectmatrix.core.equations.GenericEquation;
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
+import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.AxisMatrixOperation;
+import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.AxisMatrixProduct;
 import com.lukastack.projectmatrix.core.operations.implementations.serial.SerialDefaultMatrixProduct;
 import com.lukastack.projectmatrix.core.operations.implementations.serial.SerialDefaultOperation;
 import com.lukastack.projectmatrix.core.operations.implementations.serial.SerialMatrixOperation;
 import com.lukastack.projectmatrix.core.operations.implementations.serial.SerialMatrixProduct;
 import com.lukastack.projectmatrix.core.equations.NthRoot;
+import com.lukastack.projectmatrix.errors.CreationalException;
 
 public class SerialNumJv extends AbstractSerialNumJv {
 
@@ -153,18 +156,39 @@ public class SerialNumJv extends AbstractSerialNumJv {
         private SerialMatrixProduct matrixProductImpl;
         private Class<? extends Matrix> clazz = MatJv.class;
 
+        /**
+         * Sets operationsImpl to provided implementation,
+         * that SerialNumJv class will use to do element wise operations
+         *
+         * @param impl An instance of class that implements {@link SerialMatrixOperation} interface
+         * @return SerialNumJv.Builder
+         */
         public Builder operationsImpl(final SerialMatrixOperation impl) {
 
             this.operationsImpl = impl;
             return this;
         }
 
+        /**
+         * Sets matrixProductImpl to provided implementation,
+         * that SerialNumJv class will use to do matrix product
+         *
+         * @param impl An instance of class that implements {@link SerialMatrixProduct} interface
+         * @return SerialNumJv.Builder
+         */
         public Builder matrixProductImpl(final SerialMatrixProduct impl) {
 
             this.matrixProductImpl = impl;
             return this;
         }
 
+        /**
+         * Sets clazz to provided implementation,
+         * that SerialNumJv class will use to create new instance of {@link Matrix} that operations will return
+         *
+         * @param clazz An class that extends {@link Matrix} interface
+         * @return SerialNumJv.Builder
+         */
         public Builder matrixImpl(final Class<? extends Matrix> clazz) {
 
             this.clazz = clazz;
@@ -172,6 +196,13 @@ public class SerialNumJv extends AbstractSerialNumJv {
         }
 
         public SerialNumJv build() {
+
+            if (operationsImpl == null || matrixProductImpl == null) {
+                throw new CreationalException(
+                        String.format("Cannot create instance of %s because implementations of operations were not provided",
+                                this.getClass().getName())
+                );
+            }
 
             return new SerialNumJv(operationsImpl, matrixProductImpl, clazz);
         }
