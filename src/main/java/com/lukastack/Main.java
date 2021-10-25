@@ -5,18 +5,20 @@ import com.lukastack.projectmatrix.api.operations.parallel.AxisNumJv;
 import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.row.AxisRowOperation;
 import com.lukastack.projectmatrix.core.operations.implementations.serial.SerialDefaultOperation;
 import com.lukastack.projectmatrix.parameters.poolproviders.singleton.SingletonThreadPoolProvider;
+import com.lukastack.projectmatrix.profiler.Profiler;
+import com.lukastack.projectmatrix.profiler.ProfilerTimeUnit;
+import com.lukastack.projectmatrix.profiler.ProfilerType;
 import com.lukastack.projectmatrix.wrapper.NumJv;
 
+import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.DoubleStream;
 import java.util.stream.Stream;
 
 public class Main {
 
     public static void main(String... args) throws InterruptedException, ExecutionException {
-
-        var result2 = MamJv.lowerTriangular(3, 3, 1.0);
-        System.out.println(result2);
 
 //        var m1 = NumJv.uniformMatrix(10000, 10000);
 //        var m2 = NumJv.uniformMatrix(10000, 10000);
@@ -43,5 +45,23 @@ public class Main {
 //
 //        System.out.println(endTime - startTime);
 
+        // Closure
+        double[] test1 = DoubleStream.iterate(0, n -> n + 100).limit(10000).toArray();
+        double[] test2 = DoubleStream.iterate(0, n -> n + 500).limit(10000).toArray();
+//
+//        Profiler.testFunction(() -> {
+//            System.out.println(Arrays.toString(numbers));
+//        });
+
+        var profiler = new Profiler();
+
+//        var stats = profiler.test(() -> {
+//            double total = 0.0;
+//            for (int i = 0; i < test1.length; ++i) {
+//                for (int j = 0; j < test2.length; ++j) {
+//                    total += test1[i] * test2[j];
+//                }
+//            }
+//        }, 10, ProfilerTimeUnit.MILLISECONDS, ProfilerType.ALL);
     }
 }
