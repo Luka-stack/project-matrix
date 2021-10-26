@@ -1,5 +1,6 @@
 package com.lukastack.projectmatrix.api.operations.serial;
 
+import com.lukastack.projectmatrix.api.manipulations.MamJv;
 import com.lukastack.projectmatrix.core.matrices.LiMatJv;
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
@@ -7,7 +8,6 @@ import com.lukastack.projectmatrix.core.operations.implementations.serial.Serial
 import com.lukastack.projectmatrix.core.operations.implementations.serial.SerialDefaultOperation;
 import com.lukastack.projectmatrix.errors.CreationalException;
 import com.lukastack.projectmatrix.errors.DimensionException;
-import com.lukastack.projectmatrix.wrapper.NumJv;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -660,8 +660,8 @@ class SerialNumJvTest {
                 .matrixImpl(LiMatJv.class)
                 .build();
 
-        leftMatrix = NumJv.uniformMatrix(5, 5);
-        rightMatrix = NumJv.uniformMatrix(5, 5);
+        leftMatrix = MamJv.uniformDistribution(5, 5);
+        rightMatrix = MamJv.uniformDistribution(5, 5);
 
         var result = newInstance.add(leftMatrix, rightMatrix);
 

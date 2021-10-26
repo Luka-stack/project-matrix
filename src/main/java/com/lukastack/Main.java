@@ -1,20 +1,10 @@
 package com.lukastack;
 
-import com.lukastack.projectmatrix.api.manipulations.MamJv;
-import com.lukastack.projectmatrix.api.operations.parallel.AxisNumJv;
-import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.row.AxisRowOperation;
-import com.lukastack.projectmatrix.core.operations.implementations.serial.SerialDefaultOperation;
-import com.lukastack.projectmatrix.parameters.poolproviders.singleton.SingletonThreadPoolProvider;
-import com.lukastack.projectmatrix.profiler.Profiler;
-import com.lukastack.projectmatrix.profiler.ProfilerTimeUnit;
-import com.lukastack.projectmatrix.profiler.ProfilerType;
-import com.lukastack.projectmatrix.wrapper.NumJv;
+import com.lukastack.projectmatrix.core.matrices.LiMatJv;
+import com.lukastack.projectmatrix.core.matrices.MatJv;
 
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.DoubleStream;
-import java.util.stream.Stream;
 
 public class Main {
 
@@ -45,23 +35,17 @@ public class Main {
 //
 //        System.out.println(endTime - startTime);
 
-        // Closure
-        double[] test1 = DoubleStream.iterate(0, n -> n + 100).limit(10000).toArray();
-        double[] test2 = DoubleStream.iterate(0, n -> n + 500).limit(10000).toArray();
-//
-//        Profiler.testFunction(() -> {
-//            System.out.println(Arrays.toString(numbers));
-//        });
+        var test = new LiMatJv(3, 3);
+        test.set(0, 0, 0.0);
+        test.set(0, 1, 1.0);
+        test.set(0, 2, 1.0);
+        test.set(1, 0, 2.0);
+        test.set(1, 1, 3.0);
+        test.set(1, 2, 3.0);
+        test.set(2, 0, 2.0);
+        test.set(2, 1, 3.0);
+        test.set(2, 2, 3.0);
 
-        var profiler = new Profiler();
-
-//        var stats = profiler.test(() -> {
-//            double total = 0.0;
-//            for (int i = 0; i < test1.length; ++i) {
-//                for (int j = 0; j < test2.length; ++j) {
-//                    total += test1[i] * test2[j];
-//                }
-//            }
-//        }, 10, ProfilerTimeUnit.MILLISECONDS, ProfilerType.ALL);
+        System.out.println(test);
     }
 }

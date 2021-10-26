@@ -9,4 +9,6 @@ public interface Matrix {
     int[] shape();
 
     Matrix reshape(int rows, int cols);
+
+    Matrix copy();
 }

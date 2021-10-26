@@ -1,5 +1,6 @@
 package com.lukastack.projectmatrix.api.operations.parallel;
 
+import com.lukastack.projectmatrix.api.manipulations.MamJv;
 import com.lukastack.projectmatrix.core.matrices.LiMatJv;
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
@@ -7,7 +8,6 @@ import com.lukastack.projectmatrix.core.operations.implementations.parallel.grou
 import com.lukastack.projectmatrix.core.operations.implementations.parallel.group.row.GroupRowOperation;
 import com.lukastack.projectmatrix.errors.CreationalException;
 import com.lukastack.projectmatrix.errors.DimensionException;
-import com.lukastack.projectmatrix.wrapper.NumJv;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -660,8 +660,8 @@ class GroupNumJvTest {
                 .matrixImpl(LiMatJv.class)
                 .build();
 
-        leftMatrix = com.lukastack.projectmatrix.wrapper.NumJv.uniformMatrix(5, 5);
-        rightMatrix = com.lukastack.projectmatrix.wrapper.NumJv.uniformMatrix(5, 5);
+        leftMatrix = MamJv.uniformDistribution(5, 5);
+        rightMatrix = MamJv.uniformDistribution(5, 5);
 
         var result = newInstance.add(leftMatrix, rightMatrix);
 
@@ -672,8 +672,8 @@ class GroupNumJvTest {
     @Test
     void param_WaitForResult_false_NotBlockingMainThread() {
 
-        leftMatrix = com.lukastack.projectmatrix.wrapper.NumJv.uniformMatrix(500, 500);
-        rightMatrix = NumJv.uniformMatrix(500, 500);
+        leftMatrix = MamJv.uniformDistribution(500, 500);
+        rightMatrix = MamJv.uniformDistribution(500, 500);
 
         int repeats = 5;
         long blockingTime = 0;

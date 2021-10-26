@@ -100,4 +100,24 @@ class LiMatJvTest {
         Assertions.assertThrows(DimensionException.class, () -> matrix.reshape(rows * 5, cols * 2));
     }
 
+    @Test
+    void copy_deepCopy() {
+
+        double oldValue = 10.0;
+        double copiedNewValue = 1442.0;
+
+        matrix.set(0, 0, oldValue);
+        var copy = matrix.copy();
+        copy.set(0, 0, copiedNewValue);
+
+        Assertions.assertNotEquals(matrix.get(0, 0), copy.get(0, 0));
+    }
+
+    @Test
+    void equals() {
+
+        var copy = matrix.copy();
+
+        Assertions.assertEquals(copy, matrix);
+    }
 }
