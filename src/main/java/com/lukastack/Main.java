@@ -1,5 +1,6 @@
 package com.lukastack;
 
+import com.lukastack.projectmatrix.api.manipulations.MamJv;
 import com.lukastack.projectmatrix.core.matrices.LiMatJv;
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 
@@ -35,7 +36,7 @@ public class Main {
 //
 //        System.out.println(endTime - startTime);
 
-        var test = new LiMatJv(3, 3);
+        var test = new MatJv(3, 3);
         test.set(0, 0, 0.0);
         test.set(0, 1, 1.0);
         test.set(0, 2, 1.0);
@@ -46,6 +47,6 @@ public class Main {
         test.set(2, 1, 3.0);
         test.set(2, 2, 3.0);
 
-        System.out.println(test);
+        System.out.println(MamJv.stringifyMatrix(test));
     }
 }

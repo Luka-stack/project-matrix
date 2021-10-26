@@ -13,6 +13,29 @@ import java.util.stream.Stream;
 
 public class MamJv {
 
+    public static String stringifyMatrix(final Matrix matrix) {
+
+        StringBuilder builder = new StringBuilder("Matrix([");
+        var shape = matrix.shape();
+        String prefix;
+
+        for (int row = 0; row < shape[0]; ++row) {
+            builder.append('[');
+            prefix = "";
+
+            for (int col = 0; col < shape[1]; ++col) {
+                builder.append(prefix);
+                prefix = ", ";
+                builder.append(matrix.get(row, col));
+            }
+            builder.append("], \n\t\t");
+        }
+        builder.setLength(builder.length() - 5);
+        builder.append("])");
+
+        return builder.toString();
+    }
+
     public static Matrix uniformDistribution(int rows, int cols) {
 
         return fromFunction(rows, cols, UniformDistribution::getRandom);
