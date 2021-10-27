@@ -11,17 +11,32 @@ public abstract class ThreadPoolProvider implements IThreadPoolProvider, ThreadP
 
     @Override
     public void setKeepAlive(long time, TimeUnit unit) {
+
+        if (time < 0) {
+            throw new IllegalArgumentException("Provided time cannot be negative");
+        }
+
         this.keepAlive = time;
         this.keepAliveUnit = unit;
     }
 
     @Override
     public void setCorePoolSize(int size) {
+
+        if (size < 0) {
+            throw new IllegalArgumentException("Cole pool size cannot be negative");
+        }
+
         this.corePoolSize = size;
     }
 
     @Override
     public void setMaximumPoolSize(int size) {
+
+        if (size < 0) {
+            throw new IllegalArgumentException("Cole pool size cannot be negative");
+        }
+
         this.maximumPoolSize = size;
     }
 
@@ -46,8 +61,13 @@ public abstract class ThreadPoolProvider implements IThreadPoolProvider, ThreadP
     }
 
     @Override
-    public void printSettings() {
-        // TODO Implement Printing
+    public String toString() {
+        return "ThreadPoolProvider{" +
+                "keepAlive=" + keepAlive +
+                ", keepAliveUnit=" + keepAliveUnit +
+                ", corePoolSize=" + corePoolSize +
+                ", maximumPoolSize=" + maximumPoolSize +
+                '}';
     }
 
     protected BlockingQueue<Runnable> newWorkQueueInstance() {

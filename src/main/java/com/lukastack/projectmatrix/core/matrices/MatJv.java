@@ -11,9 +11,8 @@ public class MatJv implements Matrix {
 
     public MatJv(double[][] data) {
 
-        // TODO add error
-        if (data.length == 0) {
-            throw new RuntimeException("Cannot be empty");
+        if (data.length == 0 || data[0].length == 0) {
+            throw new DimensionException("Cannot create Matrix out of 2D Array that has one of its dimensions equal to 0");
         }
 
         this.data = Arrays.stream(data).map(double[]::clone).toArray($ -> data.clone());
@@ -21,10 +20,19 @@ public class MatJv implements Matrix {
 
     public MatJv(int rows, int cols) {
 
+        if (rows == 0 || cols == 0) {
+            throw new DimensionException("Cannot create Matrix with one of its dimensions equal to 0");
+        }
+
         this.data = new double[rows][cols];
     }
 
     public MatJv(int rows, int cols, double initialValue) {
+
+        if (rows == 0 || cols == 0) {
+            throw new DimensionException("Cannot create Matrix with one of its dimensions equal to 0");
+        }
+
         this.data = new double[rows][cols];
         for (double[] row: data)
             Arrays.fill(row, initialValue);

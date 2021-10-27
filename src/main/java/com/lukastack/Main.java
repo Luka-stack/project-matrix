@@ -5,7 +5,7 @@ import com.lukastack.projectmatrix.core.matrices.LiMatJv;
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 
 import java.util.Arrays;
-import java.util.concurrent.ExecutionException;
+import java.util.concurrent.*;
 
 public class Main {
 
@@ -36,17 +36,6 @@ public class Main {
 //
 //        System.out.println(endTime - startTime);
 
-        var test = new MatJv(3, 3);
-        test.set(0, 0, 0.0);
-        test.set(0, 1, 1.0);
-        test.set(0, 2, 1.0);
-        test.set(1, 0, 2.0);
-        test.set(1, 1, 3.0);
-        test.set(1, 2, 3.0);
-        test.set(2, 0, 2.0);
-        test.set(2, 1, 3.0);
-        test.set(2, 2, 3.0);
-
-        System.out.println(MamJv.stringifyMatrix(test));
+        var pool = new ThreadPoolExecutor(-5, 5, 500L, TimeUnit.SECONDS,  new LinkedBlockingQueue<>());
     }
 }

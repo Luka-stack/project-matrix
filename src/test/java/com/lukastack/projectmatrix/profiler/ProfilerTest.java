@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.stream.DoubleStream;
 
 class ProfilerTest {
@@ -45,7 +46,7 @@ class ProfilerTest {
     }
 
     @Test
-    void profileFunctionToFile_fileCreated() {
+    void profileFunctionToFile_fileCreated() throws IOException {
 
         String filename = "testFileExists.txt";
 

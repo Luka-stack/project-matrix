@@ -6,6 +6,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 class LiMatJvTest {
 
     private final int rows = 5;
@@ -15,6 +20,38 @@ class LiMatJvTest {
     @BeforeEach
     void setUp() {
         matrix = new LiMatJv(rows, cols);
+    }
+
+    @Test
+    void constructor_emptyList_ThrowDimensionException() {
+
+        List<List<Double>> empty2DList = new ArrayList<>();
+
+        Assertions.assertThrows(DimensionException.class, () -> new LiMatJv(empty2DList));
+    }
+
+    @Test
+    void constructor_notHomogeneous_ThrowDimensionException() {
+
+        List<List<Double>> empty2DList = new ArrayList<>(5);
+        empty2DList.add(Arrays.asList(1.0, 2.0, 3.0));
+        empty2DList.add(Arrays.asList(1.0, 2.0));
+
+        Assertions.assertThrows(DimensionException.class, () -> new LiMatJv(empty2DList));
+    }
+
+    @Test
+    void constructor_dimensionZero_ThrowDimensionException() {
+
+        Assertions.assertThrows(DimensionException.class, () -> new LiMatJv(0, 2));
+        Assertions.assertThrows(DimensionException.class, () -> new LiMatJv(1, 0));
+    }
+
+    @Test
+    void constructor_initialValue_dimensionZero_ThrowDimensionException() {
+
+        Assertions.assertThrows(DimensionException.class, () -> new LiMatJv(0, 2, 1));
+        Assertions.assertThrows(DimensionException.class, () -> new LiMatJv(2, 0, 2));
     }
 
     @Test

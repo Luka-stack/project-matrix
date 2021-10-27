@@ -34,7 +34,7 @@ public abstract class AbstractNumJv implements DefaultOperations {
         try {
             poolProvider.waitForCompletion();
         } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -46,7 +46,7 @@ public abstract class AbstractNumJv implements DefaultOperations {
                 threadPoolExecutor = null;
             }
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
     }
 

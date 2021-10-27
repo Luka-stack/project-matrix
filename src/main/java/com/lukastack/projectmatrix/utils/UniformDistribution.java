@@ -11,6 +11,6 @@ public class UniformDistribution {
     }
 
     private UniformDistribution() {
-        throw new IllegalStateException("Utility class");
+        throw new UnsupportedOperationException("Utility class. Should not be instantiated");
     }
 }

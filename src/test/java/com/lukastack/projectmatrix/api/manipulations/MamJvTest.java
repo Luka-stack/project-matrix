@@ -1,6 +1,7 @@
 package com.lukastack.projectmatrix.api.manipulations;
 
 import com.lukastack.projectmatrix.core.matrices.LiMatJv;
+import com.lukastack.projectmatrix.errors.DimensionException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -201,6 +202,12 @@ class MamJvTest {
     }
 
     @Test
+    void upperTriangular_wrongDimension_ThrowDimensionException() {
+
+        Assertions.assertThrows(DimensionException.class, () -> MamJv.upperTriangular(2, 5, 1.0));
+    }
+
+    @Test
     void lowerTriangular() {
 
         int rows = 5;
@@ -222,6 +229,12 @@ class MamJvTest {
                 Assertions.assertEquals(0, matrix.get(i, j));
             }
         }
+    }
+
+    @Test
+    void lowerTriangular_wrongDimension_ThrowDimensionException() {
+
+        Assertions.assertThrows(DimensionException.class, () -> MamJv.lowerTriangular(2, 5, 1.0));
     }
 
     @Test

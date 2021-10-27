@@ -12,7 +12,7 @@ public class LiMatJv implements Matrix {
     public LiMatJv(List<List<Double>> data) {
 
         if (data.isEmpty()) {
-            throw new RuntimeException("Cannot be empty");
+            throw new DimensionException("Cannot create Matrix out of empty List");
         }
 
         int size = data.get(0).size();
@@ -21,7 +21,7 @@ public class LiMatJv implements Matrix {
         for (List<Double> col : data) {
 
             if (col.size() != size) {
-                throw new RuntimeException("Matrix must be homogeneous");
+                throw new DimensionException("Matrix must be homogeneous");
             }
 
             this.data.add(new ArrayList<>(col));
@@ -30,10 +30,27 @@ public class LiMatJv implements Matrix {
 
     public LiMatJv(int rows, int cols) {
 
+        if (rows == 0 || cols == 0) {
+            throw new DimensionException("Cannot create Matrix with one of its dimensions equal to 0");
+        }
+
         this.data = new ArrayList<>(rows);
 
         for (int i = 0; i < rows; ++i) {
             data.add(new ArrayList<>(Collections.nCopies(cols, 0.0)));
+        }
+    }
+
+    public LiMatJv(int rows, int cols, double initialValue) {
+
+        if (rows == 0 || cols == 0) {
+            throw new DimensionException("Cannot create Matrix with one of its dimensions equal to 0");
+        }
+
+        this.data = new ArrayList<>(rows);
+
+        for (int i = 0; i < rows; ++i) {
+            data.add(new ArrayList<>(Collections.nCopies(cols, initialValue)));
         }
     }
 

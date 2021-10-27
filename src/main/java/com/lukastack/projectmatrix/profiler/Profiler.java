@@ -18,6 +18,10 @@ public class Profiler {
     public Map<String, double[]> profileFunction(int warmups, int repeats, final ProfilerTimeUnit unit,
                                                  final ProfilerFunction profilerFunction) {
 
+        if (warmups < 0 || repeats < 0) {
+            throw new IllegalArgumentException("Warmups & repeats cannot be negative");
+        }
+
         Map<String, double[]> result = new LinkedHashMap<>();
 
         iteration(warmups, unit, profilerFunction);
@@ -36,6 +40,10 @@ public class Profiler {
     public void profileFunctionToConsole(int warmups, int repeats, ProfilerTimeUnit unit,
                                          ProfilerFunction profilerFunction) {
 
+        if (warmups < 0 || repeats < 0) {
+            throw new IllegalArgumentException("Warmups & repeats cannot be negative");
+        }
+
         explicitIteration("Warmup", warmups, unit, profilerFunction);
         var executionTimes = explicitIteration("Iteration", repeats, unit, profilerFunction);
         var statistics = getExecutionStatistics(executionTimes);
@@ -47,7 +55,7 @@ public class Profiler {
     }
 
     public void profileFunctionToFile(int warmups, int repeats, ProfilerTimeUnit unit, String filename,
-                                      ProfilerFunction profilerFunction) {
+                                      ProfilerFunction profilerFunction) throws IOException {
 
         var mapInformation = profileFunction(warmups, repeats, unit, profilerFunction);
 
@@ -109,8 +117,7 @@ public class Profiler {
 
         }
         catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("File Writer Error");
+            throw new IOException(String.format("Error occurred while creating/opening file %s", filename), e);
         }
     }
 

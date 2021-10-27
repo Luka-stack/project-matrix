@@ -5,6 +5,7 @@ import com.lukastack.projectmatrix.core.equations.ProduceValueFromIndexes;
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
 import com.lukastack.projectmatrix.core.matrices.MatrixBuilder;
+import com.lukastack.projectmatrix.errors.DimensionException;
 import com.lukastack.projectmatrix.utils.NormalDistribution;
 import com.lukastack.projectmatrix.utils.UniformDistribution;
 
@@ -178,9 +179,11 @@ public class MamJv {
 
     public static Matrix upperTriangular(int rows, int cols, double value) {
 
-        //TODO add error
         if (rows != cols) {
-            throw new RuntimeException("Must be a square");
+            throw new DimensionException(
+                    String.format("Upper Triangular Matrix has to be square but provided shape was (%d, %d)",
+                            rows, cols)
+            );
         }
 
         var result = MatrixBuilder.buildMatrix(MatJv.class, rows, cols);
@@ -195,9 +198,11 @@ public class MamJv {
 
     public static Matrix upperTriangular(int rows, int cols, double value, Class<? extends Matrix> clazz) {
 
-        //TODO add error
         if (rows != cols) {
-            throw new RuntimeException("Must be a square");
+            throw new DimensionException(
+                    String.format("Upper Triangular Matrix has to be square but provided shape was (%d, %d)",
+                            rows, cols)
+            );
         }
 
         var result = MatrixBuilder.buildMatrix(clazz, rows, cols);
@@ -212,9 +217,11 @@ public class MamJv {
 
     public static Matrix lowerTriangular(int rows, int cols, double value) {
 
-        //TODO add error
         if (rows != cols) {
-            throw new RuntimeException("Must be a square");
+            throw new DimensionException(
+                    String.format("Lower Triangular Matrix has to be square but provided shape was (%d, %d)",
+                            rows, cols)
+            );
         }
 
         var result = MatrixBuilder.buildMatrix(MatJv.class, rows, cols);
@@ -235,9 +242,11 @@ public class MamJv {
 
     public static Matrix lowerTriangular(int rows, int cols, double value, Class<? extends Matrix> clazz) {
 
-        //TODO add error
         if (rows != cols) {
-            throw new RuntimeException("Must be a square");
+            throw new DimensionException(
+                    String.format("Lower Triangular Matrix has to be square but provided shape was (%d, %d)",
+                            rows, cols)
+            );
         }
 
         var result = MatrixBuilder.buildMatrix(clazz, rows, cols);

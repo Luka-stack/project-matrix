@@ -18,6 +18,36 @@ class MatJvTest {
     }
 
     @Test
+    void constructor_array_emptyFirstDimension_ThrowDimensionException() {
+
+        double[][] data = new double[0][0];
+
+        Assertions.assertThrows(DimensionException.class, () -> new MatJv(data));
+    }
+
+    @Test
+    void constructor_array_emptySecondDimension_ThrowDimensionException() {
+
+        double[][] data = new double[5][0];
+
+        Assertions.assertThrows(DimensionException.class, () -> new MatJv(data));
+    }
+
+    @Test
+    void constructor_dimensionZero_ThrowDimensionException() {
+
+        Assertions.assertThrows(DimensionException.class, () -> new MatJv(0, 2));
+        Assertions.assertThrows(DimensionException.class, () -> new MatJv(1, 0));
+    }
+
+    @Test
+    void constructor_initialValue_dimensionZero_ThrowDimensionException() {
+
+        Assertions.assertThrows(DimensionException.class, () -> new MatJv(0, 2, 1));
+        Assertions.assertThrows(DimensionException.class, () -> new MatJv(2, 0, 2));
+    }
+
+    @Test
     void shape_returnCorrectShape() {
 
         var shape = matrix.shape();

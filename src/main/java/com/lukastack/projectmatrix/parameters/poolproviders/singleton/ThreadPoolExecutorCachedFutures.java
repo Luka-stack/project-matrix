@@ -5,7 +5,7 @@ import java.util.concurrent.*;
 public class ThreadPoolExecutorCachedFutures extends ThreadPoolExecutor {
 
     private static final int TASK_CAPACITY = 1000000;
-    private CapacityQueue<Future<?>> futures;
+    private final CapacityQueue<Future<?>> futures;
 
     public ThreadPoolExecutorCachedFutures(int corePoolSize, int maximumPoolSize, long keepAliveTime,
                                            TimeUnit unit, BlockingQueue<Runnable> workQueue) {

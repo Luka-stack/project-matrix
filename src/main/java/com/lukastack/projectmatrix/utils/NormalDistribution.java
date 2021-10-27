@@ -8,5 +8,8 @@ public class NormalDistribution {
 
     public static double getRandom() { return new Random(seedUniquifier + System.nanoTime()).nextGaussian(); }
 
-    private NormalDistribution() { throw new IllegalStateException("Utility class"); }
+    private NormalDistribution() {
+
+        throw new UnsupportedOperationException("Utility class. Should not be instantiated");
+    }
 }

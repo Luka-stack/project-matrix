@@ -36,17 +36,15 @@ public class SingletonThreadPoolProvider extends ThreadPoolProvider {
         return this.threadPool;
     }
 
-    // TODO Extract close to Interface ? Abstract class ?
-    // TODO Should throw error ? Log error ? if couldn't close thread pool
-    // TODO Should return bool ?
+    @Override
     public void close() throws InterruptedException {
 
         this.threadPool.shutdown();
         if (!this.threadPool.awaitTermination(60, TimeUnit.SECONDS)) {
             this.threadPool.shutdownNow();
 
-            if (!this.threadPool.awaitTermination(60, TimeUnit.SECONDS)) {
-                // TODO throw an custom error
+            while(!this.threadPool.awaitTermination(60, TimeUnit.SECONDS)) {
+                Thread.sleep(60000);
             }
         }
         this.threadPool = null;
@@ -58,14 +56,13 @@ public class SingletonThreadPoolProvider extends ThreadPoolProvider {
         if (!this.threadPool.awaitTermination(timeout, unit)) {
             this.threadPool.shutdownNow();
 
-            if (!this.threadPool.awaitTermination(timeout, unit)) {
-                // TODO throw an custom error
+            while(!this.threadPool.awaitTermination(60, TimeUnit.SECONDS)) {
+                Thread.sleep(60000);
             }
         }
         this.threadPool = null;
     }
 
-    // TODO Throw exception from these function ?
     public void waitForCompletion() throws InterruptedException, ExecutionException {
 
         var futures = this.threadPool.getFutures();
