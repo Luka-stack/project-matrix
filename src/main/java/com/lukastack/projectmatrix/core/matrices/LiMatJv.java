@@ -3,13 +3,30 @@ package com.lukastack.projectmatrix.core.matrices;
 import com.lukastack.projectmatrix.errors.DimensionException;
 import com.lukastack.projectmatrix.errors.DimensionsIndexException;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class LiMatJv implements Matrix {
 
     private final List<List<Double>> data;
+
+    public LiMatJv(List<List<Double>> data) {
+
+        if (data.isEmpty()) {
+            throw new RuntimeException("Cannot be empty");
+        }
+
+        int size = data.get(0).size();
+        this.data = new ArrayList<>(data.size());
+
+        for (List<Double> col : data) {
+
+            if (col.size() != size) {
+                throw new RuntimeException("Matrix must be homogeneous");
+            }
+
+            this.data.add(new ArrayList<>(col));
+        }
+    }
 
     public LiMatJv(int rows, int cols) {
 
@@ -79,6 +96,27 @@ public class LiMatJv implements Matrix {
     }
 
     @Override
+    public Matrix copy() {
+
+        return new LiMatJv(this.data);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LiMatJv liMatJv = (LiMatJv) o;
+        return data.equals(liMatJv.data);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(data);
+    }
+
+    @Override
     public String toString() {
 
         StringBuilder builder = new StringBuilder("LiMatJv([");
@@ -89,12 +127,12 @@ public class LiMatJv implements Matrix {
 
             for (Double aDouble : a) {
                 builder.append(prefix);
-                prefix = ",";
+                prefix = ", ";
                 builder.append(aDouble);
             }
-            builder.append("],\n");
+            builder.append("],\n\t\t ");
         }
-        builder.setLength(builder.length() - 3);
+        builder.setLength(builder.length() - 5);
         builder.append("])");
 
         return builder.toString();

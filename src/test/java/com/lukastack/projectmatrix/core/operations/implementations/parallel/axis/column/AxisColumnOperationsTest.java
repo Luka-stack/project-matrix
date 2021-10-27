@@ -2,7 +2,7 @@ package com.lukastack.projectmatrix.core.operations.implementations.parallel.axi
 
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
-import com.lukastack.projectmatrix.parameters.threads.SingletonThreadPoolProvider;
+import com.lukastack.projectmatrix.parameters.poolproviders.singleton.SingletonThreadPoolProvider;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +15,7 @@ class AxisColumnOperationsTest {
 
     private final DecimalFormat toOneDecimal = new DecimalFormat("0.0");
     private SingletonThreadPoolProvider poolProvider;
-    private AxisColumnOperations operations;
+    private AxisColumnOperation operations;
 
     @BeforeEach
     void setUp() {
@@ -30,7 +30,7 @@ class AxisColumnOperationsTest {
     @Test
     void operate_correctEquation_Matrix_v_Matrix_squareMatrix() throws ExecutionException, InterruptedException {
 
-        operations = new AxisColumnOperations();
+        operations = new AxisColumnOperation();
 
         correctEquation_Matrix_v_Matrix_squareMatrix_test();
     }
@@ -38,21 +38,21 @@ class AxisColumnOperationsTest {
     @Test
     void operate_correctEquations_Matrix_v_Matrix_longerRow() throws ExecutionException, InterruptedException {
 
-        operations = new AxisColumnOperations();
+        operations = new AxisColumnOperation();
         correctEquation_Matrix_v_Matrix_longerRow_test();
     }
 
     @Test
     void operate_correctEquations_Matrix_v_Matrix_longerColumn() throws ExecutionException, InterruptedException {
 
-        operations = new AxisColumnOperations();
+        operations = new AxisColumnOperation();
         correctEquation_Matrix_v_Matrix_longerColumn_test();
     }
 
     @Test
     void operate_correctEquation_Matrix_v_Scalar_squareMatrix() throws ExecutionException, InterruptedException {
 
-        operations = new AxisColumnOperations();
+        operations = new AxisColumnOperation();
 
         correctEquation_Matrix_v_Scalar_squareMatrix_test();
     }
@@ -60,14 +60,14 @@ class AxisColumnOperationsTest {
     @Test
     void operate_correctEquations_Matrix_v_Scalar_longerRow() throws ExecutionException, InterruptedException {
 
-        operations = new AxisColumnOperations();
+        operations = new AxisColumnOperation();
         correctEquation_Matrix_v_Scalar_longerRow_test();
     }
 
     @Test
     void operate_correctEquations_Matrix_v_Scalar_longerColumn() throws ExecutionException, InterruptedException {
 
-        operations = new AxisColumnOperations();
+        operations = new AxisColumnOperation();
         correctEquation_Matrix_v_Scalar_longerColumn_test();
     }
 

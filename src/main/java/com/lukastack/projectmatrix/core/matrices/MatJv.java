@@ -9,7 +9,18 @@ public class MatJv implements Matrix {
 
     private final double[][] data;
 
+    public MatJv(double[][] data) {
+
+        // TODO add error
+        if (data.length == 0) {
+            throw new RuntimeException("Cannot be empty");
+        }
+
+        this.data = Arrays.stream(data).map(double[]::clone).toArray($ -> data.clone());
+    }
+
     public MatJv(int rows, int cols) {
+
         this.data = new double[rows][cols];
     }
 
@@ -50,6 +61,7 @@ public class MatJv implements Matrix {
 
     @Override
     public int[] shape() {
+
         return new int[] { this.data.length, this.data[0].length };
     }
 
@@ -78,6 +90,26 @@ public class MatJv implements Matrix {
     }
 
     @Override
+    public Matrix copy() {
+
+        return new MatJv(this.data);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MatJv matJv = (MatJv) o;
+
+        return Arrays.deepEquals(data, matJv.data);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(data);
+    }
+
+    @Override
     public String toString() {
 
         StringBuilder builder = new StringBuilder("MatJv([");
@@ -88,12 +120,12 @@ public class MatJv implements Matrix {
 
             for (double value : datum) {
                 builder.append(prefix);
-                prefix = ",";
+                prefix = ", ";
                 builder.append(value);
             }
-            builder.append("],\n");
+            builder.append("],\n\t   ");
         }
-        builder.setLength(builder.length() - 3);
+        builder.setLength(builder.length() - 6);
         builder.append("])");
 
         return builder.toString();

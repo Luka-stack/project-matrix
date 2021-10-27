@@ -2,7 +2,7 @@ package com.lukastack.projectmatrix.core.operations.implementations.parallel.ind
 
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
-import com.lukastack.projectmatrix.parameters.threads.SingletonThreadPoolProvider;
+import com.lukastack.projectmatrix.parameters.poolproviders.singleton.SingletonThreadPoolProvider;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +15,7 @@ class IndividualProductTest {
 
     private final DecimalFormat toThreeDecimal = new DecimalFormat("0.000");
     private SingletonThreadPoolProvider poolProvider;
-    private IndividualProduct productImpl;
+    private IndividualDefaultMatrixProduct productImpl;
 
     @BeforeEach
     void setUp() {
@@ -30,7 +30,7 @@ class IndividualProductTest {
     @Test
     void matMul_correctEquation() throws ExecutionException, InterruptedException {
 
-        productImpl = new IndividualProduct();
+        productImpl = new IndividualDefaultMatrixProduct();
 
         Matrix matrixFirst = new MatJv(5, 2);
         Matrix matrixSecond = new MatJv(2, 5);
@@ -95,7 +95,7 @@ class IndividualProductTest {
     @Test
     void matMul_correctEquation_squareMatrix() throws ExecutionException, InterruptedException {
 
-        productImpl = new IndividualProduct();
+        productImpl = new IndividualDefaultMatrixProduct();
 
         Matrix matrixFirst = new MatJv(3, 3);
         Matrix matrixSecond = new MatJv(3, 3);

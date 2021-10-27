@@ -1,0 +1,13 @@
+##### Warmups
+# Completed 3 warmups
+
+##### Iterations
+# Iteration #0: 83 ms
+# Iteration #1: 83 ms
+
+##### Statistics
+# Repeats: 2
+# Average Time: 83.0 ms
+# Min Time: 83.0 ms
+# Max Time: 83.0 ms
+# Mode Time: 83.0 ms
