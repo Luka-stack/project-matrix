@@ -9,7 +9,7 @@ public class IndividualDefaultOperation implements IndividualMatrixOperation {
 
     @Override
     public void operate(final Matrix leftMatrix, final Matrix rightMatrix, final Matrix resultMatrix,
-                         final ThreadPoolExecutor taskPool, final GenericEquation genericEquation) {
+                        final ThreadPoolExecutor taskPool, final GenericEquation genericEquation) {
 
         for (int row = 0; row < leftMatrix.shape()[0]; ++row) {
 
@@ -24,7 +24,7 @@ public class IndividualDefaultOperation implements IndividualMatrixOperation {
 
     @Override
     public void operate(final Matrix matrix, double scalar, final Matrix resultMatrix,
-                         final ThreadPoolExecutor taskPool, final GenericEquation genericEquation) {
+                        final ThreadPoolExecutor taskPool, final GenericEquation genericEquation) {
 
         for (int row = 0; row < matrix.shape()[0]; ++row) {
 
@@ -50,7 +50,7 @@ public class IndividualDefaultOperation implements IndividualMatrixOperation {
         private final int column;
 
         public IndividualMatrixOperationsTask(final Matrix result, final Matrix matLeft, final Matrix matRight,
-                                        GenericEquation equation, int row, int column) {
+                                              GenericEquation equation, int row, int column) {
 
             this.row = row;
             this.column = column;
@@ -80,7 +80,7 @@ public class IndividualDefaultOperation implements IndividualMatrixOperation {
         private final int column;
 
         public IndividualScalarOperationsTask(final Matrix result, final Matrix matrix, double scalar,
-                                                    final GenericEquation equation, int row, int column) {
+                                              final GenericEquation equation, int row, int column) {
 
             this.row = row;
             this.column = column;

@@ -3,6 +3,7 @@ package com.lukastack;
 import com.lukastack.projectmatrix.api.manipulations.MamJv;
 import com.lukastack.projectmatrix.core.matrices.LiMatJv;
 import com.lukastack.projectmatrix.core.matrices.MatJv;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.concurrent.*;
@@ -36,6 +37,6 @@ public class Main {
 //
 //        System.out.println(endTime - startTime);
 
-        var pool = new ThreadPoolExecutor(-5, 5, 500L, TimeUnit.SECONDS,  new LinkedBlockingQueue<>());
+        System.out.println((int) Math.pow(Math.E, Math.log10(10)));
     }
 }

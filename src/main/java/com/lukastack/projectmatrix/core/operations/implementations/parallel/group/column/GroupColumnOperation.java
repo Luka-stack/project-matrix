@@ -88,7 +88,7 @@ public class GroupColumnOperation implements GroupMatrixOperation {
         private final int endIndex;
 
         public MatrixWithMatrixTask(final Matrix result, final Matrix leftMatrix, final Matrix rightMatrix,
-                                                final GenericEquation equation, int startIndex, int endIndex) {
+                                    final GenericEquation equation, int startIndex, int endIndex) {
             this.result = result;
             this.leftMatrix = leftMatrix;
             this.rightMatrix = rightMatrix;

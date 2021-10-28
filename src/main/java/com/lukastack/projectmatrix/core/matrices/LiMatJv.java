@@ -5,7 +5,7 @@ import com.lukastack.projectmatrix.errors.DimensionsIndexException;
 
 import java.util.*;
 
-public class LiMatJv implements Matrix {
+public class LiMatJv extends Matrix {
 
     private final List<List<Double>> data;
 
@@ -30,9 +30,7 @@ public class LiMatJv implements Matrix {
 
     public LiMatJv(int rows, int cols) {
 
-        if (rows == 0 || cols == 0) {
-            throw new DimensionException("Cannot create Matrix with one of its dimensions equal to 0");
-        }
+        this.assertDimensionNotZero(rows, cols);
 
         this.data = new ArrayList<>(rows);
 
@@ -43,9 +41,7 @@ public class LiMatJv implements Matrix {
 
     public LiMatJv(int rows, int cols, double initialValue) {
 
-        if (rows == 0 || cols == 0) {
-            throw new DimensionException("Cannot create Matrix with one of its dimensions equal to 0");
-        }
+        this.assertDimensionNotZero(rows, cols);
 
         this.data = new ArrayList<>(rows);
 

@@ -5,7 +5,7 @@ import com.lukastack.projectmatrix.errors.DimensionsIndexException;
 
 import java.util.Arrays;
 
-public class MatJv implements Matrix {
+public class MatJv extends Matrix {
 
     private final double[][] data;
 
@@ -20,18 +20,14 @@ public class MatJv implements Matrix {
 
     public MatJv(int rows, int cols) {
 
-        if (rows == 0 || cols == 0) {
-            throw new DimensionException("Cannot create Matrix with one of its dimensions equal to 0");
-        }
+        this.assertDimensionNotZero(rows, cols);
 
         this.data = new double[rows][cols];
     }
 
     public MatJv(int rows, int cols, double initialValue) {
 
-        if (rows == 0 || cols == 0) {
-            throw new DimensionException("Cannot create Matrix with one of its dimensions equal to 0");
-        }
+        this.assertDimensionNotZero(rows, cols);
 
         this.data = new double[rows][cols];
         for (double[] row: data)

@@ -3,7 +3,6 @@ package com.lukastack.projectmatrix.api.operations.parallel;
 import com.lukastack.projectmatrix.api.operations.specification.DefaultOperations;
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
-import com.lukastack.projectmatrix.core.matrices.MatrixBuilder;
 import com.lukastack.projectmatrix.errors.DimensionException;
 import com.lukastack.projectmatrix.parameters.poolproviders.singleton.SingletonThreadPoolProvider;
 import com.lukastack.projectmatrix.parameters.poolproviders.ThreadPoolProvider;
@@ -46,13 +45,13 @@ public abstract class AbstractNumJv implements DefaultOperations {
                 threadPoolExecutor = null;
             }
         } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+           Thread.currentThread().interrupt();
         }
     }
 
     protected Matrix createMatrix(int rows, int columns) {
 
-        return MatrixBuilder.buildMatrix(clazz, rows, columns);
+        return Matrix.buildMatrix(clazz, rows, columns);
     }
 
     protected void assertElementWiseDimension(final Matrix leftMatrix, final Matrix rightMatrix) {

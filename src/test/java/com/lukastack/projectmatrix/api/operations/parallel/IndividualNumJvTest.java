@@ -672,8 +672,8 @@ class IndividualNumJvTest {
     @Test
     void param_WaitForResult_false_NotBlockingMainThread() {
 
-        leftMatrix = MamJv.uniformDistribution(500, 500);
-        rightMatrix = MamJv.uniformDistribution(500, 500);
+        leftMatrix = MamJv.uniformDistribution(100, 100);
+        rightMatrix = MamJv.uniformDistribution(100, 100);
 
         int repeats = 5;
         long blockingTime = 0;

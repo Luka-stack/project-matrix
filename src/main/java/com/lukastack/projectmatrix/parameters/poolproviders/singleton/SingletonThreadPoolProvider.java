@@ -43,7 +43,7 @@ public class SingletonThreadPoolProvider extends ThreadPoolProvider {
         if (!this.threadPool.awaitTermination(60, TimeUnit.SECONDS)) {
             this.threadPool.shutdownNow();
 
-            while(!this.threadPool.awaitTermination(60, TimeUnit.SECONDS)) {
+            while (!this.threadPool.awaitTermination(60, TimeUnit.SECONDS)) {
                 Thread.sleep(60000);
             }
         }
@@ -56,7 +56,7 @@ public class SingletonThreadPoolProvider extends ThreadPoolProvider {
         if (!this.threadPool.awaitTermination(timeout, unit)) {
             this.threadPool.shutdownNow();
 
-            while(!this.threadPool.awaitTermination(60, TimeUnit.SECONDS)) {
+            while (!this.threadPool.awaitTermination(60, TimeUnit.SECONDS)) {
                 Thread.sleep(60000);
             }
         }

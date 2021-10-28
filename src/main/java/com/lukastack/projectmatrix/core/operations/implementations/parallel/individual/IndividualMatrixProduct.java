@@ -6,6 +6,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 public interface IndividualMatrixProduct {
 
-    void operate(final Matrix leftMatrix,final Matrix rightMatrix, final Matrix result,
+    void operate(final Matrix leftMatrix, final Matrix rightMatrix, final Matrix result,
                  final ThreadPoolExecutor taskPool);
 }

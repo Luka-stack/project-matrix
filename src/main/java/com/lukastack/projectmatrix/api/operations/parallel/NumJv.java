@@ -266,7 +266,7 @@ public class NumJv extends AbstractNumJv {
     }
 
     private Matrix serialElementWiseOperation(final Matrix leftMatrix, final Matrix rightMatrix,
-                                        final GenericEquation equation) {
+                                              final GenericEquation equation) {
 
         var result = createMatrix(leftMatrix.shape()[0], leftMatrix.shape()[1]);
 
@@ -276,7 +276,7 @@ public class NumJv extends AbstractNumJv {
     }
 
     private Matrix serialElementWiseOperation(final Matrix matrix, double scalar,
-                                        final GenericEquation equation) {
+                                              final GenericEquation equation) {
 
         var result = createMatrix(matrix.shape()[0], matrix.shape()[1]);
 

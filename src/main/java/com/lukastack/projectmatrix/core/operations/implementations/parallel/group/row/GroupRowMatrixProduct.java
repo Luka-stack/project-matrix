@@ -56,7 +56,7 @@ public class GroupRowMatrixProduct implements GroupMatrixProduct {
         private final int endIndex;
 
         public ProductTask(final Matrix result, final Matrix matLeft, final Matrix matRight,
-                                       int startIndex, int endIndex) {
+                           int startIndex, int endIndex) {
 
             this.result = result;
             this.matLeft = matLeft;

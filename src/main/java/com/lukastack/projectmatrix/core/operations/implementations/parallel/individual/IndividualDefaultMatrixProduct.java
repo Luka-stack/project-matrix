@@ -31,7 +31,7 @@ public class IndividualDefaultMatrixProduct implements IndividualMatrixProduct {
         private final int column;
 
         public IndividualProductTask(final Matrix result, final Matrix matLeft, final Matrix matRight,
-                                           int row, int column) {
+                                     int row, int column) {
 
             this.row = row;
             this.column = column;

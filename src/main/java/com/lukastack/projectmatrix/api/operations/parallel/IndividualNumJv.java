@@ -3,8 +3,6 @@ package com.lukastack.projectmatrix.api.operations.parallel;
 import com.lukastack.projectmatrix.core.equations.GenericEquation;
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
-import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.AxisMatrixOperation;
-import com.lukastack.projectmatrix.core.operations.implementations.parallel.axis.AxisMatrixProduct;
 import com.lukastack.projectmatrix.core.operations.implementations.parallel.individual.IndividualDefaultOperation;
 import com.lukastack.projectmatrix.core.operations.implementations.parallel.individual.IndividualDefaultMatrixProduct;
 import com.lukastack.projectmatrix.errors.CreationalException;

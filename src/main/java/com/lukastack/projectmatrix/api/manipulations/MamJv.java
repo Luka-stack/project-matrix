@@ -4,7 +4,6 @@ import com.lukastack.projectmatrix.core.equations.ProduceValue;
 import com.lukastack.projectmatrix.core.equations.ProduceValueFromIndexes;
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
-import com.lukastack.projectmatrix.core.matrices.MatrixBuilder;
 import com.lukastack.projectmatrix.errors.DimensionException;
 import com.lukastack.projectmatrix.utils.NormalDistribution;
 import com.lukastack.projectmatrix.utils.UniformDistribution;
@@ -89,7 +88,7 @@ public class MamJv {
 
     public static Matrix fromRange(int rows, int cols) {
 
-        var result = MatrixBuilder.buildMatrix(MatJv.class, rows, cols);
+        var result = Matrix.buildMatrix(MatJv.class, rows, cols);
 
         Stream.iterate(0, n -> n < rows*cols, n -> ++n)
                 .parallel()
@@ -104,7 +103,7 @@ public class MamJv {
 
     public static Matrix fromRange(int rows, int cols, Class<? extends Matrix> clazz) {
 
-        var result = MatrixBuilder.buildMatrix(clazz, rows, cols);
+        var result = Matrix.buildMatrix(clazz, rows, cols);
 
         Stream.iterate(0, n -> n < rows*cols, n -> ++n)
                 .parallel()
@@ -119,7 +118,7 @@ public class MamJv {
 
     public static Matrix fromRange(int rows, int cols, double start) {
 
-        var result = MatrixBuilder.buildMatrix(MatJv.class, rows, cols);
+        var result = Matrix.buildMatrix(MatJv.class, rows, cols);
 
         Stream.iterate(0, n -> n < rows*cols, n -> ++n)
                 .parallel()
@@ -134,7 +133,7 @@ public class MamJv {
 
     public static Matrix fromRange(int rows, int cols, double start, Class<? extends Matrix> clazz) {
 
-        var result = MatrixBuilder.buildMatrix(clazz, rows, cols);
+        var result = Matrix.buildMatrix(clazz, rows, cols);
 
         Stream.iterate(0, n -> n < rows*cols, n -> ++n)
                 .parallel()
@@ -149,7 +148,7 @@ public class MamJv {
 
     public static Matrix fromRange(int rows, int cols, double start, double step) {
 
-        var result = MatrixBuilder.buildMatrix(MatJv.class, rows, cols);
+        var result = Matrix.buildMatrix(MatJv.class, rows, cols);
 
         Stream.iterate(0, n -> n < rows*cols, n -> ++n)
                 .parallel()
@@ -164,7 +163,7 @@ public class MamJv {
 
     public static Matrix fromRange(int rows, int cols, double start, double step, Class<? extends Matrix> clazz) {
 
-        var result = MatrixBuilder.buildMatrix(clazz, rows, cols);
+        var result = Matrix.buildMatrix(clazz, rows, cols);
 
         Stream.iterate(0, n -> n < rows*cols, n -> ++n)
                 .parallel()
@@ -186,7 +185,7 @@ public class MamJv {
             );
         }
 
-        var result = MatrixBuilder.buildMatrix(MatJv.class, rows, cols);
+        var result = Matrix.buildMatrix(MatJv.class, rows, cols);
 
         IntStream.iterate(0, r -> r < rows, r -> ++r).parallel().forEach(x -> {
             IntStream.iterate(x, c -> c < cols, c -> ++c).parallel().forEach(y -> result.set(x, y, value));
@@ -205,7 +204,7 @@ public class MamJv {
             );
         }
 
-        var result = MatrixBuilder.buildMatrix(clazz, rows, cols);
+        var result = Matrix.buildMatrix(clazz, rows, cols);
 
         IntStream.iterate(0, r -> r < rows, r -> ++r).parallel().forEach(x -> {
             IntStream.iterate(x, c -> c < cols, c -> ++c).parallel().forEach(y -> result.set(x, y, value));
@@ -224,7 +223,7 @@ public class MamJv {
             );
         }
 
-        var result = MatrixBuilder.buildMatrix(MatJv.class, rows, cols);
+        var result = Matrix.buildMatrix(MatJv.class, rows, cols);
 
         IntStream.iterate(0, r -> r < rows, r -> ++r)
                 .parallel()
@@ -249,7 +248,7 @@ public class MamJv {
             );
         }
 
-        var result = MatrixBuilder.buildMatrix(clazz, rows, cols);
+        var result = Matrix.buildMatrix(clazz, rows, cols);
 
         IntStream.iterate(0, r -> r < rows, r -> ++r)
                 .parallel()
@@ -267,7 +266,7 @@ public class MamJv {
 
     public static Matrix fromFunction(int rows, int cols, final ProduceValue produceValue) {
 
-        var result = MatrixBuilder.buildMatrix(MatJv.class, rows, cols);
+        var result = Matrix.buildMatrix(MatJv.class, rows, cols);
 
         Stream.iterate(1, n -> n <= rows*cols, n -> ++n)
                 .parallel()
@@ -283,7 +282,7 @@ public class MamJv {
     public static Matrix fromFunction(int rows, int cols, final ProduceValue produceValue,
                                       Class<? extends Matrix> clazz) {
 
-        var result = MatrixBuilder.buildMatrix(clazz, rows, cols);
+        var result = Matrix.buildMatrix(clazz, rows, cols);
 
         Stream.iterate(1, n -> n <= rows*cols, n -> ++n)
                 .parallel()
@@ -298,7 +297,7 @@ public class MamJv {
 
     public static Matrix fromFunction(int rows, int cols, final ProduceValueFromIndexes produceValue) {
 
-        var result = MatrixBuilder.buildMatrix(MatJv.class, rows, cols);
+        var result = Matrix.buildMatrix(MatJv.class, rows, cols);
 
         Stream.iterate(1, n -> n <= rows*cols, n -> ++n)
                 .parallel()
@@ -314,7 +313,7 @@ public class MamJv {
     public static Matrix fromFunction(int rows, int cols, final ProduceValueFromIndexes produceValue,
                                       Class<? extends Matrix> clazz) {
 
-        var result = MatrixBuilder.buildMatrix(clazz, rows, cols);
+        var result = Matrix.buildMatrix(clazz, rows, cols);
 
         Stream.iterate(1, n -> n <= rows*cols, n -> ++n)
                 .parallel()
