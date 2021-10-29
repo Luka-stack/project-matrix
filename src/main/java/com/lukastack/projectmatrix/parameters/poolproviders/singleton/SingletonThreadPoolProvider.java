@@ -13,7 +13,7 @@ public class SingletonThreadPoolProvider extends ThreadPoolProvider {
         this.corePoolSize = Runtime.getRuntime().availableProcessors();
         this.maximumPoolSize = Runtime.getRuntime().availableProcessors();
         this.keepAlive = 0L;
-        this.keepAliveUnit = TimeUnit.SECONDS;
+        this.keepAliveUnit = TimeUnit.MILLISECONDS;
     }
 
     public SingletonThreadPoolProvider(int corePoolSize, int maximumPoolSize, long keepAlive, TimeUnit keepAliveUnit) {
