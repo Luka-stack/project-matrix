@@ -1,13 +1,17 @@
 package com.lukastack.projectmatrix.parameters.poolproviders;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.*;
 
 public abstract class ThreadPoolProvider implements IThreadPoolProvider, ThreadPoolParameters {
+
+    private Class<? extends BlockingQueue<Runnable>> workQueueClass;
 
     protected long keepAlive;
     protected TimeUnit keepAliveUnit;
     protected int corePoolSize;
     protected int maximumPoolSize;
+    protected ThreadPoolType threadPoolType;
 
     @Override
     public void setKeepAlive(long time, TimeUnit unit) {
@@ -60,6 +64,11 @@ public abstract class ThreadPoolProvider implements IThreadPoolProvider, ThreadP
         return keepAliveUnit;
     }
 
+    public <E extends BlockingQueue<Runnable>> void setWorkQueueClass(Class<E> workQueueClass) {
+
+        this.workQueueClass = workQueueClass;
+    }
+
     @Override
     public String toString() {
         return "ThreadPoolProvider{" +
@@ -72,6 +81,19 @@ public abstract class ThreadPoolProvider implements IThreadPoolProvider, ThreadP
 
     protected BlockingQueue<Runnable> newWorkQueueInstance() {
 
-        return new ArrayBlockingQueue<>(1000000);
+        if (threadPoolType.equals(ThreadPoolType.CACHED)) {
+            return new SynchronousQueue<>();
+        }
+        else if (threadPoolType.equals(ThreadPoolType.FIXED)) {
+            return new LinkedBlockingQueue<>();
+        }
+        else {
+            try {
+                return workQueueClass.getDeclaredConstructor().newInstance();
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                e.printStackTrace();
+                throw new RuntimeException("ThreadPoolProvider - Could not create a new workQueue instance");
+            }
+        }
     }
 }

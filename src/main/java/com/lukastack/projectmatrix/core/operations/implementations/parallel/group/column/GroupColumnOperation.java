@@ -28,7 +28,7 @@ public class GroupColumnOperation implements GroupMatrixOperation {
         int groupSize;
 
         if (this.maxGroupSize == -1) {
-            groupSize = (int) Math.pow(Math.E, Math.log10(columns));
+            groupSize = Math.min((int) Math.pow(Math.E, Math.log10(columns)), Runtime.getRuntime().availableProcessors());
         }
         else {
             groupSize = this.maxGroupSize;
@@ -56,7 +56,7 @@ public class GroupColumnOperation implements GroupMatrixOperation {
         int groupSize;
 
         if (this.maxGroupSize == -1) {
-            groupSize = (int) Math.pow(Math.E, Math.log10(columns));
+            groupSize = Math.min((int) Math.pow(Math.E, Math.log10(columns)), Runtime.getRuntime().availableProcessors());
         }
         else {
             groupSize = this.maxGroupSize;

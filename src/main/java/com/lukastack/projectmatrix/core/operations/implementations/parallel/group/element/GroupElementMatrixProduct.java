@@ -27,7 +27,7 @@ public class GroupElementMatrixProduct implements GroupMatrixProduct {
         int groupSize;
 
         if (this.maxGroupSize == -1) {
-            groupSize = (int) Math.pow(Math.E, Math.log10(elements));
+            groupSize = Math.min((int) Math.pow(Math.E, Math.log10(elements)), Runtime.getRuntime().availableProcessors());
         }
         else {
             groupSize = this.maxGroupSize;

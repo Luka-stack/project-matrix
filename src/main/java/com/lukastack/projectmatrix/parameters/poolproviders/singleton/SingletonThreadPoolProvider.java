@@ -1,6 +1,7 @@
 package com.lukastack.projectmatrix.parameters.poolproviders.singleton;
 
 import com.lukastack.projectmatrix.parameters.poolproviders.ThreadPoolProvider;
+import com.lukastack.projectmatrix.parameters.poolproviders.ThreadPoolType;
 
 import java.util.concurrent.*;
 
@@ -14,6 +15,16 @@ public class SingletonThreadPoolProvider extends ThreadPoolProvider {
         this.maximumPoolSize = Runtime.getRuntime().availableProcessors();
         this.keepAlive = 0L;
         this.keepAliveUnit = TimeUnit.MILLISECONDS;
+        this.threadPoolType = ThreadPoolType.FIXED;
+    }
+
+    public SingletonThreadPoolProvider(int corePoolSize) {
+
+        this.corePoolSize = corePoolSize;
+        this.maximumPoolSize = corePoolSize;
+        this.keepAlive = 0L;
+        this.keepAliveUnit = TimeUnit.MILLISECONDS;
+        this.threadPoolType = ThreadPoolType.FIXED;
     }
 
     public SingletonThreadPoolProvider(int corePoolSize, int maximumPoolSize, long keepAlive, TimeUnit keepAliveUnit) {
@@ -22,6 +33,20 @@ public class SingletonThreadPoolProvider extends ThreadPoolProvider {
         this.maximumPoolSize = maximumPoolSize;
         this.keepAlive = keepAlive;
         this.keepAliveUnit = keepAliveUnit;
+        this.threadPoolType = ThreadPoolType.CACHED;
+    }
+
+    public <E extends BlockingQueue<Runnable>> SingletonThreadPoolProvider(int corePoolSize, int maximumPoolSize,
+                                                                           long keepAlive, TimeUnit keepAliveUnit,
+                                                                           Class<E> workQueueClass) {
+
+        this.corePoolSize = corePoolSize;
+        this.maximumPoolSize = maximumPoolSize;
+        this.keepAlive = keepAlive;
+        this.keepAliveUnit = keepAliveUnit;
+        this.threadPoolType = ThreadPoolType.CUSTOM;
+
+        setWorkQueueClass(workQueueClass);
     }
 
     @Override

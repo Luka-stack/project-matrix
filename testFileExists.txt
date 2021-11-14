@@ -1,13 +1,14 @@
 ##### Iterations
-# Iteration 0: 88804700 ns
-# Iteration 1: 83725700 ns
-# Iteration 2: 83620000 ns
-# Iteration 3: 83623700 ns
-# Iteration 4: 83616100 ns
+# Iteration 0: 90026400 ns
+# Iteration 1: 83855500 ns
+# Iteration 2: 83790400 ns
+# Iteration 3: 83818300 ns
+# Iteration 4: 83808100 ns
 
 ##### Statistics
 # Repeats: 5
-# Average Time: 8.467804E7 ns
-# Min Time: 8.88047E7 ns
-# Max Time: 8.36161E7 ns
+# Average Time: 8.505974E7 ns
+# Min Time: 9.00264E7 ns
+# Max Time: 8.37904E7 ns
+# Std: 5553098.732419585 ns
 # Mode Time: -1.0 ns

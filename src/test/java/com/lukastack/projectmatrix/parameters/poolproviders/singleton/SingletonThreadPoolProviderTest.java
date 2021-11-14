@@ -78,30 +78,4 @@ class SingletonThreadPoolProviderTest {
 
         Assertions.assertEquals(0, threadPool.getFutures().size());
     }
-
-    @Test
-    void waitForCompletion_waitTillTaskCompletion() throws ExecutionException, InterruptedException {
-
-        var threadPool = threadPoolProvider.provideThreadPool();
-
-        threadPool.submit(() -> {
-            Thread.sleep(1000);
-            return null;
-        });
-
-        threadPool.submit(() -> {
-            Thread.sleep(1000);
-            return null;
-        });
-
-        long startTime = System.nanoTime();
-        threadPoolProvider.waitForCompletion();
-        long endTime = System.nanoTime();
-
-        long duration = (endTime - startTime) / 1000000;
-
-        Assertions.assertTrue(duration > 2000);
-
-        threadPoolProvider.close();
-    }
 }

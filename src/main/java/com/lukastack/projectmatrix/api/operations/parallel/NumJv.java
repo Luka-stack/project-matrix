@@ -3,8 +3,6 @@ package com.lukastack.projectmatrix.api.operations.parallel;
 import com.lukastack.projectmatrix.core.equations.GenericEquation;
 import com.lukastack.projectmatrix.core.matrices.MatJv;
 import com.lukastack.projectmatrix.core.matrices.Matrix;
-import com.lukastack.projectmatrix.core.operations.implementations.parallel.group.column.GroupColumnMatrixProduct;
-import com.lukastack.projectmatrix.core.operations.implementations.parallel.group.column.GroupColumnOperation;
 import com.lukastack.projectmatrix.core.operations.implementations.parallel.group.row.GroupRowMatrixProduct;
 import com.lukastack.projectmatrix.core.operations.implementations.parallel.group.row.GroupRowOperation;
 import com.lukastack.projectmatrix.core.operations.implementations.serial.SerialDefaultMatrixProduct;
@@ -17,9 +15,7 @@ import java.util.concurrent.TimeUnit;
 public class NumJv extends AbstractNumJv {
 
     private final GroupRowOperation rowOperation;
-    private final GroupColumnOperation columnOperation;
     private final GroupRowMatrixProduct rowMatrixProduct;
-    private final GroupColumnMatrixProduct columnMatrixProduct;
     private final SerialDefaultOperation serialOperation;
     private final SerialDefaultMatrixProduct serialMatrixProduct;
 
@@ -31,10 +27,7 @@ public class NumJv extends AbstractNumJv {
         );
 
         this.rowOperation = new GroupRowOperation();
-        this.columnOperation = new GroupColumnOperation();
-
         this.rowMatrixProduct = new GroupRowMatrixProduct();
-        this.columnMatrixProduct = new GroupColumnMatrixProduct();
 
         this.serialOperation = new SerialDefaultOperation();
         this.serialMatrixProduct = new SerialDefaultMatrixProduct();
@@ -45,13 +38,25 @@ public class NumJv extends AbstractNumJv {
 
         this.assertElementWiseDimension(leftMatrix, rightMatrix);
 
-        return elementWiseOperation(leftMatrix, rightMatrix, (a, b) -> a + b);
+        var matrixShape = leftMatrix.shape();
+
+        if (matrixShape[0] * matrixShape[1] >= 250000) {
+            return elementWiseOperation(leftMatrix, rightMatrix, (a, b) -> a + b);
+        }
+
+        return serialElementWiseOperation(leftMatrix, rightMatrix, (a, b) -> a + b);
     }
 
     @Override
     public Matrix add(final Matrix matrix, double scalar) {
 
-        return elementWiseOperation(matrix, scalar, (a, b) -> a + b);
+        var matrixShape = matrix.shape();
+
+        if (matrixShape[0] * matrixShape[1] >= 250000) {
+            return elementWiseOperation(matrix, scalar, (a, b) -> a + b);
+        }
+
+        return serialElementWiseOperation(matrix, scalar, (a, b) -> a + b);
     }
 
     @Override
@@ -59,13 +64,25 @@ public class NumJv extends AbstractNumJv {
 
         this.assertElementWiseDimension(leftMatrix, rightMatrix);
 
-        return elementWiseOperation(leftMatrix, rightMatrix, (a, b) -> a - b);
+        var matrixShape = leftMatrix.shape();
+
+        if (matrixShape[0] * matrixShape[1] >= 250000) {
+            return elementWiseOperation(leftMatrix, rightMatrix, (a, b) -> a - b);
+        }
+
+        return serialElementWiseOperation(leftMatrix, rightMatrix, (a, b) -> a - b);
     }
 
     @Override
     public Matrix sub(final Matrix matrix, double scalar) {
 
-        return elementWiseOperation(matrix, scalar, (a, b) -> a - b);
+        var matrixShape = matrix.shape();
+
+        if (matrixShape[0] * matrixShape[1] >= 250000) {
+            return elementWiseOperation(matrix, scalar, (a, b) -> a - b);
+        }
+
+        return serialElementWiseOperation(matrix, scalar, (a, b) -> a - b);
     }
 
     @Override
@@ -73,13 +90,25 @@ public class NumJv extends AbstractNumJv {
 
         this.assertElementWiseDimension(leftMatrix, rightMatrix);
 
-        return elementWiseOperation(leftMatrix, rightMatrix, (a, b) -> a * b);
+        var matrixShape = leftMatrix.shape();
+
+        if (matrixShape[0] * matrixShape[1] >= 250000) {
+            return elementWiseOperation(leftMatrix, rightMatrix, (a, b) -> a * b);
+        }
+
+        return serialElementWiseOperation(leftMatrix, rightMatrix, (a, b) -> a * b);
     }
 
     @Override
     public Matrix mul(final Matrix matrix, double scalar) {
 
-        return elementWiseOperation(matrix, scalar, (a, b) -> a * b);
+        var matrixShape = matrix.shape();
+
+        if (matrixShape[0] * matrixShape[1] >= 250000) {
+            return elementWiseOperation(matrix, scalar, (a, b) -> a * b);
+        }
+
+        return serialElementWiseOperation(matrix, scalar, (a, b) -> a * b);
     }
 
     @Override
@@ -87,13 +116,25 @@ public class NumJv extends AbstractNumJv {
 
         this.assertElementWiseDimension(leftMatrix, rightMatrix);
 
-        return elementWiseOperation(leftMatrix, rightMatrix, (a, b) -> a / b);
+        var matrixShape = leftMatrix.shape();
+
+        if (matrixShape[0] * matrixShape[1] >= 250000) {
+            return elementWiseOperation(leftMatrix, rightMatrix, (a, b) -> a / b);
+        }
+
+        return serialElementWiseOperation(leftMatrix, rightMatrix, (a, b) -> a / b);
     }
 
     @Override
     public Matrix div(final Matrix matrix, double scalar) {
 
-        return elementWiseOperation(matrix, scalar, (a, b) -> a / b);
+        var matrixShape = matrix.shape();
+
+        if (matrixShape[0] * matrixShape[1] >= 250000) {
+            return elementWiseOperation(matrix, scalar, (a, b) -> a / b);
+        }
+
+        return serialElementWiseOperation(matrix, scalar, (a, b) -> a / b);
     }
 
     @Override
@@ -101,13 +142,25 @@ public class NumJv extends AbstractNumJv {
 
         this.assertElementWiseDimension(leftMatrix, rightMatrix);
 
-        return elementWiseOperation(leftMatrix, rightMatrix, (a, b) -> Math.pow(a, b));
+        var matrixShape = leftMatrix.shape();
+
+        if (matrixShape[0] * matrixShape[1] >= 250000) {
+            return elementWiseOperation(leftMatrix, rightMatrix, Math::pow);
+        }
+
+        return serialElementWiseOperation(leftMatrix, rightMatrix, Math::pow);
     }
 
     @Override
     public Matrix pow(final Matrix matrix, double scalar) {
 
-        return elementWiseOperation(matrix, scalar, (a, b) -> Math.pow(a, b));
+        var matrixShape = matrix.shape();
+
+        if (matrixShape[0] * matrixShape[1] >= 250000) {
+            return elementWiseOperation(matrix, scalar, Math::pow);
+        }
+
+        return serialElementWiseOperation(matrix, scalar, Math::pow);
     }
 
     @Override
@@ -115,114 +168,45 @@ public class NumJv extends AbstractNumJv {
 
         this.assertElementWiseDimension(leftMatrix, rightMatrix);
 
-        return elementWiseOperation(leftMatrix, rightMatrix, (a, b) -> NthRoot.nthRoot(a, b));
+        var matrixShape = leftMatrix.shape();
+
+        if (matrixShape[0] * matrixShape[1] >= 250000) {
+            return elementWiseOperation(leftMatrix, rightMatrix, NthRoot::nthRoot);
+        }
+
+        return serialElementWiseOperation(leftMatrix, rightMatrix, NthRoot::nthRoot);
     }
 
     @Override
     public Matrix root(final Matrix matrix, double scalar) {
 
-        return elementWiseOperation(matrix, scalar, (a, b) -> NthRoot.nthRoot(a, b));
+        var matrixShape = matrix.shape();
+
+        if (matrixShape[0] * matrixShape[1] >= 250000) {
+            return elementWiseOperation(matrix, scalar, NthRoot::nthRoot);
+        }
+
+        return serialElementWiseOperation(matrix, scalar, NthRoot::nthRoot);
     }
 
     @Override
     public Matrix matMul(Matrix leftMatrix, Matrix rightMatrix) {
 
         this.assertMatrixProductDimension(leftMatrix, rightMatrix);
-
         var result = createMatrix(leftMatrix.shape()[0], rightMatrix.shape()[1]);
-        threadPoolExecutor = poolProvider.provideThreadPool();
 
-        if (result.shape()[0] < result.shape()[1] * 2) {
+        var matrixShape = leftMatrix.shape();
+        if (matrixShape[0] * matrixShape[1] >= 80000) {
+
+            threadPoolExecutor = poolProvider.provideThreadPool();
             this.rowMatrixProduct.operate(leftMatrix, rightMatrix, result, threadPoolExecutor);
+
+            waitForResult();
+            closeThreadPool();
         }
         else {
-            this.columnMatrixProduct.operate(leftMatrix, rightMatrix, result, threadPoolExecutor);
+            this.serialMatrixProduct.operate(leftMatrix, rightMatrix, result);
         }
-
-        waitForResult();
-        closeThreadPool();
-
-        return result;
-    }
-
-    public Matrix serialAdd(final Matrix leftMatrix, final Matrix rightMatrix) {
-
-        this.assertElementWiseDimension(leftMatrix, rightMatrix);
-
-        return serialElementWiseOperation(leftMatrix, rightMatrix, (a, b) -> a + b);
-    }
-
-    public Matrix serialAdd(final Matrix matrix, double scalar) {
-
-        return serialElementWiseOperation(matrix, scalar, (a, b) -> a + b);
-    }
-
-    public Matrix serialSub(final Matrix leftMatrix, final Matrix rightMatrix) {
-
-        this.assertElementWiseDimension(leftMatrix, rightMatrix);
-
-        return serialElementWiseOperation(leftMatrix, rightMatrix, (a, b) -> a - b);
-    }
-
-    public Matrix serialSub(final Matrix matrix, double scalar) {
-
-        return serialElementWiseOperation(matrix, scalar, (a, b) -> a - b);
-    }
-
-    public Matrix serialMul(final Matrix leftMatrix, final Matrix rightMatrix) {
-
-        this.assertElementWiseDimension(leftMatrix, rightMatrix);
-
-        return serialElementWiseOperation(leftMatrix, rightMatrix, (a, b) -> a * b);
-    }
-
-    public Matrix serialMul(final Matrix matrix, double scalar) {
-
-        return serialElementWiseOperation(matrix, scalar, (a, b) -> a * b);
-    }
-
-    public Matrix serialDiv(final Matrix leftMatrix, final Matrix rightMatrix) {
-
-        this.assertElementWiseDimension(leftMatrix, rightMatrix);
-
-        return serialElementWiseOperation(leftMatrix, rightMatrix, (a, b) -> a / b);
-    }
-
-    public Matrix serialDiv(final Matrix matrix, double scalar) {
-
-        return serialElementWiseOperation(matrix, scalar, (a, b) -> a / b);
-    }
-
-    public Matrix serialPow(final Matrix leftMatrix, final Matrix rightMatrix) {
-
-        this.assertElementWiseDimension(leftMatrix, rightMatrix);
-
-        return serialElementWiseOperation(leftMatrix, rightMatrix, (a, b) -> Math.pow(a, b));
-    }
-
-    public Matrix serialPow(final Matrix matrix, double scalar) {
-
-        return serialElementWiseOperation(matrix, scalar, (a, b) -> Math.pow(a, b));
-    }
-
-    public Matrix serialRoot(final Matrix leftMatrix, final Matrix rightMatrix) {
-
-        this.assertElementWiseDimension(leftMatrix, rightMatrix);
-
-        return serialElementWiseOperation(leftMatrix, rightMatrix, (a, b) -> NthRoot.nthRoot(a, b));
-    }
-
-    public Matrix serialRoot(final Matrix matrix, double scalar) {
-
-        return serialElementWiseOperation(matrix, scalar, (a, b) -> NthRoot.nthRoot(a, b));
-    }
-
-    public Matrix serialMatMul(Matrix leftMatrix, Matrix rightMatrix) {
-
-        this.assertMatrixProductDimension(leftMatrix, rightMatrix);
-        var result = createMatrix(leftMatrix.shape()[0], rightMatrix.shape()[1]);
-
-        this.serialMatrixProduct.operate(leftMatrix, rightMatrix, result);
 
         return result;
     }
@@ -233,12 +217,7 @@ public class NumJv extends AbstractNumJv {
         var result = createMatrix(leftMatrix.shape()[0], leftMatrix.shape()[1]);
         threadPoolExecutor = poolProvider.provideThreadPool();
 
-        if (result.shape()[0] < result.shape()[1] * 2) {
-            this.rowOperation.operate(leftMatrix, rightMatrix, result, threadPoolExecutor, equation);
-        }
-        else {
-            this.columnOperation.operate(leftMatrix, rightMatrix, result, threadPoolExecutor, equation);
-        }
+        this.rowOperation.operate(leftMatrix, rightMatrix, result, threadPoolExecutor, equation);
 
         waitForResult();
         closeThreadPool();
@@ -252,12 +231,7 @@ public class NumJv extends AbstractNumJv {
         var result = createMatrix(matrix.shape()[0], matrix.shape()[1]);
         threadPoolExecutor = poolProvider.provideThreadPool();
 
-        if (result.shape()[0] < result.shape()[1] * 2) {
-            this.rowOperation.operate(matrix, scalar, result, threadPoolExecutor, equation);
-        }
-        else {
-            this.columnOperation.operate(matrix, scalar, result, threadPoolExecutor, equation);
-        }
+        this.rowOperation.operate(matrix, scalar, result, threadPoolExecutor, equation);
 
         waitForResult();
         closeThreadPool();
