@@ -21,9 +21,6 @@ import java.util.concurrent.TimeUnit;
 //@Measurement(iterations = 20)
 public class RowsVsColumnsBenchmark {
 
-//    @Param({"row", "column"})
-//    private String way;
-//
 //    @Param({"1000", "5000"})
 //    private int size;
 

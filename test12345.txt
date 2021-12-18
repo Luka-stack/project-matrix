@@ -1,0 +1,32 @@
+##### Warmups
+# Completed 2 warmups
+
+##### Iterations
+# Iteration 0: 1485.8275 ms
+# Iteration 1: 1641.5873 ms
+# Iteration 2: 1627.4372 ms
+# Iteration 3: 2627.4876 ms
+# Iteration 4: 2092.3091 ms
+# Iteration 5: 1735.0218 ms
+# Iteration 6: 1463.3787 ms
+# Iteration 7: 1582.9536 ms
+# Iteration 8: 1361.9844 ms
+# Iteration 9: 1581.5022 ms
+# Iteration 10: 1591.1598 ms
+# Iteration 11: 2385.4819 ms
+# Iteration 12: 1450.8395 ms
+# Iteration 13: 1743.4433 ms
+# Iteration 14: 1437.9391 ms
+# Iteration 15: 1375.8304 ms
+# Iteration 16: 1770.012 ms
+# Iteration 17: 1633.841 ms
+# Iteration 18: 1419.8934 ms
+# Iteration 19: 1581.1021 ms
+
+##### Statistics
+# Repeats: 20
+# Average Time: 1729.101595 ms
+# Min Time: 1361.9844 ms
+# Max Time: 2627.4876 ms
+# Std: 1679.9451810407058 ms
+# Mode Time: 1581.0 ms

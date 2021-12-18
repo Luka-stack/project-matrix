@@ -15,19 +15,16 @@ import org.openjdk.jmh.annotations.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-@State(Scope.Benchmark)
-@BenchmarkMode({Mode.SingleShotTime})
-@OutputTimeUnit(TimeUnit.MILLISECONDS)
-@Fork(value = 1, jvmArgs = {"-Xms4G", "-Xmx4G"})
-@Warmup(iterations = 2)
-@Measurement(iterations = 20)
+//@State(Scope.Benchmark)
+//@BenchmarkMode({Mode.SingleShotTime})
+//@OutputTimeUnit(TimeUnit.MILLISECONDS)
+//@Fork(value = 1, jvmArgs = {"-Xms4G", "-Xmx4G"})
+//@Warmup(iterations = 2)
+//@Measurement(iterations = 20)
 public class GroupBenchmark {
 
-    @Param({"10", "100", "500", "1000", "2000"})
+//    @Param({"10", "50", "100", "200", "500", "1000", "2000"})
     private int size;
-
-//    @Param({"0", "1", "2"})
-    private int groupSize;
 
     private Matrix leftMatrix;
     private Matrix rightMatrix;
@@ -42,22 +39,16 @@ public class GroupBenchmark {
     private GroupElementOperation elementOperation;
     private GroupElementMatrixProduct elementMatrixProduct;
 
-    @Setup
+//    @Setup
     public void setup() {
 
         leftMatrix = MamJv.uniformDistribution(size, size);
         rightMatrix = MamJv.uniformDistribution(size, size);
         resultMatrix = new MatJv(size, size);
 
-        poolProvider = new SingletonThreadPoolProvider(16, 16, 10000L, TimeUnit.MILLISECONDS);
+        poolProvider = new SingletonThreadPoolProvider();
 
         int currentGroupSize = 16;
-//        if (groupSize == 1) {
-//            currentGroupSize = Runtime.getRuntime().availableProcessors();
-//        }
-//        else if (groupSize == 2) {
-//            currentGroupSize = Math.max(1, size/8);
-//        }
 
         columnOperation = new GroupColumnOperation(currentGroupSize);
         columnMatrixProduct = new GroupColumnMatrixProduct(currentGroupSize);
@@ -77,7 +68,7 @@ public class GroupBenchmark {
         poolProvider.close();
     }
 
-    @Benchmark
+    //@Benchmark
     public void rowPowerScalar() throws ExecutionException, InterruptedException {
 
         rowOperation.operate(leftMatrix, 86, resultMatrix, poolProvider.provideThreadPool(), (a, b) -> Math.pow(a, b));
@@ -93,7 +84,7 @@ public class GroupBenchmark {
         poolProvider.close();
     }
 
-    @Benchmark
+    //@Benchmark
     public void colPowerScalar() throws ExecutionException, InterruptedException {
 
         columnOperation.operate(leftMatrix, 86, resultMatrix, poolProvider.provideThreadPool(), (a, b) -> Math.pow(a, b));
@@ -126,7 +117,7 @@ public class GroupBenchmark {
         poolProvider.close();
     }
 
-    @Benchmark
+    //@Benchmark
     public void elementPowerScalar() throws ExecutionException, InterruptedException {
 
         elementOperation.operate(leftMatrix, 86, resultMatrix, poolProvider.provideThreadPool(), (a, b) -> Math.pow(a, b));

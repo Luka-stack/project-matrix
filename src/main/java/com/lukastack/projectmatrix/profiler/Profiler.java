@@ -78,7 +78,7 @@ public class Profiler {
                 counter = 0;
 
                 for (double time : mapInformation.get(ITERATIONS)) {
-                    writer.write("# Iteration "+ counter +": "+ (long) time +" "+ unit.getName());
+                    writer.write("# Iteration "+ counter +": "+ time +" "+ unit.getName());
                     writer.newLine();
 
                     ++counter;
@@ -99,9 +99,9 @@ public class Profiler {
 
             if (mapInformation.containsKey(MIN_MAX)) {
                 var minmax = mapInformation.get(MIN_MAX);
-                writer.write("# Min Time: "+ minmax[1] +" "+ unit.getName());
+                writer.write("# Min Time: "+ minmax[0] +" "+ unit.getName());
                 writer.newLine();
-                writer.write("# Max Time: "+ minmax[0] +" "+ unit.getName());
+                writer.write("# Max Time: "+ minmax[1] +" "+ unit.getName());
                 writer.newLine();
             }
 

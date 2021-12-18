@@ -11,7 +11,7 @@ import com.lukastack.projectmatrix.utils.UniformDistribution;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class MamJv {
+public final class MamJv {
 
     public static String stringifyMatrix(final Matrix matrix) {
 
@@ -75,6 +75,17 @@ public class MamJv {
 
         return fromFunction(rows, cols, () -> 1, clazz);
     }
+
+    public static Matrix identity(int size) {
+
+        return fromFunction(size, size, (i, j) -> i == j ? 1 : 0);
+    }
+
+    public static Matrix identity(int size, Class<? extends Matrix> clazz) {
+
+        return fromFunction(size, size, (i, j) -> i == j ? 1 : 0, clazz);
+    }
+
 
     public static Matrix withValue(int rows, int cols, double value) {
 
@@ -176,62 +187,41 @@ public class MamJv {
         return result;
     }
 
-    public static Matrix upperTriangular(int rows, int cols, double value) {
+    public static Matrix upperTriangular(int size, double value) {
 
-        if (rows != cols) {
-            throw new DimensionException(
-                    String.format("Upper Triangular Matrix has to be square but provided shape was (%d, %d)",
-                            rows, cols)
-            );
-        }
+        var result = Matrix.buildMatrix(MatJv.class, size, size);
 
-        var result = Matrix.buildMatrix(MatJv.class, rows, cols);
-
-        IntStream.iterate(0, r -> r < rows, r -> ++r).parallel().forEach(x -> {
-            IntStream.iterate(x, c -> c < cols, c -> ++c).parallel().forEach(y -> result.set(x, y, value));
+        IntStream.iterate(0, r -> r < size, r -> ++r).parallel().forEach(x -> {
+            IntStream.iterate(x, c -> c < size, c -> ++c).parallel().forEach(y -> result.set(x, y, value));
             IntStream.iterate(0, c -> c < x, c -> ++c).parallel().forEach(y -> result.set(x, y, 0));
         });
 
         return result;
     }
 
-    public static Matrix upperTriangular(int rows, int cols, double value, Class<? extends Matrix> clazz) {
+    public static Matrix upperTriangular(int size, double value, Class<? extends Matrix> clazz) {
 
-        if (rows != cols) {
-            throw new DimensionException(
-                    String.format("Upper Triangular Matrix has to be square but provided shape was (%d, %d)",
-                            rows, cols)
-            );
-        }
+        var result = Matrix.buildMatrix(clazz, size, size);
 
-        var result = Matrix.buildMatrix(clazz, rows, cols);
-
-        IntStream.iterate(0, r -> r < rows, r -> ++r).parallel().forEach(x -> {
-            IntStream.iterate(x, c -> c < cols, c -> ++c).parallel().forEach(y -> result.set(x, y, value));
+        IntStream.iterate(0, r -> r < size, r -> ++r).parallel().forEach(x -> {
+            IntStream.iterate(x, c -> c < size, c -> ++c).parallel().forEach(y -> result.set(x, y, value));
             IntStream.iterate(0, c -> c < x, c -> ++c).parallel().forEach(y -> result.set(x, y, 0));
         });
 
         return result;
     }
 
-    public static Matrix lowerTriangular(int rows, int cols, double value) {
+    public static Matrix lowerTriangular(int size, double value) {
 
-        if (rows != cols) {
-            throw new DimensionException(
-                    String.format("Lower Triangular Matrix has to be square but provided shape was (%d, %d)",
-                            rows, cols)
-            );
-        }
+        var result = Matrix.buildMatrix(MatJv.class, size, size);
 
-        var result = Matrix.buildMatrix(MatJv.class, rows, cols);
-
-        IntStream.iterate(0, r -> r < rows, r -> ++r)
+        IntStream.iterate(0, r -> r < size, r -> ++r)
                 .parallel()
                 .forEach(x -> {
                     IntStream.iterate(0, c -> c < x+1, c -> ++c)
                             .parallel()
                             .forEach(y -> result.set(x, y, value));
-                    IntStream.iterate(x+1, c -> c < cols, c -> ++c)
+                    IntStream.iterate(x+1, c -> c < size, c -> ++c)
                             .parallel()
                             .forEach(y -> result.set(x, y, 0));
         });
@@ -239,24 +229,17 @@ public class MamJv {
         return result;
     }
 
-    public static Matrix lowerTriangular(int rows, int cols, double value, Class<? extends Matrix> clazz) {
+    public static Matrix lowerTriangular(int size, double value, Class<? extends Matrix> clazz) {
 
-        if (rows != cols) {
-            throw new DimensionException(
-                    String.format("Lower Triangular Matrix has to be square but provided shape was (%d, %d)",
-                            rows, cols)
-            );
-        }
+        var result = Matrix.buildMatrix(clazz, size, size);
 
-        var result = Matrix.buildMatrix(clazz, rows, cols);
-
-        IntStream.iterate(0, r -> r < rows, r -> ++r)
+        IntStream.iterate(0, r -> r < size, r -> ++r)
                 .parallel()
                 .forEach(x -> {
                     IntStream.iterate(0, c -> c < x+1, c -> ++c)
                             .parallel()
                             .forEach(y -> result.set(x, y, value));
-                    IntStream.iterate(x+1, c -> c < cols, c -> ++c)
+                    IntStream.iterate(x+1, c -> c < size, c -> ++c)
                             .parallel()
                             .forEach(y -> result.set(x, y, 0));
                 });

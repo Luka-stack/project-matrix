@@ -19,14 +19,8 @@ import java.util.concurrent.TimeUnit;
 //@Measurement(iterations = 20)
 public class IndividualBenchmark {
 
-//    @Param({"500"})
+//    @Param({"5000", "10000"})
     private int size;
-
-    //@Param({"0", "1", "2", "3"})
-    private int corePoolSize;
-
-    //@Param({"0", "10", "100", "500"})
-    private int keepAlive;
 
     private Matrix leftMatrix;
     private Matrix rightMatrix;
@@ -37,20 +31,20 @@ public class IndividualBenchmark {
     private IndividualDefaultOperation operations;
     private IndividualDefaultMatrixProduct matrixProduct;
 
-    //@Setup
+//    @Setup
     public void setup() {
 
         leftMatrix = MamJv.uniformDistribution(size, size);
         rightMatrix = MamJv.uniformDistribution(size, size);
         resultMatrix = new MatJv(size, size);
 
-        poolProvider = new SingletonThreadPoolProvider(1, (int) Math.pow(2, Math.log10(size)), keepAlive, TimeUnit.MILLISECONDS);
+        poolProvider = new SingletonThreadPoolProvider();
 
         operations = new IndividualDefaultOperation();
         matrixProduct = new IndividualDefaultMatrixProduct();
     }
 
-    //@Benchmark
+//    @Benchmark
     public void power() throws ExecutionException, InterruptedException {
 
         operations.operate(leftMatrix, rightMatrix, resultMatrix, poolProvider.provideThreadPool(), (a, b) -> Math.pow(a, b));

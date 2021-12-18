@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 //@Measurement(iterations = 10)
 public class SerialBenchmark {
 
-    @Param({"10", "100", "200", "300", "500", "1000", "2000"})
+//    @Param({"5000", "10000"})
     private int size;
 
     private Matrix leftMatrix;
@@ -38,7 +38,7 @@ public class SerialBenchmark {
         matrixProduct = new SerialDefaultMatrixProduct();
     }
 
-    //@Benchmark
+//    @Benchmark
     public void power() {
 
         operations.operate(leftMatrix, rightMatrix, resultMatrix, (a, b) -> Math.pow(a, b));

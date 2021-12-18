@@ -97,6 +97,24 @@ class MamJvTest {
     }
 
     @Test
+    void identity() {
+
+        int size = 3;
+
+        var matrix = MamJv.identity(size);
+        var shape = matrix.shape();
+
+        Assertions.assertEquals(size, shape[0]);
+        Assertions.assertEquals(size, shape[1]);
+
+        for (int i = 0; i < size; ++i) {
+            for (int j = 0; j < size; ++j) {
+                Assertions.assertEquals(i == j ? 1 : 0, matrix.get(i, j));
+            }
+        }
+    }
+
+    @Test
     void withValues() {
 
         int rows = 5;
@@ -184,7 +202,7 @@ class MamJvTest {
         int cols = 5;
         double val = 2.0;
 
-        var matrix = MamJv.upperTriangular(rows, cols, val);
+        var matrix = MamJv.upperTriangular(rows, val);
         var shape = matrix.shape();
 
         Assertions.assertEquals(rows, shape[0]);
@@ -202,19 +220,13 @@ class MamJvTest {
     }
 
     @Test
-    void upperTriangular_wrongDimension_ThrowDimensionException() {
-
-        Assertions.assertThrows(DimensionException.class, () -> MamJv.upperTriangular(2, 5, 1.0));
-    }
-
-    @Test
     void lowerTriangular() {
 
         int rows = 5;
         int cols = 5;
         double val = 2.0;
 
-        var matrix = MamJv.lowerTriangular(rows, cols, val);
+        var matrix = MamJv.lowerTriangular(rows, val);
         var shape = matrix.shape();
 
         Assertions.assertEquals(rows, shape[0]);
@@ -229,12 +241,6 @@ class MamJvTest {
                 Assertions.assertEquals(0, matrix.get(i, j));
             }
         }
-    }
-
-    @Test
-    void lowerTriangular_wrongDimension_ThrowDimensionException() {
-
-        Assertions.assertThrows(DimensionException.class, () -> MamJv.lowerTriangular(2, 5, 1.0));
     }
 
     @Test

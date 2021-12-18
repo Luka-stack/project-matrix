@@ -3,7 +3,7 @@ package com.lukastack.projectmatrix.parameters.poolproviders;
 import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.*;
 
-public abstract class ThreadPoolProvider implements IThreadPoolProvider, ThreadPoolParameters {
+public abstract class ThreadPoolProvider implements IThreadPoolProvider, IThreadPoolParameters {
 
     private Class<? extends BlockingQueue<Runnable>> workQueueClass;
 
